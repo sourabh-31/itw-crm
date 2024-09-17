@@ -1,8 +1,9 @@
 "use client";
 
-import Link from "next/link";
 import Lottie from "lottie-web";
+import Link from "next/link";
 import { useEffect, useRef } from "react";
+
 import { cn } from "@/lib/utils";
 
 interface FeedPropsType {
@@ -117,14 +118,14 @@ export default function Feed({
 
       <div className="relative">
         <div
-          className={`absolute bottom-0 h-[8.4rem] w-28 self-end rounded-r-[30px] border border-l-0 bg-primary-400 flex items-center justify-center ${isBorder ? "border-[#0094FF]" : "border-none"}`}
+          className={`absolute bottom-0 flex h-[8.4rem] w-28 items-center justify-center self-end rounded-r-[30px] border border-l-0 bg-primary-400 ${isBorder ? "border-[#0094FF]" : "border-none"}`}
         >
-          <div ref={animationContainer} className="w-16"></div>
+          <div ref={animationContainer} className="w-16" />
         </div>
 
         <Link
           href="/"
-          className="absolute left-2 top-0 flex h-9 w-24 items-center justify-center rounded-[30px] bg-primary-400 border border-gray-light transition-transform duration-300 ease-out hover:scale-105"
+          className="absolute left-2 top-0 flex h-9 w-24 items-center justify-center rounded-[30px] border border-gray-light bg-primary-400 transition-transform duration-300 ease-out hover:scale-105"
         >
           {isBtnText ? (
             <div className="font-mulish text-sm">

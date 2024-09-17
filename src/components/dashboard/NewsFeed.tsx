@@ -4,7 +4,7 @@ import Feed from "../shared/Feed";
 export default function NewsFeed() {
   return (
     <Container name="News Feed" className="bg-transparent p-0 text-white">
-      <div className="flex flex-wrap gap-12 w-full">
+      <div className="flex w-full flex-wrap gap-12">
         <Feed
           topic="📃Sep'24 Events List"
           description="Hey team, here is the new events list for September..."
