@@ -89,7 +89,7 @@ export default function Feed({
           <div className="iconBox">
             <Link
               href="/"
-              className="absolute left-2 top-0 flex h-9 w-24 items-center justify-center rounded-[30px] border border-gray-light bg-primary-400 transition-transform duration-300 ease-out hover:scale-105"
+              className="absolute left-2 top-0 ml-1 flex h-9 w-24 items-center justify-center rounded-[30px] border border-gray-light bg-primary-400 transition-transform duration-300 ease-out hover:scale-105"
             >
               {isBtnText ? (
                 <div className="font-mulish text-sm">

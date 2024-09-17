@@ -83,18 +83,18 @@
   width: 120px;
   height: 48px;
   background-color: #292d38;
-  border-bottom-left-radius: 30%;
+  border-bottom-left-radius: 8%;
 }
 
 .card .box .icon::before {
   content: "";
   position: absolute;
-  bottom: -20px;
+  bottom: -10px;
   right: 0;
-  width: 20px;
-  height: 20px;
+  width: 10px;
+  height: 10px;
   background: transparent;
-  border-top-right-radius: 20px;
+  border-top-right-radius: 10px;
   box-shadow: 5px -5px 0 5px #292d38;
 }
 
@@ -102,10 +102,10 @@
   content: "";
   position: absolute;
   top: 0;
-  left: -20px;
-  width: 20px;
-  height: 20px;
+  left: -10px;
+  width: 10px;
+  height: 10px;
   background: transparent;
-  border-top-right-radius: 20px;
+  border-top-right-radius: 10px;
   box-shadow: 5px -5px 0 5px #292d38;
 }
