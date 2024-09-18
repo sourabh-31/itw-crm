@@ -1,6 +1,7 @@
 "use client";
 
-import { useState, useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
+
 import { InventoryData } from "@/data/home.data";
 
 import Card from "../shared/Card";
@@ -61,7 +62,7 @@ export default function Inventory() {
       accentBoxClassName="bg-[#CEFFCE] text-[#228B22]"
       linkClassName="font-normal"
     >
-      <div className="flex gap-5 flex-wrap" ref={containerRef}>
+      <div className="flex flex-wrap gap-5" ref={containerRef}>
         {InventoryData.slice(0, numOfCardsToShow).map((data) => (
           <Card key={data.name} bgColor={data.bgColor}>
             <Card.Header />

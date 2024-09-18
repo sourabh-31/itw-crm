@@ -14,7 +14,7 @@ export default function Tasks() {
         />
         <span className="font-recoletaAlt text-xl">Coming Soon!</span>
 
-        <div className="mt-2 text-sm flex flex-col gap-1">
+        <div className="mt-2 flex flex-col gap-1 text-sm">
           <span>The task management feature will be available soon.</span>
           <span>Stay tuned for updates!</span>
         </div>
