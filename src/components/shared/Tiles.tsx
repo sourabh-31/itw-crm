@@ -44,10 +44,10 @@ export default function Tiles({
         {/* Schedule Details */}
 
         <div className="flex flex-col justify-center text-white">
-          <span className={cn("font-recoletaAlt", headingClassName)}>
+          <span className={cn("font-recoletaAlt text-lg", headingClassName)}>
             {name}
           </span>
-          <span className="font-mulish text-sm font-light">{details}</span>
+          <span className="font-mulish font-medium">{details}</span>
         </div>
 
         {/* CTA Btn */}

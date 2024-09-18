@@ -1,3 +1,13 @@
+export type NewsFeedDataType = {
+  id: string;
+  topic: string;
+  description: string;
+  lottieSrc: string;
+  isActionBtn: boolean;
+  isBorder: boolean;
+  isBtnText: boolean;
+};
+
 export type InventoryDataType = {
   name: string;
   items: InventoryItemType[];

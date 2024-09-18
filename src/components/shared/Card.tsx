@@ -17,7 +17,7 @@ import type {
 const Card = ({ children, className, bgColor }: CardProps) => {
   return (
     <div
-      className={cn("rounded-3xl p-3", className)}
+      className={cn("rounded-3xl p-3 w-[330px]", className)}
       style={{ backgroundColor: bgColor }}
     >
       {children}
@@ -55,7 +55,7 @@ const CardHeader = ({ icon = "", linkHref = "" }: CardHeaderProps) => {
 // Card Name
 const CardName = ({ name }: CardNameProps) => {
   return (
-    <div className="mb-4 mt-2 font-recoletaAlt text-lg text-primary-300">
+    <div className="mb-4 mt-2 font-recoletaAlt text-xl text-primary-300">
       {name}
     </div>
   );
@@ -67,7 +67,7 @@ const CardContent = ({ title, keyword1, keyword2 }: CardContentProps) => {
     <div className="flex items-center rounded-full bg-[#f7fbf7]">
       <div className="flex w-full flex-col gap-[2px] px-6 py-2 font-mulish">
         <span className="text-sm font-bold text-primary-300">{title}</span>
-        <div className="flex items-center gap-2 text-xs font-medium">
+        <div className="flex items-center gap-2 text-xs">
           <div className="flex items-center gap-[2px] rounded-full bg-[#FF6161] px-2 py-[2px]">
             <Image
               src="/assets/svg/clock.svg"
@@ -134,7 +134,7 @@ const Button = ({ children, hrefTo = "/" }: ActionBtnProps) => {
   return (
     <Link
       href={hrefTo}
-      className="mt-5 flex items-center justify-center rounded-full bg-blue p-3 font-mulish"
+      className="mt-5 flex items-center justify-center rounded-full bg-blue p-3 font-mulish text-sm font-bold"
     >
       {children}
     </Link>

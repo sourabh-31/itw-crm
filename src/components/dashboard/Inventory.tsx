@@ -1,19 +1,68 @@
+"use client";
+
+import { useState, useEffect, useRef } from "react";
 import { InventoryData } from "@/data/home.data";
 
 import Card from "../shared/Card";
 import Container from "../shared/Container";
 
 export default function Inventory() {
+  const [numOfCardsToShow, setNumOfCardsToShow] = useState(
+    InventoryData.length
+  );
+  const containerRef = useRef<HTMLDivElement>(null);
+
+  // Num of Cards to show
+  const calculateCardsToShow = () => {
+    if (containerRef.current) {
+      const containerWidth = containerRef.current.offsetWidth;
+      const cardWidth = 330;
+      const gap = 30;
+
+      const cardsToShow = Math.max(
+        1,
+        Math.floor((containerWidth + gap) / (cardWidth + gap))
+      );
+
+      return Math.min(cardsToShow, InventoryData.length);
+    }
+    return InventoryData.length;
+  };
+
+  // Show card calculation
+  useEffect(() => {
+    const updateCardsToShow = () => {
+      const cardsToShow = calculateCardsToShow();
+      setNumOfCardsToShow(cardsToShow);
+    };
+
+    // Initial calculation on mount
+    updateCardsToShow();
+
+    // Use ResizeObserver for dynamic resizing detection
+    const resizeObserver = new ResizeObserver(updateCardsToShow);
+    if (containerRef.current) {
+      resizeObserver.observe(containerRef.current);
+    }
+
+    // Cleanup observer on unmount
+    return () => {
+      if (containerRef.current) {
+        resizeObserver.unobserve(containerRef.current);
+      }
+    };
+  }, []);
+
   return (
     <Container
       name="Your Inventory"
       className="text-white"
       accentBoxContent="PO"
       accentBoxClassName="bg-[#CEFFCE] text-[#228B22]"
-      linkClassName="font-light"
+      linkClassName="font-normal"
     >
-      <div className="grid grid-cols-2 gap-5 2xl:grid-cols-3 2xl:gap-3">
-        {InventoryData.map((data) => (
+      <div className="flex gap-5 flex-wrap" ref={containerRef}>
+        {InventoryData.slice(0, numOfCardsToShow).map((data) => (
           <Card key={data.name} bgColor={data.bgColor}>
             <Card.Header />
             <Card.Name name={data.name} />
@@ -30,7 +79,7 @@ export default function Inventory() {
                 </div>
               ))}
             </div>
-            <Card.Button>SHOW ALL EVENTS (5)</Card.Button>
+            <Card.Button>SHOW ALL EVENTS ({InventoryData.length})</Card.Button>
           </Card>
         ))}
       </div>

@@ -1,8 +1,41 @@
 import type {
   InventoryDataType,
+  NewsFeedDataType,
   peopleDataType,
   ScheduleDataType,
 } from "@/types/home.type";
+
+export const NewsFeedData: NewsFeedDataType[] = [
+  {
+    id: "1",
+    topic: "Team Discussion",
+    description: "Hey team, here is the new events list for September...",
+    lottieSrc: "/assets/lottie/check-badge.json",
+    isActionBtn: true,
+    isBorder: true,
+    isBtnText: false,
+  },
+  {
+    id: "2",
+    topic: "Top Performers",
+    description:
+      "Congratulations to Maya, our outstanding top performer this month! Your dedication is truly remarkable.",
+    lottieSrc: "/assets/lottie/medal-gold.json",
+    isActionBtn: false,
+    isBorder: false,
+    isBtnText: true,
+  },
+  {
+    id: "3",
+    topic: "Top Performers",
+    description:
+      "Congratulations to Maya, our outstanding top performer this month! Your dedication is truly remarkable.",
+    lottieSrc: "/assets/lottie/medal-gold.json",
+    isActionBtn: false,
+    isBorder: false,
+    isBtnText: true,
+  },
+];
 
 export const InventoryData: InventoryDataType[] = [
   {

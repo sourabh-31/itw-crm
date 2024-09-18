@@ -33,7 +33,7 @@ export default function Container({
           <span className="font-recoletaAlt text-xl">{name}</span>
           <span
             className={cn(
-              "rounded-lg px-2 py-1 font-mulish text-xs font-medium",
+              "rounded-lg px-2 py-1 font-mulish text-sm font-medium",
               accentBoxClassName
             )}
           >

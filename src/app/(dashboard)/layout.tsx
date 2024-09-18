@@ -14,7 +14,7 @@ export default function Layout({
 
       {/* Main Dashboard Content */}
       <main className="ml-[100px] overflow-y-auto p-6">
-        <div className="min-h-[calc(100vh-85px)] rounded-2xl bg-foreground">
+        <div className="mt-[5.5rem] min-h-[calc(100vh-85px)] rounded-2xl bg-foreground">
           <CurrentSection />
           {children}
         </div>
