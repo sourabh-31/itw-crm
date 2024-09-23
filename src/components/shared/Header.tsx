@@ -10,7 +10,7 @@ export default function Header() {
         alt="itw-logo"
         width={65}
         height={35}
-        className="w-[50px] h-[50px] sm:w-[65px] sm:h-[35px]"
+        className="size-[50px] sm:h-[35px] sm:w-[65px]"
       />
 
       {/* Search, Notification and Profile */}
@@ -27,7 +27,7 @@ export default function Header() {
             alt="search-icon"
             width={20}
             height={20}
-            className="w-[15px] h-[15px] sm:w-[20px] sm:h-[20px]"
+            className="size-[15px] sm:size-[20px]"
           />
         </button>
 
@@ -42,7 +42,7 @@ export default function Header() {
             alt="bell-icon"
             width={20}
             height={20}
-            className="w-[15px] h-[15px] sm:w-[20px] sm:h-[20px]"
+            className="size-[15px] sm:size-[20px]"
           />
         </button>
 
@@ -54,7 +54,7 @@ export default function Header() {
             alt="user-profile"
             width={50}
             height={50}
-            className="w-[35px] h-[35px] sm:w-[50px] sm:h-[50px]"
+            className="size-[35px] sm:size-[50px]"
           />
         </button>
       </div>

@@ -7,7 +7,7 @@ export default function Assigned() {
   return (
     <Container
       name="Assigned for you"
-      className="max-w-full overflow-x-hidden text-white bg-transparent sm:bg-primary-300 p-0 sm:p-4 sm:rounded-3xl rounded-none"
+      className="max-w-full overflow-x-hidden rounded-none bg-transparent p-0 text-white sm:rounded-3xl sm:bg-primary-300 sm:p-4"
       accentBoxContent="BO"
       accentBoxClassName="bg-[#B6EAFF] text-[#000080]"
       linkClassName="font-normal"

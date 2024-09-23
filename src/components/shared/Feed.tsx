@@ -1,6 +1,6 @@
-import React, { useEffect, useRef } from "react";
 import Lottie from "lottie-web";
 import Link from "next/link";
+import React, { useEffect, useRef } from "react";
 
 interface FeedPropsType {
   topic: string;
@@ -74,7 +74,7 @@ export default function Feed({
 
   return (
     <div
-      className="relative w-full max-w-[327px] aspect-[325/164] z-40 transition-transform duration-300 ease-out"
+      className="relative z-40 aspect-[325/164] w-full max-w-[327px] transition-transform duration-300 ease-out"
       ref={feedRef}
       style={{ transformStyle: "preserve-3d" }}
     >
@@ -82,7 +82,7 @@ export default function Feed({
         viewBox="0 0 327 166"
         fill="none"
         xmlns="http://www.w3.org/2000/svg"
-        className="absolute inset-0 w-full h-full"
+        className="absolute inset-0 size-full"
       >
         <defs>
           <linearGradient id="shimmer" x1="0%" y1="0%" x2="100%" y2="0%">
@@ -121,12 +121,12 @@ export default function Feed({
         </rect>
       </svg>
 
-      <div className="relative z-10 box-border flex flex-col justify-between h-full p-4 text-white">
+      <div className="relative z-10 box-border flex h-full flex-col justify-between p-4 text-white">
         <div>
-          <span className="font-recoletaAlt font-semibold text-yellow-200 text-base">
+          <span className="font-recoletaAlt text-base font-semibold text-yellow-200">
             {topic}
           </span>
-          <span className="mt-1 sm:mt-2 block w-[70%] sm:w-3/5 font-mulish text-sm">
+          <span className="mt-1 block w-[70%] font-mulish text-sm sm:mt-2 sm:w-3/5">
             {description}
           </span>
         </div>
@@ -134,20 +134,20 @@ export default function Feed({
         {isActionBtn && (
           <Link
             href="/"
-            className="mt-2 sm:mt-4 flex h-8 sm:h-9 w-20 sm:w-20 items-center justify-center rounded-full bg-blue font-mulish text-xs sm:text-sm font-bold"
+            className="mt-2 flex h-8 w-20 items-center justify-center rounded-full bg-blue font-mulish text-xs font-bold sm:mt-4 sm:h-9 sm:w-20 sm:text-sm"
           >
             OPEN
           </Link>
         )}
 
         <div
-          className="absolute bottom-7 right-6 sm:bottom-7 sm:right-7 w-16 sm:w-16"
+          className="absolute bottom-7 right-6 w-16 sm:bottom-7 sm:right-7 sm:w-16"
           ref={animationContainer}
         />
 
         <Link
           href="/"
-          className="absolute right-2 top-1 sm:right-[6px] sm:top-[2px] ml-1 flex h-[28px] sm:h-[34px] w-20 sm:w-24 items-center justify-center rounded-[30px] border border-gray-light bg-primary-400 text-xs sm:text-sm font-medium"
+          className="absolute right-2 top-1 ml-1 flex h-[28px] w-20 items-center justify-center rounded-[30px] border border-gray-light bg-primary-400 text-xs font-medium sm:right-[6px] sm:top-[2px] sm:h-[34px] sm:w-24 sm:text-sm"
         >
           {isBtnText ? (
             <div className="font-mulish">

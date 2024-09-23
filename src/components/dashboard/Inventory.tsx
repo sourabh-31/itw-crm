@@ -7,7 +7,7 @@ export default function Inventory() {
   return (
     <Container
       name="Your Inventory"
-      className="max-w-full overflow-x-hidden text-white bg-transparent sm:bg-primary-300 p-0 sm:p-4 sm:rounded-3xl rounded-none"
+      className="max-w-full overflow-x-hidden rounded-none bg-transparent p-0 text-white sm:rounded-3xl sm:bg-primary-300 sm:p-4"
       accentBoxContent="PO"
       accentBoxClassName="bg-[#CEFFCE] text-[#228B22]"
       linkClassName="font-normal"

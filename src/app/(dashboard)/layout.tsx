@@ -24,8 +24,8 @@ export default function Layout({
       <Sidebar />
 
       {/* Main Dashboard Content */}
-      <main className="sm:ml-[100px] overflow-y-auto sm:p-6">
-        <div className="mt-[5.5rem] min-h-[calc(100vh-85px)] sm:rounded-2xl bg-background sm:bg-foreground">
+      <main className="overflow-y-auto sm:ml-[100px] sm:p-6">
+        <div className="mt-[5.5rem] min-h-[calc(100vh-85px)] bg-background sm:rounded-2xl sm:bg-foreground">
           <CurrentSection />
           {children}
         </div>
