@@ -3,7 +3,7 @@ import Header from "@/components/shared/Header";
 import Sidebar from "@/components/shared/Sidebar";
 
 const NoiseOverlay = () => (
-  <div className="pointer-events-none fixed inset-0 z-50 opacity-40 sm:opacity-20">
+  <div className="pointer-events-none fixed inset-0 z-50 opacity-30 sm:opacity-20">
     <svg xmlns="http://www.w3.org/2000/svg" width="100%" height="100%">
       <filter id="noiseFilter">
         <feTurbulence type="fractalNoise" baseFrequency="2.4" />

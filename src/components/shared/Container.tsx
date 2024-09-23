@@ -6,7 +6,7 @@ import "swiper/css/free-mode";
 import Link from "next/link";
 import type { ReactNode } from "react";
 import React from "react";
-import { FreeMode } from "swiper/modules";
+import { Autoplay, FreeMode } from "swiper/modules";
 import { Swiper, SwiperSlide } from "swiper/react";
 
 import { cn } from "@/lib/utils";
@@ -21,6 +21,7 @@ interface ContainerPropsType {
   linkClassName?: string;
   isEmpty?: boolean;
   isSwiper?: boolean;
+  autoplay?: boolean;
 }
 
 export default function Container({
@@ -33,7 +34,21 @@ export default function Container({
   linkClassName,
   isEmpty = false,
   isSwiper = false,
+  autoplay = false,
 }: ContainerPropsType) {
+  const swiperOptions = autoplay
+    ? {
+        modules: [FreeMode, Autoplay],
+        autoplay: {
+          delay: 500,
+          disableOnInteraction: false,
+        },
+        speed: 5000,
+      }
+    : {
+        modules: [FreeMode],
+      };
+
   return (
     <div className={cn("rounded-3xl bg-primary-300 p-4", className)}>
       {/* Container Heading */}
@@ -68,14 +83,10 @@ export default function Container({
           <Swiper
             slidesPerView="auto"
             freeMode
-            pagination={{
-              clickable: true,
-            }}
             className="mySwiper"
-            modules={[FreeMode]}
+            {...swiperOptions}
           >
             {React.Children.map(children, (child, index) => (
-              // eslint-disable-next-line react/no-array-index-key
               <SwiperSlide key={index} className="mr-2 sm:mr-6">
                 {child}
               </SwiperSlide>

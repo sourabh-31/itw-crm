@@ -21,7 +21,6 @@ export default function Feed({
 }: FeedPropsType) {
   const animationContainer = useRef<HTMLDivElement | null>(null);
   const animationInstance = useRef<any>(null);
-  const feedRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     if (animationContainer.current && !animationInstance.current) {
@@ -34,36 +33,6 @@ export default function Feed({
       });
     }
 
-    const feed = feedRef.current;
-    if (feed) {
-      const handleMouseMove = (e: MouseEvent) => {
-        const rect = feed.getBoundingClientRect();
-        const x = e.clientX - rect.left;
-        const y = e.clientY - rect.top;
-
-        const centerX = rect.width / 2;
-        const centerY = rect.height / 2;
-
-        const rotateX = (y - centerY) / 20;
-        const rotateY = (centerX - x) / 20;
-
-        feed.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) scale3d(1.02, 1.02, 1.02)`;
-      };
-
-      const handleMouseLeave = () => {
-        feed.style.transform =
-          "perspective(1000px) rotateX(0deg) rotateY(0deg) scale3d(1, 1, 1)";
-      };
-
-      feed.addEventListener("mousemove", handleMouseMove);
-      feed.addEventListener("mouseleave", handleMouseLeave);
-
-      return () => {
-        feed.removeEventListener("mousemove", handleMouseMove);
-        feed.removeEventListener("mouseleave", handleMouseLeave);
-      };
-    }
-
     return () => {
       if (animationInstance.current) {
         animationInstance.current.destroy();
@@ -73,11 +42,7 @@ export default function Feed({
   }, [lottieSrc]);
 
   return (
-    <div
-      className="relative z-40 aspect-[325/164] w-full max-w-[327px] transition-transform duration-300 ease-out"
-      ref={feedRef}
-      style={{ transformStyle: "preserve-3d" }}
-    >
+    <div className="relative z-40 aspect-[324/164] w-full max-w-[300px] sm:max-w-[325px] transition-transform duration-300 ease-out sm:mr-0 mr-4">
       <svg
         viewBox="0 0 327 166"
         fill="none"
@@ -115,7 +80,7 @@ export default function Feed({
             attributeName="x"
             from="-100%"
             to="100%"
-            dur="4s"
+            dur="3s"
             repeatCount="indefinite"
           />
         </rect>
