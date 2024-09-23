@@ -13,17 +13,17 @@ export default function Home() {
 
       {/* Inventory + Schedule */}
 
-      <div className="grid grid-cols-[70%_1fr] gap-5">
+      <div className="grid gap-5 lg:grid-cols-[60%_1fr] xl:grid-cols-[70%_1fr]">
         <Inventory />
         <Schedule />
       </div>
 
-      <div className="grid grid-cols-[70%_1fr] gap-5">
+      <div className="grid gap-5 lg:grid-cols-[60%_1fr] xl:grid-cols-[70%_1fr]">
         <Assigned />
         <Tasks />
       </div>
 
-      <div className="grid grid-cols-[70%_1fr] gap-5">
+      <div className="grid gap-5 lg:grid-cols-[60%_1fr] xl:grid-cols-[70%_1fr]">
         <Brands />
         <Peoples />
       </div>

@@ -18,8 +18,8 @@
 
 .noiseBg {
   background: #000000
-    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 243 243'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='franctalNoise' baseFrequency='2.2' /%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.45' /%3E%3C/svg%3E");
-  background-size: 225px 225px; /* Fix the size to match the SVG's viewBox */
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 243 243'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='franctalNoise' baseFrequency='2.2' /%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.4' /%3E%3C/svg%3E");
+  background-size: 225px 225px;
 }
 
 .sidebar::-webkit-scrollbar {
@@ -51,4 +51,14 @@
   50% {
     opacity: 1;
   }
+}
+
+.swiper {
+  width: 100%;
+  height: 100%;
+}
+
+.swiper-slide {
+  flex-shrink: 1 !important;
+  width: auto !important;
 }

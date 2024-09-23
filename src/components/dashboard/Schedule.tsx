@@ -14,6 +14,7 @@ export default function Schedule() {
             details={data.duration}
             imgUrl="/assets/png/google-logo.png"
             bgColor={data.bgColor}
+            detailsClassName="xl:text-sm 2xl:text-base"
           />
         ))}
       </div>

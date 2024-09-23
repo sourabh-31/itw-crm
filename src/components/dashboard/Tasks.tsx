@@ -5,7 +5,7 @@ import Container from "../shared/Container";
 export default function Tasks() {
   return (
     <Container name="Your Tasks" className="text-white" isEmpty>
-      <div className="mt-16 flex h-full flex-col items-center justify-center gap-2 text-center font-mulish">
+      <div className="mb-8 flex h-full flex-col items-center justify-center gap-2 text-center font-mulish lg:mb-0 lg:mt-16">
         <Image
           src="/assets/png/empty.png"
           alt="empty-img"

@@ -8,7 +8,7 @@ export default function CurrentSection() {
   const currentRoute = pathname === "/" ? "dashboard" : pathname.split("/")[1];
 
   return (
-    <header className="border-b border-gray-light px-6 py-5 font-recoletaAlt text-2xl text-white">
+    <header className="sm:border-b border-gray-light px-6 py-5 font-recoletaAlt text-xl text-white xl:text-2xl">
       {capitalize(currentRoute)}
     </header>
   );

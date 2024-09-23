@@ -11,6 +11,7 @@ interface TilesPropsType {
   headingClassName?: string;
   imgSize?: number;
   bgColor?: string;
+  detailsClassName?: string;
 }
 
 export default function Tiles({
@@ -21,6 +22,7 @@ export default function Tiles({
   headingClassName,
   imgSize = 28,
   bgColor = "#ffffff",
+  detailsClassName,
 }: TilesPropsType) {
   return (
     <div className="flex items-center">
@@ -44,10 +46,17 @@ export default function Tiles({
         {/* Schedule Details */}
 
         <div className="flex flex-col justify-center text-white">
-          <span className={cn("font-recoletaAlt text-lg", headingClassName)}>
+          <span
+            className={cn(
+              "font-recoletaAlt text-lg lg:text-base xl:text-lg",
+              headingClassName
+            )}
+          >
             {name}
           </span>
-          <span className="font-mulish font-medium">{details}</span>
+          <span className={cn("font-mulish font-medium", detailsClassName)}>
+            {details}
+          </span>
         </div>
 
         {/* CTA Btn */}

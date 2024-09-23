@@ -55,7 +55,7 @@ const CardHeader = ({ icon = "", linkHref = "" }: CardHeaderProps) => {
 // Card Name
 const CardName = ({ name }: CardNameProps) => {
   return (
-    <div className="mb-4 mt-2 font-recoletaAlt text-xl text-primary-300">
+    <div className="mb-4 mt-2 font-recoletaAlt text-lg text-primary-300 xl:text-xl">
       {name}
     </div>
   );

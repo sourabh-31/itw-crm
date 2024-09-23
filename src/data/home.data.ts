@@ -54,6 +54,22 @@ export const InventoryData: InventoryDataType[] = [
     ],
     bgColor: "#d9ead5",
   },
+  {
+    name: "OTT",
+    items: [
+      {
+        name: "India vs Australia ODI",
+        keyword1: "in 2 days",
+        keyword2: "10 brands",
+      },
+      {
+        name: "India vs Australia T20",
+        keyword1: "in 10 days",
+        keyword2: "10 brands",
+      },
+    ],
+    bgColor: "#d8dfe9",
+  },
 ];
 
 export const ScheduleData: ScheduleDataType[] = [
@@ -119,6 +135,38 @@ export const AssignedData: InventoryDataType[] = [
       },
     ],
     bgColor: "#d9ead5",
+  },
+  {
+    name: "Jersey Sponsorship",
+    items: [
+      {
+        name: "India vs Australia ODI",
+        keyword1: "in 2 days",
+        keyword2: "10 brands",
+      },
+      {
+        name: "India vs Australia T20",
+        keyword1: "in 10 days",
+        keyword2: "10 brands",
+      },
+    ],
+    bgColor: "#c4d4ff",
+  },
+  {
+    name: "Marketing",
+    items: [
+      {
+        name: "India vs Australia ODI",
+        keyword1: "in 2 days",
+        keyword2: "10 brands",
+      },
+      {
+        name: "India vs Australia T20",
+        keyword1: "in 10 days",
+        keyword2: "10 brands",
+      },
+    ],
+    bgColor: "#efe4ff",
   },
 ];
 
