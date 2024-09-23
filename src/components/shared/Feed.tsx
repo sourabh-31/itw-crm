@@ -1,8 +1,6 @@
-"use client";
-
+import React, { useEffect, useRef } from "react";
 import Lottie from "lottie-web";
 import Link from "next/link";
-import React, { useEffect, useRef } from "react";
 
 interface FeedPropsType {
   topic: string;
@@ -21,12 +19,10 @@ export default function Feed({
   isBorder = false,
   isActionBtn = false,
 }: FeedPropsType) {
-  // Hooks
   const animationContainer = useRef<HTMLDivElement | null>(null);
   const animationInstance = useRef<any>(null);
   const feedRef = useRef<HTMLDivElement>(null);
 
-  // Generate lottie effect
   useEffect(() => {
     if (animationContainer.current && !animationInstance.current) {
       animationInstance.current = Lottie.loadAnimation({
@@ -78,22 +74,16 @@ export default function Feed({
 
   return (
     <div
-      className="relative h-[166px] w-[327px] transition-transform duration-300 ease-out"
+      className="relative w-full max-w-[327px] aspect-[325/164] z-40 transition-transform duration-300 ease-out"
       ref={feedRef}
       style={{ transformStyle: "preserve-3d" }}
     >
-      {/* Custom box svg */}
-
       <svg
-        width={327}
-        height={166}
         viewBox="0 0 327 166"
         fill="none"
         xmlns="http://www.w3.org/2000/svg"
-        className="absolute right-0 top-0"
+        className="absolute inset-0 w-full h-full"
       >
-        {/* Shimmer effect */}
-
         <defs>
           <linearGradient id="shimmer" x1="0%" y1="0%" x2="100%" y2="0%">
             <stop offset="0%" stopColor="rgba(255,255,255,0)" />
@@ -109,7 +99,7 @@ export default function Feed({
         </defs>
         <path
           d="M38.4 0.5H185.313C191.793 0.5 194.946 0.503598 197.735 1.20045C203.336 2.59934 208.226 6.01066 211.472 10.7839C213.089 13.1616 214.181 16.119 216.419 22.2009L216.451 22.2887C218.648 28.2621 219.782 31.3432 221.476 33.8351C224.861 38.8114 229.959 42.3679 235.798 43.8263C238.721 44.5566 242.004 44.5566 248.369 44.5566H248.463H288.6C295.329 44.5566 300.345 44.557 304.322 44.8819C308.294 45.2064 311.184 45.8519 313.669 47.1179C318.091 49.371 321.686 52.966 323.939 57.3878C325.205 59.8725 325.85 62.763 326.175 66.7342C326.5 70.7111 326.5 75.7277 326.5 82.4566V124.6C326.5 131.329 326.5 136.345 326.175 140.322C325.85 144.294 325.205 147.184 323.939 149.669C321.686 154.091 318.091 157.686 313.669 159.939C311.184 161.205 308.294 161.85 304.322 162.175C300.345 162.5 295.329 162.5 288.6 162.5H38.4C31.6711 162.5 26.6545 162.5 22.6776 162.175C18.7064 161.85 15.8159 161.205 13.3312 159.939C8.90941 157.686 5.31437 154.091 3.06135 149.669C1.79533 147.184 1.14977 144.294 0.82532 140.322C0.500389 136.345 0.5 131.329 0.5 124.6V38.4C0.5 31.6711 0.500389 26.6545 0.82532 22.6776C1.14977 18.7064 1.79533 15.8159 3.06135 13.3312C5.31437 8.90941 8.90941 5.31437 13.3312 3.06135C15.8159 1.79533 18.7064 1.14977 22.6776 0.82532C26.6545 0.500389 31.6711 0.5 38.4 0.5Z"
-          fill="#1d1f25"
+          fill="#15171b"
           stroke="#0094FF"
           strokeWidth={isBorder ? 1 : 0}
         />
@@ -131,39 +121,33 @@ export default function Feed({
         </rect>
       </svg>
 
-      {/* Feed content */}
-
-      <div className="relative z-10 box-border flex size-full flex-col p-4 text-white">
-        <span className="font-recoletaAlt font-semibold text-yellow-200">
-          {topic}
-        </span>
-        <span className="mt-[6px] w-3/5 font-mulish text-sm">
-          {description}
-        </span>
-
-        {/* Action btn */}
+      <div className="relative z-10 box-border flex flex-col justify-between h-full p-4 text-white">
+        <div>
+          <span className="font-recoletaAlt font-semibold text-yellow-200 text-base">
+            {topic}
+          </span>
+          <span className="mt-1 sm:mt-2 block w-[70%] sm:w-3/5 font-mulish text-sm">
+            {description}
+          </span>
+        </div>
 
         {isActionBtn && (
           <Link
             href="/"
-            className="mt-6 flex h-9 w-20 items-center justify-center rounded-full bg-blue font-mulish text-sm font-bold"
+            className="mt-2 sm:mt-4 flex h-8 sm:h-9 w-20 sm:w-20 items-center justify-center rounded-full bg-blue font-mulish text-xs sm:text-sm font-bold"
           >
             OPEN
           </Link>
         )}
 
-        {/* Lottie container */}
-
         <div
-          className="absolute bottom-7 right-7 w-16"
+          className="absolute bottom-7 right-6 sm:bottom-7 sm:right-7 w-16 sm:w-16"
           ref={animationContainer}
         />
 
-        {/* Top right btn */}
-
         <Link
           href="/"
-          className="absolute right-[6px] top-[2px] ml-1 flex h-[34px] w-24 items-center justify-center rounded-[30px] border border-gray-light bg-primary-400 text-sm font-medium"
+          className="absolute right-2 top-1 sm:right-[6px] sm:top-[2px] ml-1 flex h-[28px] sm:h-[34px] w-20 sm:w-24 items-center justify-center rounded-[30px] border border-gray-light bg-primary-400 text-xs sm:text-sm font-medium"
         >
           {isBtnText ? (
             <div className="font-mulish">

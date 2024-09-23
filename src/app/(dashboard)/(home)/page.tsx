@@ -8,7 +8,7 @@ import Tasks from "@/components/dashboard/Tasks";
 
 export default function Home() {
   return (
-    <section className="space-y-6 px-6 py-5">
+    <section className="space-y-6 px-6 sm:pt-5 pb-5">
       <NewsFeed />
 
       {/* Inventory + Schedule */}

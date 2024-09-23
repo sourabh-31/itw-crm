@@ -5,7 +5,7 @@ import Tiles from "../shared/Tiles";
 
 export default function Schedule() {
   return (
-    <Container name="Today's Schedule" className="bg-yellow-200">
+    <Container name="Today's Schedule" className="bg-yellow-200 pb-6">
       <div className="space-y-6">
         {ScheduleData.map((data) => (
           <Tiles

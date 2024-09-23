@@ -8,7 +8,7 @@ import type {
 export const NewsFeedData: NewsFeedDataType[] = [
   {
     id: "1",
-    topic: "Team Discussion",
+    topic: "📃Sep’24 Events List",
     description: "Hey team, here is the new events list for September...",
     lottieSrc: "/assets/lottie/check-badge.json",
     isActionBtn: true,
