@@ -42,7 +42,7 @@ export default function Feed({
   }, [lottieSrc]);
 
   return (
-    <div className="relative z-40 aspect-[324/164] w-full max-w-[300px] sm:max-w-[325px] transition-transform duration-300 ease-out sm:mr-0 mr-4">
+    <div className="relative z-40 mr-4 aspect-[324/164] w-full max-w-[300px] transition-transform duration-300 ease-out sm:mr-0 sm:max-w-[325px]">
       <svg
         viewBox="0 0 327 166"
         fill="none"

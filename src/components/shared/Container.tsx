@@ -87,6 +87,7 @@ export default function Container({
             {...swiperOptions}
           >
             {React.Children.map(children, (child, index) => (
+              // eslint-disable-next-line react/no-array-index-key
               <SwiperSlide key={index} className="mr-2 sm:mr-6">
                 {child}
               </SwiperSlide>

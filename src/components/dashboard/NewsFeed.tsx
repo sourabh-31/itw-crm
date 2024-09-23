@@ -1,7 +1,9 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
+
 import { NewsFeedData } from "@/data/home.data";
+
 import Container from "../shared/Container";
 import Feed from "../shared/Feed";
 import FeedSkeleton from "../shared/FeedSkeleton";
