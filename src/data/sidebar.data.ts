@@ -37,10 +37,4 @@ export const SidebarData: sidebarDataType[] = [
     imgAlt: "/assets/svg/sidebar/arrow-alt.svg",
     link: "/goto",
   },
-  {
-    name: "more",
-    img: "/assets/svg/sidebar/more.svg",
-    imgAlt: "/assets/svg/sidebar/more-alt.svg",
-    link: "/more",
-  },
 ];

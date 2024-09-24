@@ -1,4 +1,5 @@
 import CurrentSection from "@/components/dashboard/CurrentSection";
+import Bottombar from "@/components/shared/Bottombar";
 import Header from "@/components/shared/Header";
 import Sidebar from "@/components/shared/Sidebar";
 
@@ -23,9 +24,12 @@ export default function Layout({
       <Header />
       <Sidebar />
 
+      {/* Sidebar for small screen size */}
+      <Bottombar />
+
       {/* Main Dashboard Content */}
       <main className="overflow-y-auto sm:ml-[100px] sm:p-6">
-        <div className="mt-[5.5rem] min-h-[calc(100vh-85px)] bg-background sm:rounded-2xl sm:bg-foreground">
+        <div className="mb-32 mt-[5.5rem] min-h-[calc(100vh-85px)] bg-background sm:mb-0 sm:rounded-2xl sm:bg-foreground">
           <CurrentSection />
           {children}
         </div>
