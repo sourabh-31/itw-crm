@@ -52,7 +52,7 @@ export default function Container({
         spaceBetween: 20,
         freeMode: {
           enabled: true,
-          momentum: false,
+          momentum: true,
         },
         grabCursor: true,
       }
@@ -61,7 +61,7 @@ export default function Container({
         spaceBetween: 20,
         freeMode: {
           enabled: true,
-          momentum: false,
+          momentum: true,
         },
         grabCursor: true,
       };
