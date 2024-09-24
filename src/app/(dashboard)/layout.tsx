@@ -29,7 +29,7 @@ export default function Layout({
 
       {/* Main Dashboard Content */}
       <main className="overflow-y-auto sm:ml-[100px] sm:p-6">
-        <div className="mb-32 mt-[5.5rem] min-h-[calc(100vh-85px)] bg-background sm:mb-0 sm:rounded-2xl sm:bg-foreground">
+        <div className="mb-28 mt-[5.5rem] min-h-[calc(100vh-85px)] bg-background sm:mb-0 sm:rounded-2xl sm:bg-foreground">
           <CurrentSection />
           {children}
         </div>
