@@ -5,7 +5,10 @@ import Tiles from "../shared/Tiles";
 
 export default function Schedule() {
   return (
-    <Container name="Today's Schedule" className="bg-yellow-200 pb-6">
+    <Container
+      name="Today's Schedule"
+      className="mx-4 bg-yellow-200 pb-6 lg:mx-0"
+    >
       <div className="space-y-6">
         {ScheduleData.map((data) => (
           <Tiles

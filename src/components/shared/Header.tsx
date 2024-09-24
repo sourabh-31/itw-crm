@@ -2,7 +2,7 @@ import Image from "next/image";
 
 export default function Header() {
   return (
-    <header className="fixed inset-x-0 z-50 col-start-1 col-end-3 flex items-center justify-between border-b border-gray-dark bg-background px-6 py-2 sm:py-5">
+    <header className="fixed inset-x-0 z-50 col-start-1 col-end-3 flex items-center justify-between border-b border-gray-dark bg-background px-4 py-2 sm:py-5">
       {/* ITW Logo */}
 
       <Image

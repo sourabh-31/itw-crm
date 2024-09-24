@@ -5,7 +5,10 @@ import Tiles from "../shared/Tiles";
 
 export default function Peoples() {
   return (
-    <Container name="People Connect (10)" className="pb-6 text-white">
+    <Container
+      name="People Connect (10)"
+      className="mx-4 pb-6 text-white lg:mx-0"
+    >
       <div className="space-y-6">
         {PeopleData.map((data) => (
           <Tiles

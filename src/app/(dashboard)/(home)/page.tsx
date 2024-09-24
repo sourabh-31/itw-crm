@@ -8,22 +8,22 @@ import Tasks from "@/components/dashboard/Tasks";
 
 export default function Home() {
   return (
-    <section className="space-y-6 px-6 pb-5 sm:pt-5">
+    <section className="space-y-6 pb-5 sm:pt-5">
       <NewsFeed />
 
       {/* Inventory + Schedule */}
 
-      <div className="grid gap-5 lg:grid-cols-[60%_1fr] xl:grid-cols-[70%_1fr]">
+      <div className="grid gap-5 lg:grid-cols-[60%_1fr] lg:px-6 xl:grid-cols-[70%_1fr]">
         <Inventory />
         <Schedule />
       </div>
 
-      <div className="grid gap-5 lg:grid-cols-[60%_1fr] xl:grid-cols-[70%_1fr]">
+      <div className="grid gap-5 lg:grid-cols-[60%_1fr] lg:px-6 xl:grid-cols-[70%_1fr]">
         <Assigned />
         <Tasks />
       </div>
 
-      <div className="grid gap-5 lg:grid-cols-[60%_1fr] xl:grid-cols-[70%_1fr]">
+      <div className="grid gap-5 lg:grid-cols-[60%_1fr] lg:px-6 xl:grid-cols-[70%_1fr]">
         <Brands />
         <Peoples />
       </div>

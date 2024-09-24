@@ -1,6 +1,6 @@
 export default function FeedSkeleton() {
   return (
-    <div className="relative h-[166px] w-[327px] transition-transform duration-300 ease-out">
+    <div className="relative ml-4 h-[166px] w-[327px] scale-90 transition-transform duration-300 ease-out sm:ml-0 sm:scale-100">
       <svg
         width={327}
         height={166}

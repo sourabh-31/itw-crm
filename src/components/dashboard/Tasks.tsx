@@ -4,7 +4,7 @@ import Container from "../shared/Container";
 
 export default function Tasks() {
   return (
-    <Container name="Your Tasks" className="text-white" isEmpty>
+    <Container name="Your Tasks" className="mx-4 text-white lg:mx-0" isEmpty>
       <div className="mb-8 flex h-full flex-col items-center justify-center gap-2 text-center font-mulish lg:mb-0 lg:mt-16">
         <Image
           src="/assets/png/empty.png"

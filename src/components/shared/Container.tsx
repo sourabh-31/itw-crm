@@ -5,7 +5,7 @@ import "swiper/css/free-mode";
 
 import Link from "next/link";
 import type { ReactNode } from "react";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Autoplay, FreeMode } from "swiper/modules";
 import { Swiper, SwiperSlide } from "swiper/react";
 
@@ -16,6 +16,7 @@ interface ContainerPropsType {
   linkTo?: string;
   className?: string;
   children: ReactNode;
+  headingClassName?: string;
   accentBoxClassName?: string;
   accentBoxContent?: string;
   linkClassName?: string;
@@ -29,6 +30,7 @@ export default function Container({
   linkTo = "/",
   className,
   children,
+  headingClassName,
   accentBoxClassName,
   accentBoxContent,
   linkClassName,
@@ -36,23 +38,52 @@ export default function Container({
   isSwiper = false,
   autoplay = false,
 }: ContainerPropsType) {
+  const [windowWidth, setWindowWidth] = useState(0);
+
+  // Custom swiper options
   const swiperOptions = autoplay
     ? {
         modules: [FreeMode, Autoplay],
         autoplay: {
-          delay: 500,
+          delay: 0,
           disableOnInteraction: false,
         },
-        speed: 5000,
+        speed: windowWidth < 640 ? 3000 : 5000,
+        spaceBetween: 20,
+        freeMode: {
+          enabled: true,
+          momentum: false,
+        },
+        grabCursor: true,
       }
     : {
         modules: [FreeMode],
+        spaceBetween: 20,
+        freeMode: {
+          enabled: true,
+          momentum: false,
+        },
+        grabCursor: true,
       };
+
+  // Handle window resize
+  useEffect(() => {
+    const handleResize = () => {
+      setWindowWidth(window.innerWidth);
+    };
+    handleResize();
+    window.addEventListener("resize", handleResize);
+
+    // Remove event listener on cleanup
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
 
   return (
     <div className={cn("rounded-3xl bg-primary-300 p-4", className)}>
       {/* Container Heading */}
-      <div className="flex items-center justify-between">
+      <div
+        className={cn("flex items-center justify-between", headingClassName)}
+      >
         <div className="flex items-center gap-3">
           <span className="font-recoletaAlt text-lg xl:text-xl">{name}</span>
           <span
@@ -78,12 +109,13 @@ export default function Container({
       </div>
 
       {/* Content */}
-      <div className="mt-5">
+      <div className="mt-5 scroll-pl-10">
         {isSwiper ? (
           <Swiper
             slidesPerView="auto"
-            freeMode
             className="mySwiper"
+            slidesOffsetBefore={windowWidth < 640 ? 20 : 0}
+            slidesOffsetAfter={windowWidth < 640 ? 20 : 0}
             {...swiperOptions}
           >
             {React.Children.map(children, (child, index) => (

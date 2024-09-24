@@ -17,7 +17,7 @@ import type {
 const Card = ({ children, className, bgColor }: CardProps) => {
   return (
     <div
-      className={cn("w-[300px] rounded-3xl p-3 sm:w-[330px]", className)}
+      className={cn("z-20 w-[300px] rounded-3xl p-3 sm:w-[330px]", className)}
       style={{ backgroundColor: bgColor }}
     >
       {children}

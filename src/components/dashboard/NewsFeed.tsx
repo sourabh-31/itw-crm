@@ -61,7 +61,8 @@ export default function NewsFeed() {
   return (
     <Container
       name="News Feed"
-      className="bg-transparent p-0 text-white"
+      className="bg-transparent p-0 text-white sm:mx-6"
+      headingClassName="px-4 sm:px-0"
       linkClassName="font-normal"
       isSwiper={windowWidth <= 640}
       autoplay

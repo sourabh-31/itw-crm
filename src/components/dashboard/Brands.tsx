@@ -5,7 +5,10 @@ import Tiles from "../shared/Tiles";
 
 export default function Brands() {
   return (
-    <Container name="Your Brands (100)" className="pb-6 text-white">
+    <Container
+      name="Your Brands (100)"
+      className="mx-4 pb-6 text-white lg:mx-0"
+    >
       <div className="space-y-6">
         {BrandData.map((data) => (
           <Tiles
