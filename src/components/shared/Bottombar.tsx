@@ -20,7 +20,7 @@ export default function Bottombar() {
     const handleResize = () => {
       if (bottombarRef.current) {
         const containerWidth = bottombarRef.current.offsetWidth;
-        const itemWidth = 80;
+        const itemWidth = 70;
         const maxItems = Math.floor(containerWidth / itemWidth);
 
         setVisibleItems(SidebarData.slice(0, maxItems - 1));
@@ -39,7 +39,7 @@ export default function Bottombar() {
       href={data.link}
       className={`flex items-center justify-center gap-1 rounded-full transition-all duration-200 ${
         pathname === data.link
-          ? `bg-yellow-100 ${!showMore ? "h-12 w-32" : "size-12"}`
+          ? `bg-yellow-100 ${!showMore ? "h-12 w-28" : "size-12"}`
           : "size-12 bg-primary-200"
       }`}
       onClick={() => setShowMore(false)}
