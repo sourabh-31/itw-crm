@@ -60,7 +60,7 @@ export default function Bottombar() {
   return (
     <aside
       ref={bottombarRef}
-      className="sidebar pb-safe fixed bottom-0 left-0 z-50 flex w-full flex-row items-center justify-around gap-2 overflow-x-auto border-t border-gray-light bg-background px-2 py-3 sm:hidden"
+      className="pb-safe fixed bottom-0 left-0 z-50 flex w-full items-center justify-around border-t border-gray-light bg-background px-2 py-3 sm:hidden"
     >
       {visibleItems.map(renderLink)}
       {overflowItems.length > 0 && (
