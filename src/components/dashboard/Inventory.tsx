@@ -1,17 +1,17 @@
 "use client";
 
-import { useInventory } from "@/hooks/useData";
-import useWindowWidth from "@/hooks/useWindowWidth";
-import { daysRemaining } from "@/lib/utils";
-
-import Card from "../shared/Card";
-import Container from "../shared/Container";
 import {
   COUNT,
   EVENT_STATUS,
   PAGE_NO,
   SEARCH_FOR,
 } from "@/constants/defaultParams";
+import { useInventory } from "@/hooks/useData";
+import useWindowWidth from "@/hooks/useWindowWidth";
+import { daysRemaining } from "@/lib/utils";
+
+import Card from "../shared/Card";
+import Container from "../shared/Container";
 
 const colors = ["#d9ead5", "#d8dfe9", "#efe4ff", "#c4d4ff"];
 
