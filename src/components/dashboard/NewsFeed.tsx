@@ -1,8 +1,10 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { useRef } from "react";
 
-import { NewsFeedData } from "@/data/home.data";
+import { useBrandsAndTeam } from "@/hooks/useData";
+import useFeedsToShow from "@/hooks/useFeedsToShow";
+import useWindowWidth from "@/hooks/useWindowWidth";
 
 import Container from "../shared/Container";
 import Feed from "../shared/Feed";
@@ -10,53 +12,14 @@ import FeedSkeleton from "../shared/FeedSkeleton";
 
 export default function NewsFeed() {
   const containerRef = useRef<HTMLDivElement | null>(null);
-  const [numOfFeedsToShow, setNumOfFeedsToShow] = useState(1);
-  const [isMounted, setIsMounted] = useState(false);
-  const [windowWidth, setWindowWidth] = useState(0);
-
-  const calculateFeedsToShow = () => {
-    if (containerRef.current) {
-      const containerWidth = containerRef.current.offsetWidth;
-      const feedWidth = 327 + 20; // width of a feed item + gap
-      return Math.max(1, Math.floor(containerWidth / feedWidth));
-    }
-    return 1;
-  };
-
-  // Handle window resize
-  useEffect(() => {
-    const handleResize = () => {
-      setWindowWidth(window.innerWidth);
-    };
-    handleResize();
-    window.addEventListener("resize", handleResize);
-
-    // Remove event listener on cleanup
-    return () => window.removeEventListener("resize", handleResize);
-  }, []);
-
-  // Handle num of feed visibility
-  useEffect(() => {
-    const updateFeedsToShow = () => {
-      const feedsToShow =
-        windowWidth >= 640 ? calculateFeedsToShow() : NewsFeedData.length;
-      setNumOfFeedsToShow(feedsToShow);
-    };
-
-    updateFeedsToShow();
-    setIsMounted(true);
-
-    const resizeObserver = new ResizeObserver(updateFeedsToShow);
-    if (containerRef.current) {
-      resizeObserver.observe(containerRef.current);
-    }
-
-    return () => {
-      if (containerRef.current) {
-        resizeObserver.unobserve(containerRef.current);
-      }
-    };
-  }, [windowWidth]);
+  const { data = null, isLoading } = useBrandsAndTeam();
+  const newsData = data?.news.slice(0, 4) ?? [];
+  const windowWidth = useWindowWidth();
+  const { numOfFeedsToShow, isMounted } = useFeedsToShow(
+    windowWidth,
+    newsData,
+    containerRef
+  );
 
   return (
     <Container
@@ -68,20 +31,21 @@ export default function NewsFeed() {
       autoplay
     >
       <div className="flex w-full flex-wrap sm:gap-[20px]" ref={containerRef}>
-        {!isMounted ? (
+        {!isMounted || isLoading ? (
           <FeedSkeleton />
         ) : (
-          NewsFeedData.slice(0, numOfFeedsToShow).map((data) => (
-            <Feed
-              key={data.id}
-              topic={data.topic}
-              description={data.description}
-              lottieSrc={data.lottieSrc}
-              isActionBtn={data.isActionBtn}
-              isBorder={data.isBorder}
-              isBtnText={data.isBtnText}
-            />
-          ))
+          newsData
+            .slice(0, numOfFeedsToShow)
+            .map((data) => (
+              <Feed
+                key={data.newsId}
+                topic={data.title}
+                description={data.description}
+                lottieSrc={data.imageUrl}
+                isBtnText={data.newsType === "GENERAL"}
+                isActionBtn={data.newsType === "CALENDAR"}
+              />
+            ))
         )}
       </div>
     </Container>

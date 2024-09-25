@@ -1,8 +1,25 @@
+import {
+  dehydrate,
+  HydrationBoundary,
+  QueryClient,
+} from "@tanstack/react-query";
 import Image from "next/image";
 
-export default function Header() {
+import { PROFILE } from "@/constants/queryKeys";
+import { getProfileData } from "@/server/actions";
+
+import Profile from "./Profile";
+
+export default async function Header() {
+  // Prefetching data
+  const queryClient = new QueryClient();
+  await queryClient.prefetchQuery({
+    queryKey: [PROFILE],
+    queryFn: getProfileData,
+  });
+
   return (
-    <header className="fixed inset-x-0 z-50 col-start-1 col-end-3 flex items-center justify-between border-b border-gray-dark bg-background px-4 py-2 sm:py-5">
+    <header className="fixed inset-x-0 z-50 col-start-1 col-end-3 flex items-center justify-between border-b border-gray-dark bg-background px-4 py-2 sm:px-7 sm:py-5">
       {/* ITW Logo */}
 
       <Image
@@ -48,15 +65,9 @@ export default function Header() {
 
         {/* Profile */}
 
-        <button type="button">
-          <Image
-            src="/assets/png/avatar.png"
-            alt="user-profile"
-            width={50}
-            height={50}
-            className="size-[35px] sm:size-[50px]"
-          />
-        </button>
+        <HydrationBoundary state={dehydrate(queryClient)}>
+          <Profile />
+        </HydrationBoundary>
       </div>
     </header>
   );

@@ -3,6 +3,7 @@ import Bottombar from "@/components/shared/Bottombar";
 import Header from "@/components/shared/Header";
 import Sidebar from "@/components/shared/Sidebar";
 
+// Noise overlay component
 const NoiseOverlay = () => (
   <div className="pointer-events-none fixed inset-0 z-50 min-h-screen opacity-20">
     <svg xmlns="http://www.w3.org/2000/svg" width="100%" height="100%">
@@ -14,6 +15,7 @@ const NoiseOverlay = () => (
   </div>
 );
 
+// Dashboard layout component
 export default function Layout({
   children,
 }: Readonly<{
@@ -21,7 +23,10 @@ export default function Layout({
 }>) {
   return (
     <section className="min-h-screen bg-black">
+      {/* Hydrated header component */}
+
       <Header />
+
       <Sidebar />
 
       {/* Sidebar for small screen size */}

@@ -1,3 +1,4 @@
+import { truncate } from "lodash";
 import Image from "next/image";
 import Link from "next/link";
 import React from "react";
@@ -17,7 +18,10 @@ import type {
 const Card = ({ children, className, bgColor }: CardProps) => {
   return (
     <div
-      className={cn("z-20 w-[300px] rounded-3xl p-3 sm:w-[330px]", className)}
+      className={cn(
+        "z-20 min-h-[380px] w-[300px] rounded-3xl p-3 sm:w-[330px]",
+        className
+      )}
       style={{ backgroundColor: bgColor }}
     >
       {children}
@@ -62,11 +66,20 @@ const CardName = ({ name }: CardNameProps) => {
 };
 
 // Card Content
-const CardContent = ({ title, keyword1, keyword2 }: CardContentProps) => {
+const CardContent = ({
+  title,
+  keyword1,
+  keyword2,
+  windowWidth,
+}: CardContentProps) => {
+  const titleLength = windowWidth < 640 ? 24 : 28;
+
   return (
     <div className="flex items-center rounded-full bg-[#f7fbf7]">
       <div className="flex w-full flex-col gap-[2px] px-6 py-2 font-mulish">
-        <span className="text-sm font-bold text-primary-300">{title}</span>
+        <span className="text-sm font-bold text-primary-300">
+          {truncate(title, { length: titleLength })}
+        </span>
         <div className="flex items-center gap-2 text-xs">
           <div className="flex items-center gap-[2px] rounded-full bg-[#FF6161] px-2 py-[2px]">
             <Image
@@ -130,14 +143,15 @@ const ActionLink = ({ icon, text, href }: ActionLinkProps) => {
   );
 };
 
-const Button = ({ children, hrefTo = "/" }: ActionBtnProps) => {
+const Button = ({ children, hrefTo = "/", onClick }: ActionBtnProps) => {
   return (
-    <Link
-      href={hrefTo}
-      className="mt-5 flex items-center justify-center rounded-full bg-blue p-3 font-mulish text-sm font-bold"
+    <button
+      type="button"
+      onClick={onClick}
+      className="absolute inset-x-0 bottom-2 mx-auto flex w-[95%] items-center justify-center rounded-full bg-blue p-3 font-mulish text-sm font-bold"
     >
       {children}
-    </Link>
+    </button>
   );
 };
 

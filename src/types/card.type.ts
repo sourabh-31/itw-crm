@@ -19,6 +19,7 @@ export type CardContentProps = {
   title: string;
   keyword1: string;
   keyword2: string;
+  windowWidth: number;
 };
 
 export type CardActionProps = {
@@ -34,4 +35,5 @@ export type ActionLinkProps = {
 export type ActionBtnProps = {
   children: ReactNode;
   hrefTo?: string;
+  onClick?: () => void;
 };

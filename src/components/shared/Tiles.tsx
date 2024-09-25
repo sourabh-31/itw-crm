@@ -5,13 +5,14 @@ import { cn } from "@/lib/utils";
 
 interface TilesPropsType {
   name: string;
-  details: string;
+  details: number | string;
   className?: string;
-  imgUrl: string;
+  imgUrl?: string;
   headingClassName?: string;
   imgSize?: number;
   bgColor?: string;
   detailsClassName?: string;
+  accentText?: string;
 }
 
 export default function Tiles({
@@ -20,9 +21,10 @@ export default function Tiles({
   className,
   imgUrl,
   headingClassName,
-  imgSize = 28,
+  imgSize = 32,
   bgColor = "#ffffff",
   detailsClassName,
+  accentText,
 }: TilesPropsType) {
   return (
     <div className="flex items-center">
@@ -32,7 +34,13 @@ export default function Tiles({
         className="z-10 flex size-16 items-center justify-center rounded-full "
         style={{ backgroundColor: bgColor }}
       >
-        <Image src={imgUrl} alt="img" width={imgSize} height={imgSize} />
+        <Image
+          src={imgUrl ?? ""}
+          alt="img"
+          width={imgSize}
+          height={imgSize}
+          className="rounded-full"
+        />
       </div>
 
       {/* Schedule */}
@@ -55,7 +63,7 @@ export default function Tiles({
             {name}
           </span>
           <span className={cn("font-mulish font-medium", detailsClassName)}>
-            {details}
+            {details} {accentText}
           </span>
         </div>
 

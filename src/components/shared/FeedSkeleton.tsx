@@ -20,7 +20,7 @@ export default function FeedSkeleton() {
       </svg>
 
       <div className="relative z-10 box-border flex size-full flex-col p-5 text-white">
-        <div className="blink-feed flex h-[34px] w-32 items-center justify-center rounded-lg border border-gray-light bg-primary-400" />
+        <div className="blink-feed flex h-[34px] w-32 items-center justify-center rounded border border-gray-light bg-primary-400" />
 
         <div className="flex justify-between">
           <div className="blink-feed mt-8 flex h-12 w-40 items-center justify-center rounded-lg border border-gray-light bg-primary-400" />

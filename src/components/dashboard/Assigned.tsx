@@ -1,9 +1,29 @@
-import { AssignedData } from "@/data/home.data";
+"use client";
+
+import { useAssigned } from "@/hooks/useData";
+import useWindowWidth from "@/hooks/useWindowWidth";
+import { daysRemaining } from "@/lib/utils";
+import { useAssignedStore } from "@/store/useAssignedStore";
 
 import Card from "../shared/Card";
 import Container from "../shared/Container";
 
+const colors = ["#c4d4ff", "#efe4ff", "#d9ead5", "#d8dfe9 "];
+
 export default function Assigned() {
+  const windowWidth = useWindowWidth();
+  const { pageNo, eventStatus, count, searchFor } = useAssignedStore(
+    (state) => state
+  );
+  const { data = null, isLoading } = useAssigned(
+    pageNo,
+    eventStatus,
+    count,
+    searchFor
+  );
+
+  const assignedData = data?.data.inventories ?? [];
+
   return (
     <Container
       name="Assigned for you"
@@ -14,25 +34,31 @@ export default function Assigned() {
       linkClassName="font-normal"
       isSwiper
     >
-      {AssignedData.map((data) => (
-        <Card key={data.name} bgColor={data.bgColor}>
-          <Card.Header />
-          <Card.Name name={data.name} />
-          <div className="flex flex-col gap-4">
-            {data.items.map((item) => (
-              <div key={item.name}>
-                <Card.Content
-                  title={item.name}
-                  keyword1={item.keyword1}
-                  keyword2={item.keyword2}
-                />
-                <Card.Action name="inventory" />
-              </div>
-            ))}
-          </div>
-          <Card.Button>SHOW ALL EVENTS ({AssignedData.length})</Card.Button>
-        </Card>
-      ))}
+      {!isLoading
+        ? assignedData.map((data, index) => {
+            const bgColor = colors[index % colors.length];
+            return (
+              <Card key={data.name} bgColor={bgColor}>
+                <Card.Header icon={data.image} />
+                <Card.Name name={data.name} />
+                <div className="flex flex-col gap-4">
+                  {data.events.slice(0, 2).map((item) => (
+                    <div key={item.id}>
+                      <Card.Content
+                        title={item.name}
+                        keyword1={daysRemaining(item.endDate)}
+                        keyword2={item.type}
+                        windowWidth={windowWidth}
+                      />
+                      <Card.Action name="inventory" />
+                    </div>
+                  ))}
+                </div>
+                <Card.Button>SHOW ALL EVENTS ({data.eventCount})</Card.Button>
+              </Card>
+            );
+          })
+        : null}
     </Container>
   );
 }

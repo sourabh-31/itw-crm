@@ -1,9 +1,29 @@
-import { InventoryData } from "@/data/home.data";
+"use client";
+
+import { useInventory } from "@/hooks/useData";
+import useWindowWidth from "@/hooks/useWindowWidth";
+import { daysRemaining } from "@/lib/utils";
+import { useInventoryStore } from "@/store/useInventoryStore";
 
 import Card from "../shared/Card";
 import Container from "../shared/Container";
 
+const colors = ["#d9ead5", "#d8dfe9", "#efe4ff", "#c4d4ff"];
+
 export default function Inventory() {
+  const windowWidth = useWindowWidth();
+  const { pageNo, eventStatus, count, searchFor } = useInventoryStore(
+    (state) => state
+  );
+  const { data = null, isLoading } = useInventory(
+    pageNo,
+    eventStatus,
+    count,
+    searchFor
+  );
+
+  const inventoryData = data?.data.inventories ?? [];
+
   return (
     <Container
       name="Your Inventory"
@@ -14,25 +34,31 @@ export default function Inventory() {
       linkClassName="font-normal"
       isSwiper
     >
-      {InventoryData.map((data) => (
-        <Card key={data.name} bgColor={data.bgColor}>
-          <Card.Header />
-          <Card.Name name={data.name} />
-          <div className="flex flex-col gap-4">
-            {data.items.map((item) => (
-              <div key={item.name}>
-                <Card.Content
-                  title={item.name}
-                  keyword1={item.keyword1}
-                  keyword2={item.keyword2}
-                />
-                <Card.Action name="inventory" />
-              </div>
-            ))}
-          </div>
-          <Card.Button>SHOW ALL EVENTS ({InventoryData.length})</Card.Button>
-        </Card>
-      ))}
+      {!isLoading
+        ? inventoryData.map((data, index) => {
+            const bgColor = colors[index % colors.length];
+            return (
+              <Card key={data.name} bgColor={bgColor}>
+                <Card.Header icon={data.image} />
+                <Card.Name name={data.name} />
+                <div className="flex flex-col gap-4">
+                  {data.events.map((item) => (
+                    <div key={item.id}>
+                      <Card.Content
+                        title={item.name}
+                        keyword1={daysRemaining(item.endDate)}
+                        keyword2={item.type}
+                        windowWidth={windowWidth}
+                      />
+                      <Card.Action name="inventory" />
+                    </div>
+                  ))}
+                </div>
+                <Card.Button>SHOW ALL EVENTS ({data.eventCount})</Card.Button>
+              </Card>
+            );
+          })
+        : null}
     </Container>
   );
 }

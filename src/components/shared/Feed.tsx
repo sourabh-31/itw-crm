@@ -1,6 +1,9 @@
+import { truncate } from "lodash";
 import Lottie from "lottie-web";
 import Link from "next/link";
 import React, { useEffect, useRef } from "react";
+
+import useWindowWidth from "@/hooks/useWindowWidth";
 
 interface FeedPropsType {
   topic: string;
@@ -19,9 +22,14 @@ export default function Feed({
   isBorder = false,
   isActionBtn = false,
 }: FeedPropsType) {
+  // Hooks
   const animationContainer = useRef<HTMLDivElement | null>(null);
   const animationInstance = useRef<any>(null);
+  const windowWidth = useWindowWidth();
 
+  const descriptionLength = isActionBtn ? 50 : windowWidth < 640 ? 85 : 120;
+
+  // Render lottie
   useEffect(() => {
     if (animationContainer.current && !animationInstance.current) {
       animationInstance.current = Lottie.loadAnimation({
@@ -89,17 +97,17 @@ export default function Feed({
       <div className="relative z-10 box-border flex h-full flex-col justify-between p-4 text-white">
         <div>
           <span className="font-recoletaAlt text-base font-semibold text-yellow-200">
-            {topic}
+            {truncate(topic, { length: 24 })}
           </span>
-          <span className="mt-1 block w-[70%] font-mulish text-sm sm:mt-2 sm:w-3/5">
-            {description}
+          <span className="mt-1 block w-[65%] text-pretty font-mulish text-sm">
+            {truncate(description, { length: descriptionLength })}
           </span>
         </div>
 
         {isActionBtn && (
           <Link
             href="/"
-            className="mt-2 flex h-8 w-20 items-center justify-center rounded-full bg-blue font-mulish text-xs font-bold sm:mt-4 sm:h-9 sm:w-20 sm:text-sm"
+            className="flex h-8 w-20 items-center justify-center rounded-full bg-blue font-mulish text-xs font-bold sm:h-9 sm:w-20 sm:text-sm"
           >
             OPEN
           </Link>

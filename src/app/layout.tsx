@@ -4,6 +4,8 @@ import type { Metadata } from "next";
 import { Mulish } from "next/font/google";
 import localFont from "next/font/local";
 
+import Providers from "@/lib/Providers";
+
 const recoletaAlt = localFont({
   src: "../../public/assets/fonts/RecoletaAlt-SemiBold.woff",
   variable: "--font-recoletaAlt-semiBold",
@@ -31,7 +33,7 @@ export default function RootLayout({
       <body
         className={`${recoletaAlt.variable} ${mulish.variable} antialiased`}
       >
-        {children}
+        <Providers>{children}</Providers>
       </body>
     </html>
   );
