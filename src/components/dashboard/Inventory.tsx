@@ -3,23 +3,25 @@
 import { useInventory } from "@/hooks/useData";
 import useWindowWidth from "@/hooks/useWindowWidth";
 import { daysRemaining } from "@/lib/utils";
-import { useInventoryStore } from "@/store/useInventoryStore";
 
 import Card from "../shared/Card";
 import Container from "../shared/Container";
+import {
+  COUNT,
+  EVENT_STATUS,
+  PAGE_NO,
+  SEARCH_FOR,
+} from "@/constants/defaultParams";
 
 const colors = ["#d9ead5", "#d8dfe9", "#efe4ff", "#c4d4ff"];
 
 export default function Inventory() {
   const windowWidth = useWindowWidth();
-  const { pageNo, eventStatus, count, searchFor } = useInventoryStore(
-    (state) => state
-  );
   const { data = null, isLoading } = useInventory(
-    pageNo,
-    eventStatus,
-    count,
-    searchFor
+    PAGE_NO,
+    EVENT_STATUS,
+    COUNT,
+    SEARCH_FOR
   );
 
   const inventoryData = data?.data.inventories ?? [];

@@ -3,23 +3,25 @@
 import { useAssigned } from "@/hooks/useData";
 import useWindowWidth from "@/hooks/useWindowWidth";
 import { daysRemaining } from "@/lib/utils";
-import { useAssignedStore } from "@/store/useAssignedStore";
 
 import Card from "../shared/Card";
 import Container from "../shared/Container";
+import {
+  COUNT,
+  EVENT_STATUS,
+  PAGE_NO,
+  SEARCH_FOR,
+} from "@/constants/defaultParams";
 
-const colors = ["#c4d4ff", "#efe4ff", "#d9ead5", "#d8dfe9 "];
+const colors = ["#d8dfe9", "#c4d4ff", "#d9ead5", "#efe4ff"];
 
 export default function Assigned() {
   const windowWidth = useWindowWidth();
-  const { pageNo, eventStatus, count, searchFor } = useAssignedStore(
-    (state) => state
-  );
   const { data = null, isLoading } = useAssigned(
-    pageNo,
-    eventStatus,
-    count,
-    searchFor
+    PAGE_NO,
+    EVENT_STATUS,
+    COUNT,
+    SEARCH_FOR
   );
 
   const assignedData = data?.data.inventories ?? [];

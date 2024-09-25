@@ -1,4 +1,4 @@
-import { truncate } from "lodash";
+import { capitalize, truncate } from "lodash";
 import Image from "next/image";
 import Link from "next/link";
 import React from "react";
