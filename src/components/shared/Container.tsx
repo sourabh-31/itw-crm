@@ -38,8 +38,7 @@ export default function Container({
 }: ContainerPropsType) {
   // Custom swiper options
   const swiperOptions = {
-    speed: 2000,
-    spaceBetween: 20,
+    speed: 3000,
     cssMode: true,
   };
 
@@ -81,7 +80,7 @@ export default function Container({
               <SwiperSlide
                 // eslint-disable-next-line react/no-array-index-key
                 key={index}
-                className="mr-2 first:pl-4 sm:mr-6 sm:first:pl-0"
+                className="mr-2 first:pl-4 sm:mr-5 sm:first:pl-0"
               >
                 {child}
               </SwiperSlide>
