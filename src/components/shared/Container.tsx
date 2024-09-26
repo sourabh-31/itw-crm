@@ -112,6 +112,7 @@ export default function Container({
       <div className="mt-5 scroll-pl-10">
         {isSwiper ? (
           <Swiper
+            cssMode
             slidesPerView="auto"
             className="mySwiper"
             slidesOffsetBefore={windowWidth < 640 ? 20 : 0}

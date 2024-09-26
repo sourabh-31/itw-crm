@@ -81,14 +81,14 @@ const CardContent = ({
           {truncate(title, { length: titleLength })}
         </span>
         <div className="flex items-center gap-2 text-xs">
-          <div className="flex items-center gap-[2px] rounded-full bg-[#FF6161] px-2 py-[2px]">
+          <div className="flex items-center gap-px rounded-full bg-[#FF6161] px-2 py-[2px]">
             <Image
               src="/assets/svg/clock.svg"
               alt="clock"
               width={12}
               height={12}
             />
-            <span>{keyword1}</span>
+            <span className="text-nowrap">{keyword1}</span>
           </div>
           <span className="rounded-full bg-[#D5FF8E] px-2 py-[2px] text-primary-300">
             {keyword2}
@@ -143,7 +143,7 @@ const ActionLink = ({ icon, text, href }: ActionLinkProps) => {
   );
 };
 
-const Button = ({ children, hrefTo = "/", onClick }: ActionBtnProps) => {
+const Button = ({ children, onClick }: ActionBtnProps) => {
   return (
     <button
       type="button"

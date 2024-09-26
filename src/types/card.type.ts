@@ -34,6 +34,5 @@ export type ActionLinkProps = {
 
 export type ActionBtnProps = {
   children: ReactNode;
-  hrefTo?: string;
   onClick?: () => void;
 };
