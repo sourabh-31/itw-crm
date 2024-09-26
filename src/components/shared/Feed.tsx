@@ -120,7 +120,7 @@ export default function Feed({
 
         <Link
           href="/"
-          className="absolute right-2 top-1 ml-1 flex h-[28px] w-20 items-center justify-center rounded-[30px] border border-gray-light bg-primary-400 text-xs font-medium sm:right-[6px] sm:top-[2px] sm:h-[34px] sm:w-24 sm:text-sm"
+          className="absolute right-2 top-[2px] ml-1 flex h-[32px] w-[5.3rem] items-center justify-center rounded-[30px] border border-gray-light bg-primary-400 text-xs font-medium sm:right-[6px] sm:top-[2px] sm:h-[34px] sm:w-24 sm:text-sm"
         >
           {isBtnText ? (
             <div className="font-mulish">

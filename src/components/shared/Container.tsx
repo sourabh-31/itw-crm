@@ -5,8 +5,7 @@ import "swiper/css/free-mode";
 
 import Link from "next/link";
 import type { ReactNode } from "react";
-import React, { useEffect, useState } from "react";
-import { Autoplay, FreeMode } from "swiper/modules";
+import React from "react";
 import { Swiper, SwiperSlide } from "swiper/react";
 
 import { cn } from "@/lib/utils";
@@ -36,48 +35,13 @@ export default function Container({
   linkClassName,
   isEmpty = false,
   isSwiper = false,
-  autoplay = false,
 }: ContainerPropsType) {
-  const [windowWidth, setWindowWidth] = useState(0);
-
   // Custom swiper options
-  const swiperOptions = autoplay
-    ? {
-        modules: [FreeMode, Autoplay],
-        autoplay: {
-          delay: 0,
-          disableOnInteraction: false,
-        },
-        speed: windowWidth < 640 ? 3000 : 5000,
-        spaceBetween: 20,
-        freeMode: {
-          enabled: true,
-          momentum: true,
-        },
-        grabCursor: true,
-        cssMode: true,
-      }
-    : {
-        modules: [FreeMode],
-        spaceBetween: 20,
-        freeMode: {
-          enabled: true,
-          momentum: true,
-        },
-        grabCursor: true,
-      };
-
-  // Handle window resize
-  useEffect(() => {
-    const handleResize = () => {
-      setWindowWidth(window.innerWidth);
-    };
-    handleResize();
-    window.addEventListener("resize", handleResize);
-
-    // Remove event listener on cleanup
-    return () => window.removeEventListener("resize", handleResize);
-  }, []);
+  const swiperOptions = {
+    speed: 2000,
+    spaceBetween: 20,
+    cssMode: true,
+  };
 
   return (
     <div className={cn("rounded-3xl bg-primary-300 p-4", className)}>
@@ -110,18 +74,15 @@ export default function Container({
       </div>
 
       {/* Content */}
-      <div className="mt-5 scroll-pl-10">
+      <div className="mt-5">
         {isSwiper ? (
-          <Swiper
-            slidesPerView="auto"
-            className="mySwiper"
-            slidesOffsetBefore={windowWidth < 640 ? 20 : 0}
-            slidesOffsetAfter={windowWidth < 640 ? 20 : 0}
-            {...swiperOptions}
-          >
+          <Swiper className="mySwiper" slidesPerView="auto" {...swiperOptions}>
             {React.Children.map(children, (child, index) => (
-              // eslint-disable-next-line react/no-array-index-key
-              <SwiperSlide key={index} className="mr-2 sm:mr-6">
+              <SwiperSlide
+                // eslint-disable-next-line react/no-array-index-key
+                key={index}
+                className="mr-2 first:pl-4 sm:mr-6 sm:first:pl-0"
+              >
                 {child}
               </SwiperSlide>
             ))}

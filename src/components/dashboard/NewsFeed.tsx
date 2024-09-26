@@ -24,13 +24,15 @@ export default function NewsFeed() {
   return (
     <Container
       name="News Feed"
-      className="bg-transparent p-0 text-white sm:mx-6"
-      headingClassName="px-4 sm:px-0"
+      className="bg-transparent p-0 text-white sm:mx-4"
+      headingClassName="px-4 sm:px-2"
       linkClassName="font-normal"
-      isSwiper={windowWidth <= 640}
-      autoplay
+      isSwiper={windowWidth < 640}
     >
-      <div className="flex w-full flex-wrap sm:gap-[20px]" ref={containerRef}>
+      <div
+        className="flex w-full flex-wrap px-0 sm:gap-[20px] lg:px-2"
+        ref={containerRef}
+      >
         {!isMounted || isLoading ? (
           <FeedSkeleton />
         ) : (

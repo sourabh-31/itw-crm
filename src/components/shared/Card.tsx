@@ -19,7 +19,7 @@ const Card = ({ children, className, bgColor }: CardProps) => {
   return (
     <div
       className={cn(
-        "z-20 min-h-[380px] w-[300px] rounded-3xl p-3 sm:w-[330px]",
+        "relative z-20 min-h-[380px] w-[300px] rounded-3xl p-3 sm:w-[330px]",
         className
       )}
       style={{ backgroundColor: bgColor }}
@@ -148,7 +148,7 @@ const Button = ({ children, onClick }: ActionBtnProps) => {
     <button
       type="button"
       onClick={onClick}
-      className="absolute inset-x-0 bottom-2 mx-auto flex w-[95%] items-center justify-center rounded-full bg-blue p-3 font-mulish text-sm font-bold"
+      className="absolute inset-x-0 bottom-2 mx-auto flex w-[calc(100%-1.5rem)] items-center justify-center rounded-full bg-blue p-3 font-mulish text-sm font-bold"
     >
       {children}
     </button>

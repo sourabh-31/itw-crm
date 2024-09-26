@@ -29,7 +29,7 @@ export default function Assigned() {
   return (
     <Container
       name="Assigned for you"
-      className="mx-0 max-w-full overflow-x-hidden rounded-none bg-transparent p-0 text-white sm:mx-6 sm:rounded-3xl sm:bg-primary-300 sm:p-4 lg:mx-0"
+      className="mx-0 max-w-full overflow-x-hidden rounded-none bg-transparent p-0 text-white sm:mx-4 sm:rounded-3xl sm:bg-primary-300 sm:p-4 lg:mx-0"
       headingClassName="px-4 sm:px-0"
       accentBoxContent="BO"
       accentBoxClassName="bg-[#B6EAFF] text-[#000080]"

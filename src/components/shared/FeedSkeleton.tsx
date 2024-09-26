@@ -1,10 +1,10 @@
 export default function FeedSkeleton() {
   return (
-    <div className="relative ml-4 h-[166px] w-[327px] scale-90 transition-transform duration-300 ease-out sm:ml-0 sm:scale-100">
+    <div className="relative -ml-4 -mt-2 h-[160px] w-[327px] scale-90 transition-transform duration-300 ease-out sm:ml-0 sm:mt-[-2px] sm:h-[166px] sm:scale-100">
       <svg
         width={327}
         height={166}
-        viewBox="0 0 327 166"
+        viewBox="0 0 327 160"
         fill="none"
         xmlns="http://www.w3.org/2000/svg"
         className="absolute right-0 top-0"
@@ -32,7 +32,7 @@ export default function FeedSkeleton() {
 
         {/* Top right btn */}
 
-        <div className="blink-feed absolute right-[6px] top-[2px] ml-1 flex h-[34px] w-24 items-center justify-center rounded-[30px] border border-gray-light bg-primary-400" />
+        <div className="blink-feed absolute right-[6px] top-[4px] ml-1 flex h-[34px] w-24 items-center justify-center rounded-[30px] border border-gray-light bg-primary-400" />
       </div>
     </div>
   );
