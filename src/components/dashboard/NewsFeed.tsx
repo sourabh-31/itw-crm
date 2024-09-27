@@ -13,7 +13,7 @@ import FeedSkeleton from "../shared/FeedSkeleton";
 export default function NewsFeed() {
   const containerRef = useRef<HTMLDivElement | null>(null);
   const { data = null, isLoading } = useBrandsAndTeam();
-  const newsData = data?.news.slice(0, 4) ?? [];
+  const newsData = data?.news?.slice(0, 4) ?? [];
   const windowWidth = useWindowWidth();
   const { numOfFeedsToShow, isMounted } = useFeedsToShow(
     windowWidth,
@@ -37,8 +37,8 @@ export default function NewsFeed() {
           <FeedSkeleton />
         ) : (
           newsData
-            .slice(0, numOfFeedsToShow)
-            .map((data) => (
+            ?.slice(0, numOfFeedsToShow)
+            ?.map((data) => (
               <Feed
                 key={data.newsId}
                 topic={data.title}

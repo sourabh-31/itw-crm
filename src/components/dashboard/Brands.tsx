@@ -18,7 +18,7 @@ export default function Brands() {
     >
       {!isLoading ? (
         <div className="space-y-6">
-          {brandsData.slice(0, 4).map((data, index) => {
+          {brandsData?.slice(0, 4).map((data, index) => {
             const bgColor = colors[index % colors.length];
 
             return (

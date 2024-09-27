@@ -19,7 +19,7 @@ export default function Peoples() {
     >
       <div className="space-y-6">
         {!isLoading
-          ? teamData.slice(0, 4).map((data, index) => {
+          ? teamData?.slice(0, 4).map((data, index) => {
               const bgColor = colors[index % colors.length];
               return (
                 <Tiles

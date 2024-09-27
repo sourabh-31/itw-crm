@@ -24,7 +24,7 @@ export default function Assigned() {
     SEARCH_FOR
   );
 
-  const assignedData = data?.data.inventories ?? [];
+  const assignedData = data?.data?.inventories ?? [];
 
   return (
     <Container
@@ -44,7 +44,7 @@ export default function Assigned() {
                 <Card.Header icon={data.image} />
                 <Card.Name name={data.name} />
                 <div className="flex flex-col gap-4">
-                  {data.events.slice(0, 2).map((item) => (
+                  {data?.events?.slice(0, 2).map((item) => (
                     <div key={item.id}>
                       <Card.Content
                         title={item.name}
