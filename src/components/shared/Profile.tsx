@@ -7,8 +7,9 @@ import { roleCombiner } from "@/lib/utils";
 
 export default function Profile() {
   const { data = null, isLoading } = useProfile();
-
-  const userName = `${data?.firstName} ${data?.lastName}`;
+  const userName = data
+    ? `${data?.firstName} ${data?.lastName}`
+    : "Unidentified User";
   const roles = data?.roles;
 
   if (isLoading) {
@@ -29,7 +30,7 @@ export default function Profile() {
 
       <div className="flex flex-col">
         <span className="font-recoletaAlt text-sm text-white sm:text-lg">
-          {userName}
+          {userName ?? "User"}
         </span>
         <span className="font-mulish text-xs font-semibold text-[#909090] sm:text-base">
           {roleCombiner(roles ?? [])}

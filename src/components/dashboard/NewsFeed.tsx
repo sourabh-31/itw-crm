@@ -12,7 +12,7 @@ import FeedSkeleton from "../shared/FeedSkeleton";
 
 export default function NewsFeed() {
   const containerRef = useRef<HTMLDivElement | null>(null);
-  const { data = null, isLoading } = useBrandsAndTeam();
+  const { data = null, isLoading, isError } = useBrandsAndTeam();
   const newsData = data?.news?.slice(0, 4) ?? [];
   const windowWidth = useWindowWidth();
   const { numOfFeedsToShow, isMounted } = useFeedsToShow(
@@ -20,6 +20,8 @@ export default function NewsFeed() {
     newsData,
     containerRef
   );
+
+  if (isError) return null;
 
   return (
     <Container

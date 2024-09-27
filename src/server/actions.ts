@@ -13,7 +13,7 @@ export async function getProfileData() {
 
     return response.data;
   } catch (error) {
-    return { error };
+    throw new Error("Failed to fetch profile data");
   }
 }
 
@@ -30,7 +30,7 @@ export async function getBrandsAndTeamData() {
 
     return response.data;
   } catch (error) {
-    return { error };
+    throw new Error("Failed to fetch Brands and Team data");
   }
 }
 
@@ -52,7 +52,7 @@ export async function getInventoryData(
 
     return response.data;
   } catch (error) {
-    return { error };
+    throw new Error("Failed to fetch Inventory data");
   }
 }
 
@@ -74,6 +74,6 @@ export async function getAssignedData(
 
     return response.data;
   } catch (error) {
-    return { error };
+    throw new Error("Failed to fetch Assigned data");
   }
 }

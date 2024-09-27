@@ -17,12 +17,11 @@ const colors = ["#d8dfe9", "#c4d4ff", "#d9ead5", "#efe4ff"];
 
 export default function Assigned() {
   const windowWidth = useWindowWidth();
-  const { data = null, isLoading } = useAssigned(
-    PAGE_NO,
-    EVENT_STATUS,
-    COUNT,
-    SEARCH_FOR
-  );
+  const {
+    data = null,
+    isLoading,
+    isError,
+  } = useAssigned(PAGE_NO, EVENT_STATUS, COUNT, SEARCH_FOR);
 
   const assignedData = data?.data?.inventories ?? [];
 
@@ -36,31 +35,35 @@ export default function Assigned() {
       linkClassName="font-normal"
       isSwiper
     >
-      {!isLoading
-        ? assignedData.map((data, index) => {
-            const bgColor = colors[index % colors.length];
-            return (
-              <Card key={data.name} bgColor={bgColor}>
-                <Card.Header icon={data.image} />
-                <Card.Name name={data.name} />
-                <div className="flex flex-col gap-4">
-                  {data?.events?.slice(0, 2).map((item) => (
-                    <div key={item.id}>
-                      <Card.Content
-                        title={item.name}
-                        keyword1={daysRemaining(item.endDate)}
-                        keyword2={item.type}
-                        windowWidth={windowWidth}
-                      />
-                      <Card.Action name="inventory" />
-                    </div>
-                  ))}
-                </div>
-                <Card.Button>SHOW ALL EVENTS ({data.eventCount})</Card.Button>
-              </Card>
-            );
-          })
-        : null}
+      {!isLoading && !isError ? (
+        assignedData.map((data, index) => {
+          const bgColor = colors[index % colors.length];
+          return (
+            <Card key={data.name} bgColor={bgColor}>
+              <Card.Header icon={data.image} />
+              <Card.Name name={data.name} />
+              <div className="flex flex-col gap-4">
+                {data?.events?.slice(0, 2).map((item) => (
+                  <div key={item.id}>
+                    <Card.Content
+                      title={item.name}
+                      keyword1={daysRemaining(item.endDate)}
+                      keyword2={item.type}
+                      windowWidth={windowWidth}
+                    />
+                    <Card.Action name="inventory" />
+                  </div>
+                ))}
+              </div>
+              <Card.Button>SHOW ALL EVENTS ({data.eventCount})</Card.Button>
+            </Card>
+          );
+        })
+      ) : (
+        <div className="text-center font-mulish text-xl font-bold">
+          Assigned data not found
+        </div>
+      )}
     </Container>
   );
 }

@@ -1,6 +1,6 @@
 export default function FeedSkeleton() {
   return (
-    <div className="relative -ml-4 -mt-2 h-[160px] w-[327px] scale-90 transition-transform duration-300 ease-out sm:ml-0 sm:mt-[-2px] sm:h-[166px] sm:scale-100">
+    <div className="relative -mt-2 h-[160px] w-[327px] scale-90 transition-transform duration-300 ease-out sm:ml-0 sm:mt-[-2px] sm:h-[166px] sm:scale-100">
       <svg
         width={327}
         height={166}
@@ -23,11 +23,11 @@ export default function FeedSkeleton() {
         <div className="blink-feed flex h-[34px] w-32 items-center justify-center rounded border border-gray-light bg-primary-400" />
 
         <div className="flex justify-between">
-          <div className="blink-feed mt-8 flex h-12 w-40 items-center justify-center rounded-lg border border-gray-light bg-primary-400" />
+          <div className="blink-feed mt-8 flex h-14 w-40 items-center justify-center rounded-lg border border-gray-light bg-primary-400" />
 
           {/* Lottie container */}
 
-          <div className="blink-feed mt-8 flex h-12 w-20 items-center justify-center rounded-lg border border-gray-light bg-primary-400" />
+          <div className="blink-feed mt-9 flex h-12 w-20 items-center justify-center rounded-lg border border-gray-light bg-primary-400" />
         </div>
 
         {/* Top right btn */}

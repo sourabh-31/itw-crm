@@ -8,7 +8,7 @@ import Tiles from "../shared/Tiles";
 const colors = ["#d1d5dc", "#6800ff", "#ee7360", "#ffa300"];
 
 export default function Brands() {
-  const { data = null, isLoading } = useBrandsAndTeam();
+  const { data = null, isLoading, isError } = useBrandsAndTeam();
   const brandsData = data?.userBrands?.brands ?? [];
 
   return (
@@ -16,7 +16,7 @@ export default function Brands() {
       name={`Your Brands (${brandsData.length})`}
       className="mx-4 pb-6 text-white lg:mx-0"
     >
-      {!isLoading ? (
+      {!isLoading && !isError ? (
         <div className="space-y-6">
           {brandsData?.slice(0, 4).map((data, index) => {
             const bgColor = colors[index % colors.length];
@@ -35,7 +35,11 @@ export default function Brands() {
             );
           })}
         </div>
-      ) : null}
+      ) : (
+        <div className="text-center font-mulish text-lg font-bold">
+          Brands data not found
+        </div>
+      )}
     </Container>
   );
 }
