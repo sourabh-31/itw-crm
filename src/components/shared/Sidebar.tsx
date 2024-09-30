@@ -10,7 +10,7 @@ export default function Sidebar() {
   const pathname = usePathname();
 
   return (
-    <aside className="sidebar fixed left-0 top-1/4 hidden h-[calc(100vh-85px)] w-[120px] flex-col items-center gap-2 overflow-y-auto py-8 pb-20 sm:flex">
+    <aside className="sidebar fixed left-0 top-1/4 z-50 hidden h-[calc(100vh-85px)] w-[120px] flex-col items-center gap-2 overflow-y-auto py-8 pb-20 sm:flex">
       {SidebarData.map((data) => (
         <Link
           key={data.name}

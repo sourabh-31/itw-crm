@@ -20,19 +20,19 @@ export default function FeedSkeleton() {
       </svg>
 
       <div className="relative z-10 box-border flex size-full flex-col p-5 text-white">
-        <div className="blink-feed flex h-[34px] w-32 items-center justify-center rounded border border-gray-light bg-primary-400" />
+        <div className="shimmer-feed flex h-[32px] w-32 items-center justify-center rounded-full border border-gray-light bg-primary-400" />
 
         <div className="flex justify-between">
-          <div className="blink-feed mt-8 flex h-14 w-40 items-center justify-center rounded-lg border border-gray-light bg-primary-400" />
+          <div className="shimmer-feed mt-10 flex h-14 w-40 items-center justify-center rounded-xl border border-gray-light bg-primary-400" />
 
           {/* Lottie container */}
 
-          <div className="blink-feed mt-9 flex h-12 w-20 items-center justify-center rounded-lg border border-gray-light bg-primary-400" />
+          <div className="shimmer-feed mt-11 flex h-12 w-20 items-center justify-center rounded-xl border border-gray-light bg-primary-400" />
         </div>
 
         {/* Top right btn */}
 
-        <div className="blink-feed absolute right-[6px] top-[4px] ml-1 flex h-[34px] w-24 items-center justify-center rounded-[30px] border border-gray-light bg-primary-400" />
+        <div className="shimmer-feed absolute right-[6px] top-[4px] ml-1 flex h-[34px] w-24 items-center justify-center rounded-[30px] border border-gray-light bg-primary-400" />
       </div>
     </div>
   );

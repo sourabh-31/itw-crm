@@ -16,23 +16,17 @@
   --yellow-200: #ffe58e;
 }
 
-.noiseBg {
-  background: #000000
-    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 243 243'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='franctalNoise' baseFrequency='2.2' /%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.4' /%3E%3C/svg%3E");
-  background-size: 225px 225px;
-}
-
 .sidebar::-webkit-scrollbar {
   display: none;
 }
 
-/* Blinking Effect */
+/* Shimmer Effect */
 
-.blink-feed {
+.shimmer-feed {
   overflow: hidden;
 }
 
-.blink-feed::before {
+.shimmer-feed::before {
   content: "";
   background: rgba(255, 255, 255, 0.1);
   top: 0;
@@ -40,10 +34,10 @@
   height: 100%;
   width: 100%;
   opacity: 0;
-  animation: blink 2s infinite;
+  animation: shimmer 2s infinite;
 }
 
-@keyframes blink {
+@keyframes shimmer {
   0%,
   100% {
     opacity: 0;
@@ -53,6 +47,7 @@
   }
 }
 
+/* Custom swiper styles */
 .swiper {
   width: 100%;
   height: 100%;
@@ -60,4 +55,47 @@
 
 .swiper-slide {
   width: auto !important;
+}
+
+/* Ellipse styles */
+.ellipse {
+  position: fixed;
+  width: 1050px;
+  height: 1050px;
+  right: -200px;
+  top: 350px;
+  background: rgba(0, 43, 195, 0.4);
+  filter: blur(170px);
+  z-index: 30;
+}
+
+.react-flow__attribution {
+  display: none;
+}
+
+.react-flow {
+  --xy-edge-stroke-default: #ffffff33 !important
+;
+}
+
+.react-flow__controls-button {
+  background-color: #242632 !important;
+  color: white !important;
+  border: 1px solid #50515b !important;
+  height: 48px !important;
+  width: 48px !important;
+  border-radius: 50%;
+}
+
+.react-flow__controls-zoomin {
+  margin-top: 0.8rem;
+  margin-bottom: 0.7rem;
+}
+
+.react-flow__controls-zoomout {
+  margin-bottom: 0.7rem;
+}
+
+.react-flow__controls {
+  box-shadow: none !important;
 }

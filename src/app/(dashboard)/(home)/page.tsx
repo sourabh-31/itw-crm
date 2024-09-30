@@ -4,13 +4,13 @@ import {
   QueryClient,
 } from "@tanstack/react-query";
 
-import Assigned from "@/components/dashboard/Assigned";
-import Brands from "@/components/dashboard/Brands";
-import Inventory from "@/components/dashboard/Inventory";
-import NewsFeed from "@/components/dashboard/NewsFeed";
-import Peoples from "@/components/dashboard/Peoples";
-import Schedule from "@/components/dashboard/Schedule";
-import Tasks from "@/components/dashboard/Tasks";
+import Assigned from "@/components/home/Assigned";
+import Brands from "@/components/home/Brands";
+import Inventory from "@/components/home/Inventory";
+import NewsFeed from "@/components/home/NewsFeed";
+import Peoples from "@/components/home/Peoples";
+import Schedule from "@/components/home/Schedule";
+import Tasks from "@/components/home/Tasks";
 import {
   COUNT,
   EVENT_STATUS,
@@ -44,7 +44,7 @@ export default async function Home() {
   ]);
 
   return (
-    <section className="space-y-6 pb-5 sm:pt-5">
+    <section className="space-y-6 bg-foreground pb-5 sm:rounded-b-2xl sm:pt-5">
       {/* News Feed */}
 
       <HydrationBoundary state={dehydrate(queryClient)}>

@@ -1,19 +1,11 @@
-import CurrentSection from "@/components/dashboard/CurrentSection";
 import Bottombar from "@/components/shared/Bottombar";
+import CurrentSection from "@/components/shared/CurrentSection";
 import Header from "@/components/shared/Header";
+import NoiseOverlay from "@/components/shared/NoiseOverlay";
 import Sidebar from "@/components/shared/Sidebar";
 
-// Noise overlay component
-const NoiseOverlay = () => (
-  <div className="pointer-events-none fixed inset-0 z-50 min-h-screen opacity-20">
-    <svg xmlns="http://www.w3.org/2000/svg" width="100%" height="100%">
-      <filter id="noiseFilter">
-        <feTurbulence type="fractalNoise" baseFrequency="2.4" />
-      </filter>
-      <rect width="100%" height="100%" filter="url(#noiseFilter)" />
-    </svg>
-  </div>
-);
+// Blueish ellipse component
+const BlueEllipse = () => <div className="ellipse" />;
 
 // Dashboard layout component
 export default function Layout({
@@ -22,9 +14,8 @@ export default function Layout({
   children: React.ReactNode;
 }>) {
   return (
-    <section className="min-h-screen bg-black">
+    <section className="relative min-h-screen bg-black">
       {/* Hydrated header component */}
-
       <Header />
 
       <Sidebar />
@@ -33,12 +24,16 @@ export default function Layout({
       <Bottombar />
 
       {/* Main Dashboard Content */}
-      <main className="overflow-y-auto sm:ml-[100px] sm:p-6">
-        <div className="mb-28 mt-[5.5rem] min-h-[calc(100vh-85px)] bg-background sm:mb-0 sm:rounded-2xl sm:bg-foreground">
+      <main className="relative z-40 overflow-y-auto sm:ml-[100px] sm:p-6">
+        <div className="my-16 min-h-[calc(100vh-85px)] sm:mb-0 sm:mt-[5.5rem] sm:rounded-2xl">
           <CurrentSection />
           {children}
         </div>
       </main>
+
+      {/* Blue ellipse with actual styling */}
+      <BlueEllipse />
+
       <NoiseOverlay />
     </section>
   );

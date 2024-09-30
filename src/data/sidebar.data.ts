@@ -8,6 +8,12 @@ export const SidebarData: sidebarDataType[] = [
     link: "/",
   },
   {
+    name: "myBrands",
+    img: "/assets/svg/sidebar/people.svg",
+    imgAlt: "/assets/svg/sidebar/people-alt.svg",
+    link: "/my-brands",
+  },
+  {
     name: "event",
     img: "/assets/svg/sidebar/event.svg",
     imgAlt: "/assets/svg/sidebar/event-alt.svg",
@@ -24,12 +30,6 @@ export const SidebarData: sidebarDataType[] = [
     img: "/assets/svg/sidebar/message.svg",
     imgAlt: "/assets/svg/sidebar/message-alt.svg",
     link: "/message",
-  },
-  {
-    name: "people",
-    img: "/assets/svg/sidebar/people.svg",
-    imgAlt: "/assets/svg/sidebar/people-alt.svg",
-    link: "/people",
   },
   {
     name: "arrow",

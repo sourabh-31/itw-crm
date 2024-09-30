@@ -21,12 +21,12 @@ export default function NewsFeed() {
     containerRef
   );
 
-  if (isError) return null;
+  if (isError || !newsData.length) return null;
 
   return (
     <Container
       name="News Feed"
-      className="bg-transparent p-0 text-white sm:mx-4"
+      className="bg-transparent p-0 pt-4 text-white sm:mx-4 sm:pt-0"
       headingClassName="px-4 sm:px-2"
       linkClassName="font-normal"
       isSwiper={windowWidth < 640}
@@ -48,6 +48,7 @@ export default function NewsFeed() {
                 lottieSrc={data.imageUrl}
                 isBtnText={data.newsType === "GENERAL"}
                 isActionBtn={data.newsType === "CALENDAR"}
+                isBorder={data.newsType === "CALENDAR"}
               />
             ))
         )}
