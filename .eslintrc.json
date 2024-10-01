@@ -52,6 +52,7 @@
         ],
         "tailwindcss/no-custom-classname": ["off"],
         "import/no-extraneous-dependencies": "off",
+        "react/no-array-index-key": "off",
         "no-param-reassign": "off",
         "no-nested-ternary": "off",
         "consistent-return": "off",

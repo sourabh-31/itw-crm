@@ -16,6 +16,7 @@ export default function AddLocation() {
 
         <Select
           label="Manager"
+          name="manager"
           placeholder="Search manager"
           options={[
             { value: "Option 1", label: "Option 1" },

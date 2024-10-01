@@ -57,6 +57,7 @@ export default function AddPerson() {
 
         <Select
           label="Designation"
+          name="designation"
           placeholder="Select or add designation"
           options={[
             { value: "Marketing Manager", label: "Marketing Manager" },
@@ -78,6 +79,7 @@ export default function AddPerson() {
 
         <Select
           label="Location"
+          name="location"
           placeholder="Search and select location"
           options={[
             { value: "Bengaluru", label: "Bengaluru" },
@@ -94,6 +96,7 @@ export default function AddPerson() {
 
         <Select
           label="Manager"
+          name="manager"
           placeholder="Search person or department or location"
           options={[
             { value: "Option 1", label: "Option 1" },

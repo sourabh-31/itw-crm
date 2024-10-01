@@ -10,6 +10,7 @@ interface SelectOption {
 interface SelectProps {
   label: string;
   options: SelectOption[];
+  name: string;
   placeholder?: string;
   isInput?: boolean;
   iconSrc: string;
@@ -20,6 +21,7 @@ interface SelectProps {
 const Select: React.FC<SelectProps> = ({
   label,
   options,
+  name,
   placeholder = "Select an option",
   isInput = false,
   iconSrc,
@@ -81,7 +83,10 @@ const Select: React.FC<SelectProps> = ({
       </div>
 
       <div className="mr-1 w-full">
-        <label className="font-mulish text-sm font-bold text-[#FFFFFF99]">
+        <label
+          className="font-mulish text-sm font-bold text-[#FFFFFF99]"
+          htmlFor="name"
+        >
           {label}
           {isRequired && "*"}
         </label>
@@ -90,15 +95,17 @@ const Select: React.FC<SelectProps> = ({
             className="flex h-12 cursor-pointer items-center rounded-lg border border-[#b4b4b4] bg-[#292d38] px-3"
             onClick={handleToggleDropdown}
             onKeyDown={handleKeyDown}
-            tabIndex={0} // Allows focus with keyboard
-            role="button" // For screen readers, indicates the div acts like a button
-            aria-expanded={dropdownOpen} // Indicates if dropdown is open or closed
-            aria-haspopup="listbox" // Indicates the dropdown contains a list of selectable items
+            tabIndex={0}
+            role="button"
+            aria-expanded={dropdownOpen}
+            aria-haspopup="listbox"
           >
             {/* Input field if isInput is true */}
             {isInput ? (
               <input
                 type="text"
+                id={name}
+                name={name}
                 value={inputValue}
                 onChange={(e) => setInputValue(e.target.value)}
                 placeholder={placeholder}
@@ -117,6 +124,15 @@ const Select: React.FC<SelectProps> = ({
                 e.stopPropagation();
                 handleToggleDropdown();
               }}
+              onKeyDown={(e) => {
+                if (e.key === "Enter" || e.key === " ") {
+                  e.stopPropagation();
+                  handleToggleDropdown();
+                }
+              }}
+              tabIndex={0}
+              role="button"
+              aria-label="Toggle dropdown"
             >
               <CgChevronDown size={16} color="white" />
             </div>
@@ -142,9 +158,9 @@ const Select: React.FC<SelectProps> = ({
                         handleSelect(option);
                       }
                     }}
-                    tabIndex={0} // Makes each option focusable
-                    role="option" // Indicates this is a selectable option
-                    aria-selected={selectedOption?.value === option.value} // Indicates whether the option is selected
+                    tabIndex={0}
+                    role="option"
+                    aria-selected={selectedOption?.value === option.value}
                   >
                     <span className="font-mulish text-sm font-bold text-[#FFFFFF99]">
                       {option.label}
