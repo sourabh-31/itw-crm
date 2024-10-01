@@ -178,6 +178,9 @@ export default function OrgChart() {
           nodesDraggable={false}
           panOnDrag={isSpacePressed}
           panOnScroll
+          zoomOnDoubleClick={false}
+          maxZoom={1.5}
+          minZoom={0.35}
         >
           <Controls
             style={{ top: 0, right: 10, left: "auto", bottom: "auto" }}

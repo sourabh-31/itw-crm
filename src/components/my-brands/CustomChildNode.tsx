@@ -5,6 +5,10 @@ import Image from "next/image";
 import { useEffect, useState } from "react";
 import { IoIosMove, IoMdMore } from "react-icons/io";
 
+import { Menu } from "../shared/Menu";
+import Modal from "../shared/Modal";
+import { Sidebar } from "../shared/Sidebar";
+
 export type CustomChildNodeType = Node<{
   memberName: string;
   role: string;
@@ -56,7 +60,7 @@ export default function CustomChildNode(props: NodeProps<CustomChildNodeType>) {
         boxShadow,
         borderColor: "white",
         backgroundColor: "rgba(255, 255, 255, 0.08)",
-        transition: `box-shadow 0.25s ease-in-out`,
+        transition: `box-shadow 0.1s ease-in-out`,
       }}
       onMouseEnter={handleMouseEnter}
       onMouseLeave={handleMouseLeave}
@@ -126,21 +130,87 @@ export default function CustomChildNode(props: NodeProps<CustomChildNodeType>) {
           </button>
 
           {/* More icon */}
-          <button
-            type="button"
-            className="absolute -right-10 top-0 flex size-[30px] items-center justify-center rounded-full border border-[#50515B] bg-[#242632]"
-          >
-            <IoMdMore color="#ffffff" size={16} />
-          </button>
+          <div className="absolute -right-10 top-0">
+            <Menu>
+              <Menu.Trigger>
+                <button
+                  type="button"
+                  className="flex size-[30px] items-center justify-center rounded-full border border-[#50515B] bg-[#242632]"
+                >
+                  <IoMdMore color="#ffffff" size={16} />
+                </button>
+              </Menu.Trigger>
+              <Menu.Items position="left">
+                <Menu.Item
+                  imgSrc="/assets/svg/my-brands/eye.svg"
+                  btnName="View Info"
+                />
+                <Menu.Item
+                  imgSrc="/assets/svg/my-brands/pencil.svg"
+                  btnName="Edit role"
+                />
+                <Menu.Item
+                  imgSrc="/assets/svg/my-brands/note.svg"
+                  btnName="Add notes"
+                />
+                <div className="mx-[10px] mb-2 mt-[13px] border-b border-dashed border-[#00000033]" />
+                <Menu.Item
+                  imgSrc="/assets/svg/my-brands/move.svg"
+                  btnName="Move person"
+                />
+                <Modal>
+                  <Modal.Open opens="delete-person">
+                    <Menu.Item
+                      isDanger
+                      imgSrc="/assets/svg/my-brands/trash.svg"
+                      btnName="Delete person"
+                    />
+                  </Modal.Open>
+
+                  <Modal.Window name="delete-person">
+                    <div>Delete Person</div>
+                  </Modal.Window>
+                </Modal>
+              </Menu.Items>
+            </Menu>
+          </div>
 
           {/* Add icon */}
-          <button
-            type="button"
-            className="absolute bottom-0 left-1/2 flex size-[30px] items-center justify-center rounded-full border border-[#50515B] bg-[#242632]"
+          <div
+            className="absolute bottom-0 left-1/2"
             style={{ transform: "translate(-50%, 130%)" }}
           >
-            <Add size="16" color="#ffffff" />
-          </button>
+            <Menu>
+              <Menu.Trigger>
+                <button
+                  type="button"
+                  className="flex size-[30px] items-center justify-center rounded-full border border-[#50515B] bg-[#242632]"
+                >
+                  <Add size="16" color="#ffffff" />
+                </button>
+              </Menu.Trigger>
+              <Menu.Items position="bottom">
+                <Sidebar.Open opens="add-person">
+                  <Menu.Item
+                    imgSrc="/assets/svg/my-brands/user.svg"
+                    btnName="Person"
+                  />
+                </Sidebar.Open>
+                <Sidebar.Open opens="add-department">
+                  <Menu.Item
+                    imgSrc="/assets/svg/my-brands/department.svg"
+                    btnName="Department"
+                  />
+                </Sidebar.Open>
+                <Sidebar.Open opens="add-location">
+                  <Menu.Item
+                    imgSrc="/assets/svg/my-brands/location.svg"
+                    btnName="Location"
+                  />
+                </Sidebar.Open>
+              </Menu.Items>
+            </Menu>
+          </div>
         </>
       )}
 

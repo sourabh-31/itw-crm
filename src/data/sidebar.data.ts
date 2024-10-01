@@ -1,17 +1,17 @@
-import type { sidebarDataType } from "@/types/sidebar.type";
+import type { SidebarDataType } from "@/types/sidebar.type";
 
-export const SidebarData: sidebarDataType[] = [
+export const SidebarData: SidebarDataType[] = [
   {
-    name: "home",
+    name: "",
     img: "/assets/svg/sidebar/home.svg",
     imgAlt: "/assets/svg/sidebar/home-alt.svg",
     link: "/",
   },
   {
-    name: "myBrands",
+    name: "my-brands",
     img: "/assets/svg/sidebar/people.svg",
     imgAlt: "/assets/svg/sidebar/people-alt.svg",
-    link: "/my-brands",
+    link: "/my-brands/google-pvt-ltd",
   },
   {
     name: "event",

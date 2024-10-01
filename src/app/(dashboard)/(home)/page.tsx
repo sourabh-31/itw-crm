@@ -44,7 +44,10 @@ export default async function Home() {
   ]);
 
   return (
-    <section className="space-y-6 bg-foreground pb-5 sm:rounded-b-2xl sm:pt-5">
+    <section
+      className="space-y-6 bg-foreground pb-5 sm:rounded-b-2xl sm:pt-5"
+      style={{ zIndex: 3 }}
+    >
       {/* News Feed */}
 
       <HydrationBoundary state={dehydrate(queryClient)}>

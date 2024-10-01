@@ -97,7 +97,7 @@ export default function Feed({
       <div className="relative z-10 box-border flex h-full flex-col justify-between p-4 text-white">
         <div>
           <span className="font-recoletaAlt text-base font-semibold text-yellow-200">
-            {truncate(topic, { length: 24 })}
+            {truncate(topic, { length: 22 })}
           </span>
           <span className="mt-1 block w-[65%] text-pretty font-mulish text-sm">
             {truncate(description, { length: descriptionLength })}

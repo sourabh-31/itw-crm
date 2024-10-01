@@ -1,8 +1,8 @@
+import SidebarWindows from "@/components/my-brands/SidebarWindows";
 import Bottombar from "@/components/shared/Bottombar";
 import CurrentSection from "@/components/shared/CurrentSection";
 import Header from "@/components/shared/Header";
-import NoiseOverlay from "@/components/shared/NoiseOverlay";
-import Sidebar from "@/components/shared/Sidebar";
+import SideNav from "@/components/shared/SideNav";
 
 // Blueish ellipse component
 const BlueEllipse = () => <div className="ellipse" />;
@@ -18,23 +18,25 @@ export default function Layout({
       {/* Hydrated header component */}
       <Header />
 
-      <Sidebar />
+      <SideNav />
 
       {/* Sidebar for small screen size */}
       <Bottombar />
 
       {/* Main Dashboard Content */}
-      <main className="relative z-40 overflow-y-auto sm:ml-[100px] sm:p-6">
+      <main className="relative z-20 overflow-y-auto sm:ml-[100px] sm:p-6">
         <div className="my-16 min-h-[calc(100vh-85px)] sm:mb-0 sm:mt-[5.5rem] sm:rounded-2xl">
           <CurrentSection />
           {children}
         </div>
       </main>
 
+      <SidebarWindows />
+
       {/* Blue ellipse with actual styling */}
       <BlueEllipse />
 
-      <NoiseOverlay />
+      {/* <NoiseOverlay /> */}
     </section>
   );
 }

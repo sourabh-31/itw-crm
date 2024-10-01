@@ -7,12 +7,12 @@ import { usePathname } from "next/navigation";
 import React, { useEffect, useRef, useState } from "react";
 
 import { SidebarData } from "@/data/sidebar.data";
-import type { sidebarDataType } from "@/types/sidebar.type";
+import type { SidebarDataType } from "@/types/sidebar.type";
 
 export default function Bottombar() {
   const pathname = usePathname();
-  const [visibleItems, setVisibleItems] = useState<sidebarDataType[]>([]);
-  const [overflowItems, setOverflowItems] = useState<sidebarDataType[]>([]);
+  const [visibleItems, setVisibleItems] = useState<SidebarDataType[]>([]);
+  const [overflowItems, setOverflowItems] = useState<SidebarDataType[]>([]);
   const [showMore, setShowMore] = useState(false);
   const bottombarRef = useRef<HTMLElement | null>(null);
 
@@ -33,7 +33,7 @@ export default function Bottombar() {
     return () => window.removeEventListener("resize", handleResize);
   }, []);
 
-  const renderLink = (data: sidebarDataType) => (
+  const renderLink = (data: SidebarDataType) => (
     <Link
       key={data.name}
       href={data.link}
