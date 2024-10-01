@@ -40,7 +40,7 @@ export default function CurrentSection() {
         })}
       </div>
 
-      {currentRoute[0] === "my-brandss" && (
+      {pathname === "/my-brands/google-pvt-ltd/org-chart" && (
         <div className="flex items-center gap-3 sm:gap-4">
           <button
             className="flex size-10 items-center justify-center rounded-full border border-[#FFFFFF33] bg-[#242632] sm:size-12"
