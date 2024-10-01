@@ -6,7 +6,6 @@ import { useEffect, useState } from "react";
 import { IoIosMove, IoMdMore } from "react-icons/io";
 
 import { Menu } from "../shared/Menu";
-import Modal from "../shared/Modal";
 import { Sidebar } from "../shared/Sidebar";
 
 export type CustomChildNodeType = Node<{
@@ -158,19 +157,11 @@ export default function CustomChildNode(props: NodeProps<CustomChildNodeType>) {
                   imgSrc="/assets/svg/my-brands/move.svg"
                   btnName="Move person"
                 />
-                <Modal>
-                  <Modal.Open opens="delete-person">
-                    <Menu.Item
-                      isDanger
-                      imgSrc="/assets/svg/my-brands/trash.svg"
-                      btnName="Delete person"
-                    />
-                  </Modal.Open>
-
-                  <Modal.Window name="delete-person">
-                    <div>Delete Person</div>
-                  </Modal.Window>
-                </Modal>
+                <Menu.Item
+                  isDanger
+                  imgSrc="/assets/svg/my-brands/trash.svg"
+                  btnName="Delete person"
+                />
               </Menu.Items>
             </Menu>
           </div>

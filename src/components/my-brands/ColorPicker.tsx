@@ -35,7 +35,8 @@ const ColorPicker = () => {
       <div className="mt-1 flex flex-wrap justify-between">
         {colors.map((color, index) => (
           <button
-            key={index}
+            type="button"
+            key={color}
             className={`flex size-7 items-center justify-center rounded-lg transition-all duration-200 focus:outline-none sm:size-10 ${
               selectedColor === color ? "scale-110 ring-2 ring-white" : ""
             }`}
@@ -46,6 +47,7 @@ const ColorPicker = () => {
           </button>
         ))}
         <button
+          type="button"
           className={`flex size-7 items-center justify-center rounded-lg bg-gray-700 transition-all duration-200 focus:outline-none sm:size-10 ${
             selectedColor === null ? "scale-110 ring-2 ring-white" : ""
           }`}

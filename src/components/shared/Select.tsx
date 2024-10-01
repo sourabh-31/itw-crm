@@ -61,6 +61,13 @@ const Select: React.FC<SelectProps> = ({
     setDropdownOpen((prev) => !prev);
   };
 
+  // Handle keyboard interaction
+  const handleKeyDown = (e: React.KeyboardEvent) => {
+    if (e.key === "Enter" || e.key === " ") {
+      setDropdownOpen((prev) => !prev);
+    }
+  };
+
   // Filtered options for when `isInput` is true
   const filteredOptions = options.filter(
     (option) =>
@@ -82,6 +89,11 @@ const Select: React.FC<SelectProps> = ({
           <div
             className="flex h-12 cursor-pointer items-center rounded-lg border border-[#b4b4b4] bg-[#292d38] px-3"
             onClick={handleToggleDropdown}
+            onKeyDown={handleKeyDown}
+            tabIndex={0} // Allows focus with keyboard
+            role="button" // For screen readers, indicates the div acts like a button
+            aria-expanded={dropdownOpen} // Indicates if dropdown is open or closed
+            aria-haspopup="listbox" // Indicates the dropdown contains a list of selectable items
           >
             {/* Input field if isInput is true */}
             {isInput ? (
@@ -115,6 +127,9 @@ const Select: React.FC<SelectProps> = ({
             <div
               ref={dropdownRef}
               className="absolute z-10 mt-1 w-full rounded-lg border border-[#b4b4b4] bg-[#20222E]"
+              role="listbox"
+              aria-activedescendant={selectedOption?.value || ""}
+              tabIndex={-1} // Makes the dropdown focusable
             >
               {filteredOptions.length > 0 ? (
                 filteredOptions.map((option) => (
@@ -122,6 +137,14 @@ const Select: React.FC<SelectProps> = ({
                     key={option.value}
                     className="flex cursor-pointer items-center rounded-lg p-3 hover:bg-[#292d38]"
                     onClick={() => handleSelect(option)}
+                    onKeyDown={(e) => {
+                      if (e.key === "Enter" || e.key === " ") {
+                        handleSelect(option);
+                      }
+                    }}
+                    tabIndex={0} // Makes each option focusable
+                    role="option" // Indicates this is a selectable option
+                    aria-selected={selectedOption?.value === option.value} // Indicates whether the option is selected
                   >
                     <span className="font-mulish text-sm font-bold text-[#FFFFFF99]">
                       {option.label}

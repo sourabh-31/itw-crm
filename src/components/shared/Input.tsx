@@ -113,6 +113,14 @@ function InputContent({
             <div
               className="flex h-12 cursor-pointer items-center rounded-l-lg border border-r-0 border-[#b4b4b4] bg-[#20222E] px-3"
               onClick={() => setDropdownOpen(!dropdownOpen)}
+              onKeyDown={(e) => {
+                if (e.key === "Enter" || e.key === " ") {
+                  setDropdownOpen(!dropdownOpen);
+                }
+              }}
+              tabIndex={0} // Makes the div focusable with keyboard
+              role="button" // Indicates this div acts as a button
+              aria-expanded={dropdownOpen} // For accessibility, indicates dropdown state
             >
               {selectedPrefix && (
                 <div className="flex w-16 items-center">
@@ -145,6 +153,14 @@ function InputContent({
                     key={option.value}
                     className="flex cursor-pointer items-center rounded-lg px-3 py-2 hover:bg-[#292d38]"
                     onClick={() => handleSelect(option)}
+                    onKeyDown={(e) => {
+                      if (e.key === "Enter" || e.key === " ") {
+                        handleSelect(option);
+                      }
+                    }}
+                    tabIndex={0} // Makes the div focusable with keyboard
+                    role="option" // Indicates this is an option in a list
+                    aria-selected={selectedPrefix?.value === option.value}
                   >
                     <Image
                       src={option.iconSrc}
