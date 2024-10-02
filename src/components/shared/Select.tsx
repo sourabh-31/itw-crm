@@ -13,7 +13,7 @@ interface SelectProps {
   name: string;
   placeholder?: string;
   isInput?: boolean;
-  iconSrc: string;
+  iconSrc?: string;
   onChange?: (value: string) => void;
   isRequired?: boolean;
 }
@@ -78,9 +78,11 @@ const Select: React.FC<SelectProps> = ({
 
   return (
     <div className="mb-6 flex items-center gap-3">
-      <div className="mt-4">
-        <Image src={iconSrc} alt="select-icon" width={22} height={22} />
-      </div>
+      {iconSrc ? (
+        <div className="mt-4">
+          <Image src={iconSrc} alt="select-icon" width={22} height={22} />
+        </div>
+      ) : null}
 
       <div className="mr-1 w-full">
         <label

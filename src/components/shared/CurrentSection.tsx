@@ -24,14 +24,14 @@ export default function CurrentSection() {
   );
 
   return (
-    <header className="flex h-16 items-center justify-between border-b border-gray-light bg-foreground px-4 font-recoletaAlt text-lg text-white sm:h-[4.5rem] sm:rounded-t-2xl sm:px-6 sm:text-xl xl:text-2xl">
+    <header className="flex h-16 items-center justify-between border-b border-gray-light bg-foreground px-4 font-recoletaAlt text-lg text-white sm:h-[4.5rem] sm:rounded-t-2xl sm:px-6 lg:text-xl">
       <div className="flex items-center gap-1">
         {capitalizedRoutes.map((route, index) => {
           const isLast = index === capitalizedRoutes.length - 1;
           return (
             <span
               key={index}
-              className={`${isLast ? "text-white" : "text-[#FFFFFF99]"}`}
+              className={`sm: ${isLast ? "text-white" : "text-[#FFFFFF99]"}`}
             >
               {route}
               {!isLast && " / "}

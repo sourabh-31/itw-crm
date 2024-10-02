@@ -140,10 +140,12 @@ export default function CustomChildNode(props: NodeProps<CustomChildNodeType>) {
                 </button>
               </Menu.Trigger>
               <Menu.Items position="left">
-                <Menu.Item
-                  imgSrc="/assets/svg/my-brands/eye.svg"
-                  btnName="View Info"
-                />
+                <Sidebar.Open opens="people-details">
+                  <Menu.Item
+                    imgSrc="/assets/svg/my-brands/eye.svg"
+                    btnName="View Info"
+                  />
+                </Sidebar.Open>
                 <Menu.Item
                   imgSrc="/assets/svg/my-brands/pencil.svg"
                   btnName="Edit role"

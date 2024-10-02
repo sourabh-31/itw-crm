@@ -8,6 +8,7 @@ import React, {
   useState,
 } from "react";
 
+import { cn } from "@/lib/utils";
 import type {
   OpenProps,
   SidebarContextType,
@@ -28,14 +29,10 @@ function Sidebar({ children }: SidebarProps) {
   // Lock the body scroll when the sidebar is opened
   useEffect(() => {
     if (openName) {
-      // Disable scroll on the body
       document.body.classList.add("overflow-hidden");
     } else {
-      // Enable scroll on the body
       document.body.classList.remove("overflow-hidden");
     }
-
-    // Cleanup when component unmounts
     return () => {
       document.body.classList.remove("overflow-hidden");
     };
@@ -74,7 +71,17 @@ function Open({ children, opens: opensWindowName }: OpenProps) {
 }
 
 // Sidebar Window Component
-function Window({ children, name }: WindowProps) {
+function Window({
+  children,
+  name,
+  title,
+  subText,
+  isFooter,
+  icon1 = "/assets/svg/my-brands/trash-white.svg",
+  icon2 = "/assets/svg/my-brands/question-mark.svg",
+  isBorderedIcon,
+  className,
+}: WindowProps) {
   const { openName, close } = useSidebar();
 
   if (name !== openName) return null;
@@ -82,7 +89,12 @@ function Window({ children, name }: WindowProps) {
   return (
     <aside className="fixed inset-0 z-50 flex justify-end">
       <div className="grow bg-slate-800 opacity-50" />
-      <div className="flex h-full w-[22rem] flex-col bg-[#292D38] sm:w-[30rem] xl:w-[32rem] 2xl:w-[34rem]">
+      <div
+        className={cn(
+          "flex h-full flex-col bg-[#292D38]",
+          className || "w-[22rem] sm:w-[30rem] xl:w-[32rem] 2xl:w-[34rem]"
+        )}
+      >
         {/* Sidebar header - fixed */}
         <div className="shrink-0 border-b border-gray-dark p-5">
           <div className="flex items-center justify-between">
@@ -92,28 +104,39 @@ function Window({ children, name }: WindowProps) {
                 <ArrowLeft size="24" color="#ffffff" />
               </button>
               <div className="flex flex-col gap-[px] text-white">
-                <span className="font-recoletaAlt text-xl">Add New</span>
-                <span className="font-mulish text-sm">
-                  Google Search Private Limited
-                </span>
+                <span className="font-recoletaAlt text-xl">{title}</span>
+                <span className="font-mulish text-sm">{subText}</span>
               </div>
             </div>
 
             {/* Util icons */}
-            <div className="flex items-center gap-5">
-              <Image
-                src="/assets/svg/my-brands/trash-white.svg"
-                alt="trash-icon"
-                width={24}
-                height={24}
-              />
-              <Image
-                src="/assets/svg/my-brands/question-mark.svg"
-                alt="question-mark-icon"
-                width={24}
-                height={24}
-              />
-            </div>
+            {isBorderedIcon ? (
+              <div className="flex items-center gap-5">
+                <div className="flex size-11 items-center justify-center rounded-full border border-[#50515B] bg-[#242632] sm:size-12">
+                  <Image
+                    src={icon1}
+                    alt="icon1"
+                    width={24}
+                    height={24}
+                    className="size-[18px] sm:size-[24px]"
+                  />
+                </div>
+                <div className="flex size-11 items-center justify-center rounded-full border border-[#50515B] bg-[#242632] sm:size-12">
+                  <Image
+                    src={icon2}
+                    alt="icon2"
+                    width={24}
+                    height={24}
+                    className="size-[18px] sm:size-[24px]"
+                  />
+                </div>
+              </div>
+            ) : (
+              <div className="flex items-center gap-5">
+                <Image src={icon1} alt="icon1" width={24} height={24} />
+                <Image src={icon2} alt="icon2" width={24} height={24} />
+              </div>
+            )}
           </div>
         </div>
 
@@ -123,20 +146,22 @@ function Window({ children, name }: WindowProps) {
         </div>
 
         {/* Sidebar footer - fixed */}
-        <div className="flex shrink-0 items-center gap-5 border-t border-gray-dark p-4 font-mulish text-sm font-bold">
-          <button
-            type="button"
-            className="w-1/2 rounded-full bg-white py-[10px]"
-          >
-            CANCEL
-          </button>
-          <button
-            type="button"
-            className="w-1/2 rounded-full bg-[#0094FF] py-[10px] text-white"
-          >
-            SAVE
-          </button>
-        </div>
+        {isFooter ? (
+          <div className="flex shrink-0 items-center gap-5 border-t border-gray-dark p-4 font-mulish text-sm font-bold">
+            <button
+              type="button"
+              className="w-1/2 rounded-full bg-white py-[10px]"
+            >
+              CANCEL
+            </button>
+            <button
+              type="button"
+              className="w-1/2 rounded-full bg-[#0094FF] py-[10px] text-white"
+            >
+              SAVE
+            </button>
+          </div>
+        ) : null}
       </div>
     </aside>
   );
