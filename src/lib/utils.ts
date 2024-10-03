@@ -31,3 +31,34 @@ export function daysRemaining(endDate: string): string {
 
   return `in ${diffInDays} days`;
 }
+
+const generateUniqueId = () => {
+  const timestamp = new Date().getTime();
+  const randomPart = Math.random().toString(36).substring(2, 15);
+  return `${timestamp}-${randomPart}`;
+};
+
+const generateDeviceId = () => {
+  const storedId = localStorage.getItem("deviceId");
+  if (storedId) {
+    return storedId;
+  }
+
+  const newId = generateUniqueId();
+  localStorage.setItem("deviceId", newId);
+  return newId;
+};
+
+export const getDeviceFingerprint = async () => {
+  const deviceId = generateDeviceId();
+  const { colorDepth } = window.screen;
+  const pixelRatio = window.devicePixelRatio;
+  const { platform } = navigator;
+  const { userAgent } = navigator;
+  const { language } = navigator;
+  const { hardwareConcurrency } = navigator;
+  const timezone = Intl.DateTimeFormat().resolvedOptions().timeZone;
+
+  const fingerprint = `${deviceId}|${colorDepth}|${pixelRatio}|${platform}|${language}|${hardwareConcurrency}|${timezone}|${userAgent}`;
+  return btoa(fingerprint);
+};

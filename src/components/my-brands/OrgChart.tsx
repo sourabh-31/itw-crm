@@ -2,60 +2,33 @@
 
 import "@xyflow/react/dist/style.css";
 
+import type { Edge, EdgeChange, Node, NodeChange } from "@xyflow/react";
 import {
   applyEdgeChanges,
   applyNodeChanges,
   Controls,
   ReactFlow,
 } from "@xyflow/react";
-import { useCallback, useEffect, useRef, useState } from "react";
+import dagre from "dagre";
+import { useEffect, useState } from "react";
 
 import CustomChildNode from "./CustomChildNode";
 import CustomMainNode from "./CustomMainNode";
 import CustomSmallNode from "./CustomSmallNode";
 import CustomSmoothEdge from "./CustomSmoothEdge";
 
-// Recursive function to calculate positions and build tree
-const calculatePositions = (
-  tree: Record<string, string[]>,
-  nodeId: string,
-  x: number,
-  y: number,
-  vSpace: number,
-  hSpace: number
-): { positions: Record<string, { x: number; y: number }>; width: number } => {
-  const children = tree[nodeId] || [];
-  if (!children.length)
-    return { positions: { [nodeId]: { x, y } }, width: hSpace };
+interface NodeDimension {
+  width?: number;
+  height?: number;
+}
 
-  let totalWidth = 0;
-  let positions: Record<string, { x: number; y: number }> = {};
-
-  children.forEach((childId) => {
-    const { positions: childPos, width: childWidth } = calculatePositions(
-      tree,
-      childId,
-      x + totalWidth,
-      y + vSpace,
-      vSpace,
-      hSpace
-    );
-    positions = { ...positions, ...childPos };
-    totalWidth += childWidth;
-  });
-
-  positions[nodeId] = { x: x + totalWidth / 2 - hSpace / 2 - 7.5, y };
-  return { positions, width: totalWidth };
-};
-
-const initialMainNode = {
-  id: "1",
-  data: { label: "Main" },
-  position: { x: 0, y: 0 },
-  type: "customMainNode",
-};
-
-const initialChildNodes = [
+const initialNodes: Node[] = [
+  {
+    id: "1",
+    data: { label: "Main" },
+    position: { x: 0, y: 0 },
+    type: "customMainNode",
+  },
   {
     id: "2",
     data: {
@@ -63,8 +36,7 @@ const initialChildNodes = [
       role: "Market Ops - Manager L1",
       location: "Bengaluru",
       imgSrc: "/assets/png/member1.png",
-      isStarred: false,
-      isUtils: false,
+      dimensions: { width: 300, height: 150 },
     },
     position: { x: 0, y: 0 },
     type: "customChildNode",
@@ -76,8 +48,7 @@ const initialChildNodes = [
       role: "Chief Marketing Officer",
       location: "Bengaluru",
       imgSrc: "/assets/png/member2.png",
-      isStarred: false,
-      isUtils: false,
+      dimensions: { width: 300, height: 150 },
     },
     position: { x: 0, y: 0 },
     type: "customChildNode",
@@ -89,8 +60,7 @@ const initialChildNodes = [
       role: "Business Development - Manager L1",
       location: "Bengaluru",
       imgSrc: "/assets/png/member3.png",
-      isStarred: true,
-      isUtils: true,
+      dimensions: { width: 300, height: 150 },
     },
     position: { x: 0, y: 0 },
     type: "customChildNode",
@@ -102,86 +72,83 @@ const initialChildNodes = [
       role: "Business Development - Manager L1",
       location: "Bengaluru",
       imgSrc: "/assets/png/member3.png",
-      isStarred: false,
+      dimensions: { width: 300, height: 70 },
     },
     position: { x: 0, y: 0 },
     type: "customSmallNode",
   },
-  {
-    id: "6",
-    data: {
-      memberName: "Aravind Anbu",
-      role: "Business Development - Manager L1",
-      location: "Bengaluru",
-      imgSrc: "/assets/png/member3.png",
-      isStarred: false,
-      isUtils: false,
-    },
-    position: { x: 0, y: 0 },
-    type: "customChildNode",
-  },
 ];
 
-const initialEdges = [
+const initialEdges: Edge[] = [
   { id: "1-2", source: "1", target: "2" },
   { id: "1-3", source: "1", target: "3" },
   { id: "1-4", source: "1", target: "4" },
-  { id: "4-5", source: "4", target: "5" },
-  { id: "4-6", source: "4", target: "6" },
+  { id: "3-5", source: "3", target: "5" },
 ];
 
+// Function to calculate the layout using Dagre.js
+const getLayoutedElements = (
+  nodes: Node[],
+  edges: Edge[]
+): { layoutedNodes: Node[] } => {
+  const dagreGraph = new dagre.graphlib.Graph();
+  dagreGraph.setDefaultEdgeLabel(() => ({}));
+  dagreGraph.setGraph({ rankdir: "TB" });
+
+  // Configure node dimensions
+  nodes.forEach((node) => {
+    const { width = 300, height = 150 }: NodeDimension =
+      node.data?.dimensions || {};
+    dagreGraph.setNode(node.id, { width, height });
+  });
+
+  // Add edges to Dagre graph
+  edges.forEach(({ source, target }) => {
+    dagreGraph.setEdge(source, target);
+  });
+
+  dagre.layout(dagreGraph);
+
+  // Return nodes with updated positions
+  return {
+    layoutedNodes: nodes.map((node) => {
+      const position = dagreGraph.node(node.id);
+      return {
+        ...node,
+        position: { x: position.x, y: position.y },
+        style: {
+          ...node.style,
+          width: position.width,
+          height: position.height,
+        },
+      };
+    }),
+  };
+};
+
 export default function OrgChart() {
-  const [nodes, setNodes] = useState([initialMainNode, ...initialChildNodes]);
-  const [edges, setEdges] = useState(initialEdges);
+  const [nodes, setNodes] = useState<Node[]>(initialNodes);
+  const [edges, setEdges] = useState<Edge[]>(initialEdges);
   const [isSpacePressed, setIsSpacePressed] = useState(false);
-  const lastPositions = useRef<Record<string, { x: number; y: number }> | null>(
-    null
-  );
 
-  // Update node positions
-  const updateNodePositions = useCallback(() => {
-    const tree = edges.reduce(
-      (acc, { source, target }) => {
-        acc[source] = [...(acc[source] || []), target];
-        return acc;
-      },
-      {} as Record<string, string[]>
-    );
-    const { positions } = calculatePositions(tree, "1", 0, 0, 200, 350);
-
-    if (JSON.stringify(positions) !== JSON.stringify(lastPositions.current)) {
-      lastPositions.current = positions;
-      setNodes((nodes) =>
-        nodes.map((node) => ({
-          ...node,
-          position: positions[node.id] || node.position,
-        }))
-      );
-    }
-  }, [edges]);
-
-  useEffect(updateNodePositions, [updateNodePositions]);
-
-  // Handle spacebar press
+  // Apply layout on nodes and edges whenever the nodes/edges length changes
   useEffect(() => {
-    const handleKeyDown = (event: KeyboardEvent) => {
-      if (event.code === "Space") {
-        setIsSpacePressed(true);
-      }
+    const { layoutedNodes } = getLayoutedElements(nodes, edges);
+    setNodes(layoutedNodes);
+  }, [nodes.length, edges.length]);
+
+  // Handle spacebar press for panning
+  useEffect(() => {
+    const handleKey = ({ code }: KeyboardEvent) => {
+      if (code === "Space") setIsSpacePressed((prev) => !prev);
     };
 
-    const handleKeyUp = (event: KeyboardEvent) => {
-      if (event.code === "Space") {
-        setIsSpacePressed(false);
-      }
-    };
-
-    window.addEventListener("keydown", handleKeyDown);
-    window.addEventListener("keyup", handleKeyUp);
+    window.addEventListener("keydown", handleKey);
+    window.addEventListener("keyup", handleKey);
 
     return () => {
-      window.removeEventListener("keydown", handleKeyDown);
-      window.removeEventListener("keyup", handleKeyUp);
+      window.removeEventListener("keydown", handleKey);
+      window.removeEventListener("keyup", handleKey);
     };
   }, []);
 
@@ -191,10 +158,10 @@ export default function OrgChart() {
         <ReactFlow
           nodes={nodes}
           edges={edges}
-          onNodesChange={(changes) =>
+          onNodesChange={(changes: NodeChange[]) =>
             setNodes((nds) => applyNodeChanges(changes, nds))
           }
-          onEdgesChange={(changes) =>
+          onEdgesChange={(changes: EdgeChange[]) =>
             setEdges((eds) => applyEdgeChanges(changes, eds))
           }
           fitView

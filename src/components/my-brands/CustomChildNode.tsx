@@ -56,7 +56,7 @@ export default function CustomChildNode(props: NodeProps<CustomChildNodeType>) {
 
   return (
     <div
-      className="relative h-[110px] w-[220px] rounded-[10px] border-t-[3px]"
+      className="relative mx-auto h-[110px] w-[220px] rounded-[10px] border-t-[3px]"
       style={{
         boxShadow,
         borderColor: "white",
@@ -123,12 +123,14 @@ export default function CustomChildNode(props: NodeProps<CustomChildNodeType>) {
       {showIcons && (
         <>
           {/* Move icon */}
-          <button
-            type="button"
-            className="absolute -left-10 top-0 flex size-[30px] items-center justify-center rounded-full border border-[#50515B] bg-[#242632]"
-          >
-            <IoIosMove color="#ffffff" size={16} />
-          </button>
+          <Modal.Open opens="move-person">
+            <button
+              type="button"
+              className="absolute -left-10 top-0 flex size-[30px] items-center justify-center rounded-full border border-[#50515B] bg-[#242632]"
+            >
+              <IoIosMove color="#ffffff" size={16} />
+            </button>
+          </Modal.Open>
 
           {/* More icon */}
           <div className="absolute -right-10 top-0">
@@ -157,11 +159,13 @@ export default function CustomChildNode(props: NodeProps<CustomChildNodeType>) {
                   btnName="Add notes"
                 />
                 <div className="mx-[10px] mb-2 mt-[13px] border-b border-dashed border-[#00000033]" />
-                <Menu.Item
-                  imgSrc="/assets/svg/my-brands/move.svg"
-                  btnName="Move person"
-                />
-                <Modal.Open opens="delete-user">
+                <Modal.Open opens="move-person">
+                  <Menu.Item
+                    imgSrc="/assets/svg/my-brands/move.svg"
+                    btnName="Move person"
+                  />
+                </Modal.Open>
+                <Modal.Open opens="delete-person">
                   <Menu.Item
                     isDanger
                     imgSrc="/assets/svg/my-brands/trash.svg"

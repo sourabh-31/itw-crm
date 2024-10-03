@@ -8,7 +8,7 @@ export type CustomMainNodeType = Node<{
 
 export default function CustomSmallNode(props: NodeProps<CustomMainNodeType>) {
   return (
-    <div className="relative h-[40px] w-[173px] rounded-full bg-[#B1D0A5]">
+    <div className="relative mx-auto h-[40px] w-[173px] rounded-full bg-[#B1D0A5]">
       {/* Org details */}
       <div className="relative top-[6px] flex flex-col items-center justify-center font-recoletaAlt text-[14px] text-black">
         Marketing

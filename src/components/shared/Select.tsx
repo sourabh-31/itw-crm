@@ -2,6 +2,8 @@ import Image from "next/image";
 import React, { useEffect, useRef, useState } from "react";
 import { CgChevronDown } from "react-icons/cg";
 
+import { cn } from "@/lib/utils";
+
 interface SelectOption {
   value: string;
   label: string;
@@ -11,6 +13,7 @@ interface SelectProps {
   label: string;
   options: SelectOption[];
   name: string;
+  className?: string;
   placeholder?: string;
   isInput?: boolean;
   iconSrc?: string;
@@ -22,6 +25,7 @@ const Select: React.FC<SelectProps> = ({
   label,
   options,
   name,
+  className,
   placeholder = "Select an option",
   isInput = false,
   iconSrc,
@@ -94,7 +98,10 @@ const Select: React.FC<SelectProps> = ({
         </label>
         <div className="relative mt-[2px]">
           <div
-            className="flex h-12 cursor-pointer items-center rounded-lg border border-[#b4b4b4] bg-[#292d38] px-3"
+            className={cn(
+              "flex h-12 cursor-pointer items-center rounded-lg border border-[#b4b4b4] bg-[#292d38] px-3",
+              className
+            )}
             onClick={handleToggleDropdown}
             onKeyDown={handleKeyDown}
             tabIndex={0}

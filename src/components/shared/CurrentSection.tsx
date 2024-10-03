@@ -24,7 +24,7 @@ export default function CurrentSection() {
   );
 
   return (
-    <header className="flex h-16 items-center justify-between border-b border-gray-light bg-foreground px-4 font-recoletaAlt text-lg text-white sm:h-[4.5rem] sm:rounded-t-2xl sm:px-6 lg:text-xl">
+    <header className="noiseBgSec flex h-16 items-center justify-between border-b border-gray-light bg-foreground px-4 font-recoletaAlt text-lg text-white sm:h-[4.5rem] sm:rounded-t-2xl sm:px-6 lg:text-xl">
       <div className="flex items-center gap-1">
         {capitalizedRoutes.map((route, index) => {
           const isLast = index === capitalizedRoutes.length - 1;
@@ -53,6 +53,14 @@ export default function CurrentSection() {
               alt="clock"
               className="size-4 sm:size-5"
             />
+          </button>
+
+          {/* How this works btn */}
+          <button
+            className="h-10 w-32 rounded-full bg-[#FFFFFF] font-mulish text-sm font-bold text-black sm:h-[50px] sm:w-[200px]"
+            type="button"
+          >
+            HOW THIS WORKS?
           </button>
 
           <Menu>

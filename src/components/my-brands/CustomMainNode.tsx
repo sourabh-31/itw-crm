@@ -9,7 +9,7 @@ export type CustomMainNodeType = Node<{
 export default function CustomChildNode(props: NodeProps<CustomMainNodeType>) {
   return (
     <div
-      className="relative h-[95px] w-[235px] rounded-[10px]"
+      className="relative mx-auto h-[95px] w-[235px] rounded-[10px]"
       style={{
         boxShadow: "0px 0px 4px 2px #00000033",
         backgroundColor: "rgba(255, 255, 255, 0.08)",

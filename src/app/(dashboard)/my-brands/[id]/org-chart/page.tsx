@@ -6,7 +6,7 @@ import OrgChart from "@/components/my-brands/OrgChart";
 import OrgChartLoader from "@/components/my-brands/OrgChartLoader";
 
 export default function Page() {
-  const [isLoading, setIsLoading] = useState(true);
+  const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
     const timer = setTimeout(() => {

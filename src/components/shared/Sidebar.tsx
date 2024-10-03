@@ -88,7 +88,7 @@ function Window({
 
   return (
     <aside className="fixed inset-0 z-50 flex justify-end">
-      <div className="grow bg-slate-800/50 backdrop-blur-[1px]" />
+      <div className="grow bg-slate-800/50" />
       <div
         className={cn(
           "flex h-full flex-col bg-[#292D38]",

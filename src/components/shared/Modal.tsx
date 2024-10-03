@@ -74,7 +74,7 @@ function Window({ children, name }: WindowProps): ReactElement | null {
   if (name !== openName) return null;
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center bg-slate-800/50 backdrop-blur-[1px]">
+    <div className="fixed inset-0 z-50 flex items-center justify-center bg-slate-800/50">
       <div ref={ref} className="mx-auto">
         <div>
           {cloneElement(children, {

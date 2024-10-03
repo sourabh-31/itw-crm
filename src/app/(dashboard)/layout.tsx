@@ -15,7 +15,7 @@ export default function Layout({
   children: React.ReactNode;
 }>) {
   return (
-    <section className="relative min-h-screen bg-black">
+    <section className="noiseBgPrimary relative min-h-screen bg-black">
       {/* Hydrated header component */}
       <Header />
 
@@ -37,8 +37,6 @@ export default function Layout({
 
       {/* Blue ellipse with actual styling */}
       <BlueEllipse />
-
-      {/* <NoiseOverlay /> */}
     </section>
   );
 }

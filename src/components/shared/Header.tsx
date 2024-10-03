@@ -19,7 +19,7 @@ export default async function Header() {
   });
 
   return (
-    <header className="fixed inset-x-0 z-30 col-start-1 col-end-3 flex items-center justify-between border-b border-gray-dark bg-background px-4 py-2 sm:px-7 sm:py-[18px]">
+    <header className="noiseBgPrimary fixed inset-x-0 z-30 col-start-1 col-end-3 flex items-center justify-between border-b border-gray-dark bg-background px-4 py-2 sm:px-7 sm:py-[18px]">
       {/* ITW Logo */}
 
       <Image
