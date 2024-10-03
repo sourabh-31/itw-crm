@@ -12,6 +12,7 @@ import { useCallback, useEffect, useRef, useState } from "react";
 
 import CustomChildNode from "./CustomChildNode";
 import CustomMainNode from "./CustomMainNode";
+import CustomSmallNode from "./CustomSmallNode";
 import CustomSmoothEdge from "./CustomSmoothEdge";
 
 // Recursive function to calculate positions and build tree
@@ -63,6 +64,7 @@ const initialChildNodes = [
       location: "Bengaluru",
       imgSrc: "/assets/png/member1.png",
       isStarred: false,
+      isUtils: false,
     },
     position: { x: 0, y: 0 },
     type: "customChildNode",
@@ -75,6 +77,7 @@ const initialChildNodes = [
       location: "Bengaluru",
       imgSrc: "/assets/png/member2.png",
       isStarred: false,
+      isUtils: false,
     },
     position: { x: 0, y: 0 },
     type: "customChildNode",
@@ -87,6 +90,32 @@ const initialChildNodes = [
       location: "Bengaluru",
       imgSrc: "/assets/png/member3.png",
       isStarred: true,
+      isUtils: true,
+    },
+    position: { x: 0, y: 0 },
+    type: "customChildNode",
+  },
+  {
+    id: "5",
+    data: {
+      memberName: "Aravind Anbu",
+      role: "Business Development - Manager L1",
+      location: "Bengaluru",
+      imgSrc: "/assets/png/member3.png",
+      isStarred: false,
+    },
+    position: { x: 0, y: 0 },
+    type: "customSmallNode",
+  },
+  {
+    id: "6",
+    data: {
+      memberName: "Aravind Anbu",
+      role: "Business Development - Manager L1",
+      location: "Bengaluru",
+      imgSrc: "/assets/png/member3.png",
+      isStarred: false,
+      isUtils: false,
     },
     position: { x: 0, y: 0 },
     type: "customChildNode",
@@ -97,6 +126,8 @@ const initialEdges = [
   { id: "1-2", source: "1", target: "2" },
   { id: "1-3", source: "1", target: "3" },
   { id: "1-4", source: "1", target: "4" },
+  { id: "4-5", source: "4", target: "5" },
+  { id: "4-6", source: "4", target: "6" },
 ];
 
 export default function OrgChart() {
@@ -172,6 +203,7 @@ export default function OrgChart() {
           nodeTypes={{
             customMainNode: CustomMainNode,
             customChildNode: CustomChildNode,
+            customSmallNode: CustomSmallNode,
           }}
           edgeTypes={{ smoothStep: CustomSmoothEdge }}
           defaultEdgeOptions={{ type: "smoothStep" }}

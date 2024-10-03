@@ -33,7 +33,7 @@ const ColorPicker = () => {
         Color
       </div>
       <div className="mt-1 flex flex-wrap justify-between">
-        {colors.map((color, index) => (
+        {colors.map((color) => (
           <button
             type="button"
             key={color}

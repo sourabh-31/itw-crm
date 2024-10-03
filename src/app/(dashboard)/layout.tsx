@@ -1,3 +1,4 @@
+import ModalWindows from "@/components/my-brands/ModalWindows";
 import SidebarWindows from "@/components/my-brands/SidebarWindows";
 import Bottombar from "@/components/shared/Bottombar";
 import CurrentSection from "@/components/shared/CurrentSection";
@@ -32,6 +33,7 @@ export default function Layout({
       </main>
 
       <SidebarWindows />
+      <ModalWindows />
 
       {/* Blue ellipse with actual styling */}
       <BlueEllipse />

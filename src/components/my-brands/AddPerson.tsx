@@ -5,8 +5,22 @@ import Select from "../shared/Select";
 import Switch from "../shared/Switch";
 
 export default function AddPerson() {
+  function addPerson(formData: FormData) {
+    const formDataObject: { [key: string]: string | boolean } = {};
+
+    formData.forEach((value, key) => {
+      if (key === "workNumberVisible" || key === "mobileNumberVisible") {
+        formDataObject[key] = value === "on";
+      } else {
+        formDataObject[key] = value.toString();
+      }
+    });
+
+    console.log(formDataObject);
+  }
+
   return (
-    <div className="px-6">
+    <form className="px-6" action={addPerson}>
       {/* Profile image */}
 
       <div className="relative mx-auto my-6 flex size-[78px] items-center justify-center rounded-full border-[1.5px] border-dashed border-[#FFFFFF66] bg-[#20222E]">
@@ -164,6 +178,13 @@ export default function AddPerson() {
           />
         </Input.Root>
       </div>
-    </div>
+
+      <button
+        type="submit"
+        className="rounded-full bg-white px-4 py-2 font-mulish text-sm font-bold"
+      >
+        Submit
+      </button>
+    </form>
   );
 }

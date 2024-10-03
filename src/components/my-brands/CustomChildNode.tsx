@@ -6,6 +6,7 @@ import { useEffect, useState } from "react";
 import { IoIosMove, IoMdMore } from "react-icons/io";
 
 import { Menu } from "../shared/Menu";
+import Modal from "../shared/Modal";
 import { Sidebar } from "../shared/Sidebar";
 
 export type CustomChildNodeType = Node<{
@@ -14,6 +15,7 @@ export type CustomChildNodeType = Node<{
   location: string;
   imgSrc: string;
   isStarred: boolean;
+  isUtils: boolean;
   color?: string;
 }>;
 
@@ -159,11 +161,13 @@ export default function CustomChildNode(props: NodeProps<CustomChildNodeType>) {
                   imgSrc="/assets/svg/my-brands/move.svg"
                   btnName="Move person"
                 />
-                <Menu.Item
-                  isDanger
-                  imgSrc="/assets/svg/my-brands/trash.svg"
-                  btnName="Delete person"
-                />
+                <Modal.Open opens="delete-user">
+                  <Menu.Item
+                    isDanger
+                    imgSrc="/assets/svg/my-brands/trash.svg"
+                    btnName="Delete person"
+                  />
+                </Modal.Open>
               </Menu.Items>
             </Menu>
           </div>
@@ -206,6 +210,44 @@ export default function CustomChildNode(props: NodeProps<CustomChildNodeType>) {
           </div>
         </>
       )}
+
+      {/* Child utility options */}
+
+      {props.data.isUtils ? (
+        <div
+          className="absolute left-1/2 flex h-[18px] w-[84px] justify-evenly rounded-full border border-[#292d38] bg-white"
+          style={{ transform: "translate(-50%, 120%)" }}
+        >
+          <div className="flex items-center gap-[2px]">
+            <Image
+              src="/assets/svg/my-brands/org-member.svg"
+              alt="member-icon"
+              width={12}
+              height={12}
+            />
+            <p className="font-mulish text-[10px]">1</p>
+          </div>
+
+          <div className="flex items-center gap-[2px]">
+            <Image
+              src="/assets/svg/my-brands/org-npm.svg"
+              alt="npm-icon"
+              width={12}
+              height={12}
+            />
+            <p className="font-mulish text-[10px]">1</p>
+          </div>
+
+          <div className="mr-[-5px] flex items-center">
+            <Image
+              src="/assets/svg/chevron-up.svg"
+              alt="npm-icon"
+              width={12}
+              height={12}
+            />
+          </div>
+        </div>
+      ) : null}
 
       {/* Add handles for edges */}
       <Handle
