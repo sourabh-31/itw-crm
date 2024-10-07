@@ -5,7 +5,7 @@ import { useBrandsAndTeam } from "@/hooks/useData";
 import Container from "../shared/Container";
 import Tiles from "../shared/Tiles";
 
-const colors = ["#d1d5dc", "#6800ff", "#ee7360", "#ffa300"];
+const colors = ["#ffa300", "#6800ff", "#d1d5dc", "#ee7360"];
 
 export default function Brands() {
   const { data = null, isLoading, isError } = useBrandsAndTeam();
@@ -15,6 +15,7 @@ export default function Brands() {
     <Container
       name={`Your Brands (${brandsData.length})`}
       className="mx-4 pb-6 text-white lg:mx-0"
+      linkTo="/my-brands/google-pvt-ltd"
     >
       {!isLoading && !isError ? (
         <div className="space-y-6">
@@ -31,6 +32,7 @@ export default function Brands() {
                 imgUrl={data.brandImageUrl}
                 bgColor={bgColor}
                 accentText="Events"
+                imgSize={64}
               />
             );
           })}

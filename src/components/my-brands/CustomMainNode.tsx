@@ -1,15 +1,39 @@
 import type { Node, NodeProps } from "@xyflow/react";
 import { Handle, Position } from "@xyflow/react";
 import Image from "next/image";
+import { useState } from "react";
+import { BiChevronDown, BiChevronUp } from "react-icons/bi";
 
 export type CustomMainNodeType = Node<{
-  label: string;
+  imgSrc: string;
+  memberName: string;
+  location: string;
+  notes: number;
+  directPerson: number;
+  directDeptAndLocation: number;
 }>;
 
-export default function CustomChildNode(props: NodeProps<CustomMainNodeType>) {
+export type CustomMainNodeProps = NodeProps<CustomMainNodeType> & {
+  onNodeClick: (event: React.MouseEvent, node: Node) => void;
+};
+
+export default function CustomChildNode(props: CustomMainNodeProps) {
+  const {
+    imgSrc,
+    memberName,
+    location,
+    notes,
+    directPerson,
+    directDeptAndLocation,
+  } = props.data;
+
+  const { onNodeClick } = props;
+
+  const [isExpanded, setIsExpanded] = useState(true);
+
   return (
     <div
-      className="relative mx-auto h-[95px] w-[235px] rounded-[10px]"
+      className="relative mx-auto mt-2 h-[95px] w-[235px] rounded-[10px]"
       style={{
         boxShadow: "0px 0px 4px 2px #00000033",
         backgroundColor: "rgba(255, 255, 255, 0.08)",
@@ -21,12 +45,7 @@ export default function CustomChildNode(props: NodeProps<CustomMainNodeType>) {
         className="absolute left-1/2 flex size-[55px] items-center justify-center rounded-2xl border-[3px] border-[#292D38] bg-white"
         style={{ transform: "translate(-50%, -50%)" }}
       >
-        <Image
-          src="/assets/svg/my-brands/org-icon.svg"
-          alt="org-icon"
-          width={30}
-          height={50}
-        />
+        <Image src={imgSrc ?? ""} alt="org-icon" width={30} height={50} />
       </div>
 
       {/* Org note count */}
@@ -40,55 +59,65 @@ export default function CustomChildNode(props: NodeProps<CustomMainNodeType>) {
           className="ml-[-2px]"
         />
         <div className="font-mulish text-[10px] font-semibold text-white">
-          10
+          {notes}
         </div>
       </div>
 
       {/* Org details */}
       <div className="relative top-4 flex flex-col items-center justify-center">
-        <p className="font-recoletaAlt text-[14px] text-white">
-          Google Search Private Limited
-        </p>
+        <p className="font-recoletaAlt text-[14px] text-white">{memberName}</p>
         <p className="mt-px font-mulish text-[12px] text-[#ffffff99]">
-          Bengaluru
+          {location}
         </p>
       </div>
 
-      {/* Org utility options */}
+      {/* Org child count */}
 
-      <div
-        className="absolute left-1/2 flex h-[18px] w-[84px] justify-evenly rounded-full border border-[#292d38] bg-white"
-        style={{ transform: "translate(-50%, 150%)" }}
-      >
-        <div className="flex items-center gap-[2px]">
-          <Image
-            src="/assets/svg/my-brands/org-member.svg"
-            alt="member-icon"
-            width={12}
-            height={12}
-          />
-          <p className="font-mulish text-[10px]">3</p>
-        </div>
+      {directPerson !== 0 || directDeptAndLocation !== 0 ? (
+        <div
+          role="button"
+          tabIndex={0}
+          onClick={(event) => {
+            setIsExpanded(!isExpanded);
+            onNodeClick(event, props as unknown as Node);
+          }}
+          onKeyDown={(event) => {
+            if (event.key === "Enter") {
+              setIsExpanded(!isExpanded);
+            }
+          }}
+          className="absolute left-1/2 flex h-[18px] w-[84px] justify-evenly rounded-full border border-[#292d38] bg-white"
+          style={{ transform: "translate(-50%, 150%)" }}
+        >
+          <div className="flex items-center gap-[2px]">
+            <Image
+              src="/assets/svg/my-brands/org-member.svg"
+              alt="member-icon"
+              width={12}
+              height={12}
+            />
+            <p className="font-mulish text-[10px]">{directPerson}</p>
+          </div>
 
-        <div className="flex items-center gap-[2px]">
-          <Image
-            src="/assets/svg/my-brands/org-npm.svg"
-            alt="npm-icon"
-            width={12}
-            height={12}
-          />
-          <p className="font-mulish text-[10px]">0</p>
-        </div>
+          <div className="flex items-center gap-[2px]">
+            <Image
+              src="/assets/svg/my-brands/org-npm.svg"
+              alt="npm-icon"
+              width={12}
+              height={12}
+            />
+            <p className="font-mulish text-[10px]">{directDeptAndLocation}</p>
+          </div>
 
-        <div className="mr-[-5px] flex items-center">
-          <Image
-            src="/assets/svg/chevron-up.svg"
-            alt="npm-icon"
-            width={12}
-            height={12}
-          />
+          <div className="mr-[-5px] flex items-center">
+            {isExpanded ? (
+              <BiChevronUp size={12} />
+            ) : (
+              <BiChevronDown size={12} />
+            )}
+          </div>
         </div>
-      </div>
+      ) : null}
 
       {/* Add handles for edges */}
 

@@ -5,7 +5,7 @@ import { useState } from "react";
 import About from "./About";
 import Notes from "./Notes";
 
-export default function PeopleDetails() {
+export default function Details() {
   const [activeTab, setActiveTab] = useState("About");
 
   return (

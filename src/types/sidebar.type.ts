@@ -26,8 +26,7 @@ export type WindowProps = {
   children: ReactElement;
   name: string;
   title: string;
-  subText: string;
-  isFooter: boolean;
+  subText?: string;
   isBorderedIcon: boolean;
   icon1?: string;
   icon2?: string;

@@ -2,6 +2,8 @@ import Image from "next/image";
 import type { ReactElement, ReactNode } from "react";
 import React, { useEffect, useRef, useState } from "react";
 
+import { cn } from "@/lib/utils";
+
 interface MenuContextType {
   isOpen: boolean;
   setIsOpen: React.Dispatch<React.SetStateAction<boolean>>;
@@ -19,6 +21,7 @@ interface MenuTriggerProps {
 
 interface MenuItemsProps {
   children: ReactNode;
+  width: string;
   position?: string;
 }
 
@@ -27,6 +30,7 @@ interface MenuItemProps {
   btnName: string;
   onClick?: () => void;
   isDanger?: boolean;
+  className?: string;
 }
 
 const Menu: React.FC<MenuProps> & {
@@ -74,7 +78,7 @@ const MenuTrigger: React.FC<MenuTriggerProps> = ({ children }) => {
   });
 };
 
-const MenuItems: React.FC<MenuItemsProps> = ({ children, position }) => {
+const MenuItems: React.FC<MenuItemsProps> = ({ children, position, width }) => {
   const context = React.useContext(MenuContext);
   if (!context) {
     throw new Error("MenuItems must be used within a Menu component");
@@ -85,7 +89,7 @@ const MenuItems: React.FC<MenuItemsProps> = ({ children, position }) => {
 
   return (
     <div
-      className={`absolute w-[230px] rounded-[10px] border border-[#4141414D] bg-[#FFFAEA] px-[6px] py-1 ${
+      className={`absolute rounded-[10px] border border-[#4141414D] bg-[#FFFAEA] px-[6px] py-1 ${
         position === "left"
           ? "-top-10 right-full mr-[5px]"
           : position === "bottom"
@@ -94,6 +98,7 @@ const MenuItems: React.FC<MenuItemsProps> = ({ children, position }) => {
       }`}
       style={{
         boxShadow: "2px 4px 20px 0px #00000033",
+        width,
       }}
       role="menu"
       aria-orientation="vertical"
@@ -109,6 +114,7 @@ const MenuItem: React.FC<MenuItemProps> = ({
   onClick,
   btnName,
   isDanger = false,
+  className,
 }) => {
   const context = React.useContext(MenuContext);
   if (!context) {
@@ -124,7 +130,10 @@ const MenuItem: React.FC<MenuItemProps> = ({
   return (
     <button
       type="button"
-      className="my-1 flex w-full items-center gap-[6px] rounded-md p-2 text-left hover:bg-[#F2D99C]"
+      className={cn(
+        "my-1 flex w-full items-center gap-[6px] rounded-md p-2 text-left hover:bg-[#F2D99C]",
+        className
+      )}
       onClick={handleClick}
     >
       <Image src={imgSrc} alt="icon" width={20} height={20} />

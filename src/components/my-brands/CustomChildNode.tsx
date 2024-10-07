@@ -3,7 +3,10 @@ import { Handle, Position } from "@xyflow/react";
 import { Add } from "iconsax-react";
 import Image from "next/image";
 import { useEffect, useState } from "react";
+import { BiChevronDown, BiChevronUp } from "react-icons/bi";
 import { IoIosMove, IoMdMore } from "react-icons/io";
+
+import { useChartStore } from "@/store/useChartStore";
 
 import { Menu } from "../shared/Menu";
 import Modal from "../shared/Modal";
@@ -15,16 +18,38 @@ export type CustomChildNodeType = Node<{
   location: string;
   imgSrc: string;
   isStarred: boolean;
-  isUtils: boolean;
-  color?: string;
+  color: string;
+  directPerson: number;
+  directDeptAndLocation: number;
+  parentId: string;
 }>;
 
-export default function CustomChildNode(props: NodeProps<CustomChildNodeType>) {
-  const glowColor = props.data.color || "#ffffff99";
+export type CustomChildNodeProps = NodeProps<CustomChildNodeType> & {
+  onNodeClick: (event: React.MouseEvent, node: Node) => void;
+};
+
+export default function CustomChildNode(props: CustomChildNodeProps) {
+  const {
+    memberName,
+    role,
+    location,
+    imgSrc,
+    isStarred,
+    color,
+    directDeptAndLocation,
+    directPerson,
+  } = props.data;
+
+  const { id, onNodeClick } = props;
+
+  const glowColor = color || "#ffffff99";
+  const [isExpanded, setIsExpanded] = useState(true);
   const [showIcons, setShowIcons] = useState(false);
   const [timeoutId, setTimeoutId] = useState<NodeJS.Timeout | null>(null);
   const [boxShadow, setBoxShadow] = useState("0px 0px 4px 2px #00000033");
-  const transitionDuration = 250;
+  const transitionDuration = 100;
+
+  const { findAndSetNodeById } = useChartStore();
 
   // Function to show icons and update box shadow on hover
   const handleMouseEnter = () => {
@@ -45,6 +70,11 @@ export default function CustomChildNode(props: NodeProps<CustomChildNodeType>) {
     setTimeoutId(id);
   };
 
+  const handleMenuClick = () => {
+    setShowIcons(false);
+    setBoxShadow("0px 0px 4px 2px #00000033");
+  };
+
   // Clear the timeout when the component unmounts
   useEffect(() => {
     return () => {
@@ -59,7 +89,7 @@ export default function CustomChildNode(props: NodeProps<CustomChildNodeType>) {
       className="relative mx-auto h-[110px] w-[220px] rounded-[10px] border-t-[3px]"
       style={{
         boxShadow,
-        borderColor: "white",
+        borderColor: color,
         backgroundColor: "rgba(255, 255, 255, 0.08)",
         transition: `box-shadow 0.1s ease-in-out`,
       }}
@@ -72,7 +102,7 @@ export default function CustomChildNode(props: NodeProps<CustomChildNodeType>) {
         style={{ transform: "translate(-50%, -50%)" }}
       >
         <Image
-          src={props.data.imgSrc}
+          src={imgSrc}
           alt="org-icon"
           width={56}
           height={56}
@@ -81,7 +111,7 @@ export default function CustomChildNode(props: NodeProps<CustomChildNodeType>) {
         />
       </div>
 
-      {props.data.isStarred && (
+      {isStarred && (
         <div
           className="absolute left-1/2 flex h-[14px] w-[22px] items-center justify-center rounded bg-[#007BFF]"
           style={{ transform: "translate(-50%, 130%)" }}
@@ -108,15 +138,9 @@ export default function CustomChildNode(props: NodeProps<CustomChildNodeType>) {
 
       {/* Org details */}
       <div className="relative top-4 flex flex-col items-center justify-center">
-        <p className="font-recoletaAlt text-[14px] text-white">
-          {props.data.memberName}
-        </p>
-        <p className="mt-px font-mulish text-[12px] text-[#ffffff99]">
-          {props.data.role}
-        </p>
-        <p className="font-mulish text-[12px] text-[#ffffff99]">
-          {props.data.location}
-        </p>
+        <p className="font-recoletaAlt text-[14px] text-white">{memberName}</p>
+        <p className="mt-px font-mulish text-[12px] text-[#ffffff99]">{role}</p>
+        <p className="font-mulish text-[12px] text-[#ffffff99]">{location}</p>
       </div>
 
       {/* Show icons when hovered or for the duration of the transition */}
@@ -126,9 +150,13 @@ export default function CustomChildNode(props: NodeProps<CustomChildNodeType>) {
           <Modal.Open opens="move-person">
             <button
               type="button"
+              onClick={() => {
+                findAndSetNodeById(id);
+                handleMenuClick();
+              }}
               className="absolute -left-10 top-0 flex size-[30px] items-center justify-center rounded-full border border-[#50515B] bg-[#242632]"
             >
-              <IoIosMove color="#ffffff" size={16} />
+              <IoIosMove color={color} size={16} />
             </button>
           </Modal.Open>
 
@@ -140,36 +168,54 @@ export default function CustomChildNode(props: NodeProps<CustomChildNodeType>) {
                   type="button"
                   className="flex size-[30px] items-center justify-center rounded-full border border-[#50515B] bg-[#242632]"
                 >
-                  <IoMdMore color="#ffffff" size={16} />
+                  <IoMdMore color={color} size={16} />
                 </button>
               </Menu.Trigger>
-              <Menu.Items position="left">
+              <Menu.Items position="left" width="230px">
                 <Sidebar.Open opens="people-details">
                   <Menu.Item
                     imgSrc="/assets/svg/my-brands/eye.svg"
                     btnName="View Info"
+                    onClick={() => {
+                      findAndSetNodeById(id);
+                      handleMenuClick();
+                    }}
                   />
                 </Sidebar.Open>
-                <Menu.Item
-                  imgSrc="/assets/svg/my-brands/pencil.svg"
-                  btnName="Edit role"
-                />
-                <Menu.Item
-                  imgSrc="/assets/svg/my-brands/note.svg"
-                  btnName="Add notes"
-                />
+                <Sidebar.Open opens="people-details">
+                  <Menu.Item
+                    imgSrc="/assets/svg/my-brands/pencil.svg"
+                    btnName="Edit role"
+                    onClick={() => {
+                      findAndSetNodeById(id);
+                      handleMenuClick();
+                    }}
+                  />
+                </Sidebar.Open>
+                <Modal.Open opens="add-notes">
+                  <Menu.Item
+                    imgSrc="/assets/svg/my-brands/note.svg"
+                    btnName="Add notes"
+                    onClick={() => handleMenuClick()}
+                  />
+                </Modal.Open>
                 <div className="mx-[10px] mb-2 mt-[13px] border-b border-dashed border-[#00000033]" />
                 <Modal.Open opens="move-person">
                   <Menu.Item
                     imgSrc="/assets/svg/my-brands/move.svg"
                     btnName="Move person"
+                    onClick={() => findAndSetNodeById(id)}
                   />
                 </Modal.Open>
-                <Modal.Open opens="delete-person">
+                <Modal.Open opens="delete-node">
                   <Menu.Item
                     isDanger
                     imgSrc="/assets/svg/my-brands/trash.svg"
                     btnName="Delete person"
+                    onClick={() => {
+                      findAndSetNodeById(id);
+                      handleMenuClick();
+                    }}
                   />
                 </Modal.Open>
               </Menu.Items>
@@ -187,26 +233,38 @@ export default function CustomChildNode(props: NodeProps<CustomChildNodeType>) {
                   type="button"
                   className="flex size-[30px] items-center justify-center rounded-full border border-[#50515B] bg-[#242632]"
                 >
-                  <Add size="16" color="#ffffff" />
+                  <Add size="16" color={color} />
                 </button>
               </Menu.Trigger>
-              <Menu.Items position="bottom">
+              <Menu.Items position="bottom" width="230px">
                 <Sidebar.Open opens="add-person">
                   <Menu.Item
                     imgSrc="/assets/svg/my-brands/user.svg"
                     btnName="Person"
+                    onClick={() => {
+                      findAndSetNodeById(id);
+                      handleMenuClick();
+                    }}
                   />
                 </Sidebar.Open>
                 <Sidebar.Open opens="add-department">
                   <Menu.Item
                     imgSrc="/assets/svg/my-brands/department.svg"
                     btnName="Department"
+                    onClick={() => {
+                      findAndSetNodeById(id);
+                      handleMenuClick();
+                    }}
                   />
                 </Sidebar.Open>
                 <Sidebar.Open opens="add-location">
                   <Menu.Item
                     imgSrc="/assets/svg/my-brands/location.svg"
                     btnName="Location"
+                    onClick={() => {
+                      findAndSetNodeById(id);
+                      handleMenuClick();
+                    }}
                   />
                 </Sidebar.Open>
               </Menu.Items>
@@ -217,8 +275,19 @@ export default function CustomChildNode(props: NodeProps<CustomChildNodeType>) {
 
       {/* Child utility options */}
 
-      {props.data.isUtils ? (
+      {directDeptAndLocation !== 0 || directPerson !== 0 ? (
         <div
+          role="button"
+          tabIndex={0}
+          onClick={(event) => {
+            setIsExpanded(!isExpanded);
+            onNodeClick(event, props as unknown as Node);
+          }}
+          onKeyDown={(event) => {
+            if (event.key === "Enter") {
+              setIsExpanded(!isExpanded);
+            }
+          }}
           className="absolute left-1/2 flex h-[18px] w-[84px] justify-evenly rounded-full border border-[#292d38] bg-white"
           style={{ transform: "translate(-50%, 120%)" }}
         >
@@ -229,7 +298,7 @@ export default function CustomChildNode(props: NodeProps<CustomChildNodeType>) {
               width={12}
               height={12}
             />
-            <p className="font-mulish text-[10px]">1</p>
+            <p className="font-mulish text-[10px]">{directPerson}</p>
           </div>
 
           <div className="flex items-center gap-[2px]">
@@ -239,16 +308,15 @@ export default function CustomChildNode(props: NodeProps<CustomChildNodeType>) {
               width={12}
               height={12}
             />
-            <p className="font-mulish text-[10px]">1</p>
+            <p className="font-mulish text-[10px]">{directDeptAndLocation}</p>
           </div>
 
           <div className="mr-[-5px] flex items-center">
-            <Image
-              src="/assets/svg/chevron-up.svg"
-              alt="npm-icon"
-              width={12}
-              height={12}
-            />
+            {isExpanded ? (
+              <BiChevronUp size={12} />
+            ) : (
+              <BiChevronDown size={12} />
+            )}
           </div>
         </div>
       ) : null}

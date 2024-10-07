@@ -2,7 +2,13 @@
 
 import "@xyflow/react/dist/style.css";
 
-import type { Edge, EdgeChange, Node, NodeChange } from "@xyflow/react";
+import type {
+  Edge,
+  EdgeChange,
+  Node,
+  NodeChange,
+  ReactFlowInstance,
+} from "@xyflow/react";
 import {
   applyEdgeChanges,
   applyNodeChanges,
@@ -10,7 +16,9 @@ import {
   ReactFlow,
 } from "@xyflow/react";
 import dagre from "dagre";
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
+
+import { useChartStore } from "@/store/useChartStore";
 
 import CustomChildNode from "./CustomChildNode";
 import CustomMainNode from "./CustomMainNode";
@@ -22,69 +30,32 @@ interface NodeDimension {
   height?: number;
 }
 
-const initialNodes: Node[] = [
-  {
-    id: "1",
-    data: { label: "Main" },
-    position: { x: 0, y: 0 },
-    type: "customMainNode",
-  },
-  {
-    id: "2",
-    data: {
-      memberName: "Thara Selvan",
-      role: "Market Ops - Manager L1",
-      location: "Bengaluru",
-      imgSrc: "/assets/png/member1.png",
-      dimensions: { width: 300, height: 150 },
-    },
-    position: { x: 0, y: 0 },
-    type: "customChildNode",
-  },
-  {
-    id: "3",
-    data: {
-      memberName: "Anbarsan Krishnan",
-      role: "Chief Marketing Officer",
-      location: "Bengaluru",
-      imgSrc: "/assets/png/member2.png",
-      dimensions: { width: 300, height: 150 },
-    },
-    position: { x: 0, y: 0 },
-    type: "customChildNode",
-  },
-  {
-    id: "4",
-    data: {
-      memberName: "Aravind Anbu",
-      role: "Business Development - Manager L1",
-      location: "Bengaluru",
-      imgSrc: "/assets/png/member3.png",
-      dimensions: { width: 300, height: 150 },
-    },
-    position: { x: 0, y: 0 },
-    type: "customChildNode",
-  },
-  {
-    id: "5",
-    data: {
-      memberName: "Aravind Anbu",
-      role: "Business Development - Manager L1",
-      location: "Bengaluru",
-      imgSrc: "/assets/png/member3.png",
-      dimensions: { width: 300, height: 70 },
-    },
-    position: { x: 0, y: 0 },
-    type: "customSmallNode",
-  },
-];
+// Helper function to get all descendant nodes of a given node
+const getDescendantNodes = (nodeId: string, edges: Edge[]): string[] => {
+  const directChildren = edges
+    .filter((edge) => edge.source === nodeId)
+    .map((edge) => edge.target);
+  let allDescendants = [...directChildren];
 
-const initialEdges: Edge[] = [
-  { id: "1-2", source: "1", target: "2" },
-  { id: "1-3", source: "1", target: "3" },
-  { id: "1-4", source: "1", target: "4" },
-  { id: "3-5", source: "3", target: "5" },
-];
+  // Recursively get all descendants
+  directChildren.forEach((childId) => {
+    allDescendants = [...allDescendants, ...getDescendantNodes(childId, edges)];
+  });
+
+  return allDescendants;
+};
+
+// Helper function to check if a node or any of its ancestors is collapsed
+const isNodeOrAncestorCollapsed = (
+  nodeId: string,
+  collapsedNodes: Set<string>,
+  edges: Edge[]
+): boolean => {
+  const parentEdge = edges.find((edge) => edge.target === nodeId);
+  if (!parentEdge) return false;
+  if (collapsedNodes.has(parentEdge.source)) return true;
+  return isNodeOrAncestorCollapsed(parentEdge.source, collapsedNodes, edges);
+};
 
 // Function to calculate the layout using Dagre.js
 const getLayoutedElements = (
@@ -127,15 +98,45 @@ const getLayoutedElements = (
 };
 
 export default function OrgChart() {
-  const [nodes, setNodes] = useState<Node[]>(initialNodes);
-  const [edges, setEdges] = useState<Edge[]>(initialEdges);
+  const [nodes, setNodes] = useState<Node[]>(() => {
+    const storedData = localStorage.getItem("convertedData");
+    return storedData ? JSON.parse(storedData).nodes : [];
+  });
+
+  const [edges, setEdges] = useState<Edge[]>(() => {
+    const storedData = localStorage.getItem("convertedData");
+    return storedData ? JSON.parse(storedData).edges : [];
+  });
+
+  const { chartData, rerender } = useChartStore();
   const [isSpacePressed, setIsSpacePressed] = useState(false);
+  const reactFlowInstance = useRef<ReactFlowInstance | null>(null);
+  const [collapsedNodes, setCollapsedNodes] = useState<Set<string>>(new Set());
+
+  const updateChart = useCallback(() => {
+    const storedData = localStorage.getItem("convertedData");
+    if (storedData) {
+      const parsedData = JSON.parse(storedData);
+      setNodes(parsedData.nodes);
+      setEdges(parsedData.edges);
+
+      setTimeout(() => {
+        if (reactFlowInstance.current) {
+          reactFlowInstance.current.fitView({ duration: 500 });
+        }
+      }, 0);
+    }
+  }, []);
+
+  useEffect(() => {
+    updateChart();
+  }, [updateChart, chartData]);
 
   // Apply layout on nodes and edges whenever the nodes/edges length changes
   useEffect(() => {
     const { layoutedNodes } = getLayoutedElements(nodes, edges);
     setNodes(layoutedNodes);
-  }, [nodes.length, edges.length]);
+  }, [nodes.length, edges.length, rerender]);
 
   // Handle spacebar press for panning
   useEffect(() => {
@@ -152,11 +153,71 @@ export default function OrgChart() {
     };
   }, []);
 
+  // Filter visible nodes based on collapsed state of ancestors
+  const visibleNodes = useMemo(() => {
+    return nodes.filter((node) => {
+      return !isNodeOrAncestorCollapsed(node.id, collapsedNodes, edges);
+    });
+  }, [nodes, edges, collapsedNodes]);
+
+  // Toggle collapse/expand state for node and its descendants
+  const onNodeClick = useCallback(
+    (event: React.MouseEvent, node: Node) => {
+      setCollapsedNodes((prev) => {
+        const newCollapsed = new Set(prev);
+
+        if (newCollapsed.has(node.id)) {
+          // Expand node and its descendants
+          newCollapsed.delete(node.id);
+          const descendants = getDescendantNodes(node.id, edges);
+          descendants.forEach((descendantId) => {
+            newCollapsed.delete(descendantId);
+          });
+        } else {
+          // Collapse node and its descendants
+          newCollapsed.add(node.id);
+          const descendants = getDescendantNodes(node.id, edges);
+          descendants.forEach((descendantId) => {
+            newCollapsed.add(descendantId);
+          });
+        }
+
+        return newCollapsed;
+      });
+    },
+    [edges]
+  );
+
+  const nodeTypes = useMemo(
+    () => ({
+      customMainNode: (props: any) => (
+        <CustomMainNode {...props} onNodeClick={onNodeClick} />
+      ),
+      customChildNode: (props: any) => (
+        <CustomChildNode {...props} onNodeClick={onNodeClick} />
+      ),
+      customSmallNode: (props: any) => (
+        <CustomSmallNode {...props} onNodeClick={onNodeClick} />
+      ),
+    }),
+    []
+  );
+
+  const edgeTypes = useMemo(
+    () => ({
+      smoothStep: CustomSmoothEdge,
+    }),
+    []
+  );
+
   return (
     <section className="min-h-[calc(100vh-160px)] w-full sm:rounded-b-2xl">
       <div className="h-[calc(100vh-160px)] sm:rounded-b-2xl">
         <ReactFlow
-          nodes={nodes}
+          onInit={(instance) => {
+            reactFlowInstance.current = instance;
+          }}
+          nodes={visibleNodes}
           edges={edges}
           onNodesChange={(changes: NodeChange[]) =>
             setNodes((nds) => applyNodeChanges(changes, nds))
@@ -167,12 +228,8 @@ export default function OrgChart() {
           fitView
           zoomOnScroll={false}
           nodesConnectable={false}
-          nodeTypes={{
-            customMainNode: CustomMainNode,
-            customChildNode: CustomChildNode,
-            customSmallNode: CustomSmallNode,
-          }}
-          edgeTypes={{ smoothStep: CustomSmoothEdge }}
+          nodeTypes={nodeTypes}
+          edgeTypes={edgeTypes}
           defaultEdgeOptions={{ type: "smoothStep" }}
           nodesDraggable={false}
           panOnDrag={isSpacePressed}

@@ -2,10 +2,14 @@ import React, { useState } from "react";
 import { BiCheck } from "react-icons/bi";
 import { PiProhibitBold } from "react-icons/pi";
 
+interface ColorPickerProps {
+  handleColor: (color: string) => void;
+}
+
 const colors = [
   "#FFA07A",
   "#D8BFD8",
-  "#98FB98",
+  "#b1d0a5",
   "#FFFACD",
   "#AFEEEE",
   "#90EE90",
@@ -13,18 +17,18 @@ const colors = [
   "#ADD8E6",
 ];
 
-const ColorPicker = () => {
+const ColorPicker = ({ handleColor }: ColorPickerProps) => {
   const [selectedColor, setSelectedColor] = useState<string | null>(null);
 
   const handleColorSelect = (color: string) => {
     setSelectedColor(color);
-    console.log(`Selected color: ${color}`);
+    handleColor(color);
     // You can perform any other operation here
   };
 
   const handleCancel = () => {
     setSelectedColor(null);
-    console.log("Color selection cancelled");
+    handleColor("#ffffff");
   };
 
   return (

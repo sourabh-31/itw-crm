@@ -9,6 +9,8 @@ import React, {
 } from "react";
 
 import { cn } from "@/lib/utils";
+import type { PersonNode } from "@/store/useChartStore";
+import { useChartStore } from "@/store/useChartStore";
 import type {
   OpenProps,
   SidebarContextType,
@@ -76,13 +78,15 @@ function Window({
   name,
   title,
   subText,
-  isFooter,
   icon1 = "/assets/svg/my-brands/trash-white.svg",
   icon2 = "/assets/svg/my-brands/question-mark.svg",
   isBorderedIcon,
   className,
 }: WindowProps) {
   const { openName, close } = useSidebar();
+  const { selectedData } = useChartStore();
+  const { memberName } = selectedData as PersonNode;
+  const { resetSelectedNode } = useChartStore();
 
   if (name !== openName) return null;
 
@@ -100,12 +104,20 @@ function Window({
           <div className="flex items-center justify-between">
             {/* Arrow + Org Name */}
             <div className="flex items-center gap-3">
-              <button type="button" onClick={() => close(openName)}>
+              <button
+                type="button"
+                onClick={() => {
+                  close(openName);
+                  resetSelectedNode();
+                }}
+              >
                 <ArrowLeft size="24" color="#ffffff" />
               </button>
               <div className="flex flex-col gap-[px] text-white">
                 <span className="font-recoletaAlt text-xl">{title}</span>
-                <span className="font-mulish text-sm">{subText}</span>
+                <span className="font-mulish text-sm">
+                  {subText ?? memberName}
+                </span>
               </div>
             </div>
 
@@ -144,24 +156,6 @@ function Window({
         <div className="rightSidebar-content flex-1 overflow-y-auto">
           {children}
         </div>
-
-        {/* Sidebar footer - fixed */}
-        {isFooter ? (
-          <div className="flex shrink-0 items-center gap-5 border-t border-gray-dark p-4 font-mulish text-sm font-bold">
-            <button
-              type="button"
-              className="w-1/2 rounded-full bg-white py-[10px]"
-            >
-              CANCEL
-            </button>
-            <button
-              type="button"
-              className="w-1/2 rounded-full bg-[#0094FF] py-[10px] text-white"
-            >
-              SAVE
-            </button>
-          </div>
-        ) : null}
       </div>
     </aside>
   );

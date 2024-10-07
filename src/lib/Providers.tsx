@@ -3,6 +3,7 @@
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 // import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 import type { ReactNode } from "react";
+import { Toaster } from "sonner";
 
 import Modal from "@/components/shared/Modal";
 import { Sidebar } from "@/components/shared/Sidebar";
@@ -24,6 +25,12 @@ export default function Providers({ children }: { children: ReactNode }) {
         <Modal>{children}</Modal>
       </Sidebar>
       {/* <ReactQueryDevtools initialIsOpen={false} buttonPosition="bottom-left" /> */}
+      <Toaster
+        position="top-left"
+        className="font-mulish"
+        richColors
+        duration={2500}
+      />
     </QueryClientProvider>
   );
 }

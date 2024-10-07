@@ -8,10 +8,10 @@ export const SidebarData: SidebarDataType[] = [
     link: "/",
   },
   {
-    name: "my-brands",
+    name: "people",
     img: "/assets/svg/sidebar/people.svg",
     imgAlt: "/assets/svg/sidebar/people-alt.svg",
-    link: "/my-brands/google-pvt-ltd",
+    link: "/people",
   },
   {
     name: "event",

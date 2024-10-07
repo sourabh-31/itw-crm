@@ -34,6 +34,15 @@
   display: none;
 }
 
+.dropdown::-webkit-scrollbar {
+  display: none;
+}
+
+.toast-custom {
+  font-family: "Mulish", system-ui;
+  letter-spacing: 0.02em;
+}
+
 /* Shimmer Effect */
 
 .shimmer-feed {

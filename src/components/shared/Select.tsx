@@ -91,7 +91,7 @@ const Select: React.FC<SelectProps> = ({
       <div className="mr-1 w-full">
         <label
           className="font-mulish text-sm font-bold text-[#FFFFFF99]"
-          htmlFor="name"
+          htmlFor={name}
         >
           {label}
           {isRequired && "*"}
@@ -109,7 +109,6 @@ const Select: React.FC<SelectProps> = ({
             aria-expanded={dropdownOpen}
             aria-haspopup="listbox"
           >
-            {/* Input field if isInput is true */}
             {isInput ? (
               <input
                 type="text"
@@ -119,12 +118,20 @@ const Select: React.FC<SelectProps> = ({
                 onChange={(e) => setInputValue(e.target.value)}
                 placeholder={placeholder}
                 className="flex-1 bg-transparent font-mulish text-sm font-bold text-[#FFFFFF99] outline-none placeholder:text-[#FFFFFF4D]"
-                // onClick={(e) => e.stopPropagation()}
+                autoComplete="off"
               />
             ) : (
-              <div className="flex-1 font-mulish text-sm font-bold text-[#FFFFFF99]">
-                {selectedOption ? selectedOption.label : placeholder}
-              </div>
+              <>
+                <div className="flex-1 font-mulish text-sm font-bold text-[#FFFFFF99]">
+                  {selectedOption ? selectedOption.label : placeholder}
+                </div>
+                <input
+                  type="hidden"
+                  name={name}
+                  value={selectedOption ? selectedOption.value : ""}
+                  autoComplete="off"
+                />
+              </>
             )}
 
             <div
@@ -154,7 +161,7 @@ const Select: React.FC<SelectProps> = ({
               className="absolute z-10 mt-1 w-full rounded-lg border border-[#b4b4b4] bg-[#20222E]"
               role="listbox"
               aria-activedescendant={selectedOption?.value || ""}
-              tabIndex={-1} // Makes the dropdown focusable
+              tabIndex={-1}
             >
               {filteredOptions.length > 0 ? (
                 filteredOptions.map((option) => (

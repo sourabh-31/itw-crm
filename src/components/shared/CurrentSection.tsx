@@ -25,19 +25,27 @@ export default function CurrentSection() {
 
   return (
     <header className="noiseBgSec flex h-16 items-center justify-between border-b border-gray-light bg-foreground px-4 font-recoletaAlt text-lg text-white sm:h-[4.5rem] sm:rounded-t-2xl sm:px-6 lg:text-xl">
-      <div className="flex items-center gap-1">
+      {/* Full Breadcrumbs on larger screens */}
+      <div className="hidden items-center gap-1 lg:flex">
         {capitalizedRoutes.map((route, index) => {
           const isLast = index === capitalizedRoutes.length - 1;
           return (
             <span
               key={index}
-              className={`sm: ${isLast ? "text-white" : "text-[#FFFFFF99]"}`}
+              className={`${isLast ? "text-white" : "text-[#FFFFFF99]"}`}
             >
               {route}
               {!isLast && " / "}
             </span>
           );
         })}
+      </div>
+
+      {/* Only the last route on smaller screens */}
+      <div className="lg:hidden">
+        <span className="text-white">
+          {capitalizedRoutes[capitalizedRoutes.length - 1]}
+        </span>
       </div>
 
       {pathname === "/my-brands/google-pvt-ltd/org-chart" && (
@@ -55,9 +63,9 @@ export default function CurrentSection() {
             />
           </button>
 
-          {/* How this works btn */}
+          {/* How this works btn (shown only on large screens) */}
           <button
-            className="h-10 w-32 rounded-full bg-[#FFFFFF] font-mulish text-sm font-bold text-black sm:h-[50px] sm:w-[200px]"
+            className="hidden h-10 w-32 items-center justify-center rounded-full bg-[#FFFFFF] font-mulish text-sm font-bold text-black sm:h-[50px] sm:w-[200px] lg:flex"
             type="button"
           >
             HOW THIS WORKS?
@@ -74,26 +82,35 @@ export default function CurrentSection() {
               </button>
             </Menu.Trigger>
 
-            <Menu.Items>
-              <Sidebar.Open opens="add-person">
+            <div className="relative top-2">
+              <Menu.Items width="230px">
+                <Sidebar.Open opens="add-person">
+                  <Menu.Item
+                    imgSrc="/assets/svg/my-brands/user.svg"
+                    btnName="Person"
+                  />
+                </Sidebar.Open>
+                <Sidebar.Open opens="add-department">
+                  <Menu.Item
+                    imgSrc="/assets/svg/my-brands/department.svg"
+                    btnName="Department"
+                  />
+                </Sidebar.Open>
+                <Sidebar.Open opens="add-location">
+                  <Menu.Item
+                    imgSrc="/assets/svg/my-brands/location.svg"
+                    btnName="Location"
+                  />
+                </Sidebar.Open>
+
+                {/* "How This Works" button for screens <1024px */}
                 <Menu.Item
-                  imgSrc="/assets/svg/my-brands/user.svg"
-                  btnName="Person"
+                  imgSrc="/assets/svg/my-brands/question-mark-alt.svg"
+                  btnName="How This Works?"
+                  className="lg:hidden"
                 />
-              </Sidebar.Open>
-              <Sidebar.Open opens="add-department">
-                <Menu.Item
-                  imgSrc="/assets/svg/my-brands/department.svg"
-                  btnName="Department"
-                />
-              </Sidebar.Open>
-              <Sidebar.Open opens="add-location">
-                <Menu.Item
-                  imgSrc="/assets/svg/my-brands/location.svg"
-                  btnName="Location"
-                />
-              </Sidebar.Open>
-            </Menu.Items>
+              </Menu.Items>
+            </div>
           </Menu>
         </div>
       )}

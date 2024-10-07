@@ -1,7 +1,25 @@
 import Image from "next/image";
 import { BiChevronRight } from "react-icons/bi";
 
+import type { PersonNode } from "@/store/useChartStore";
+import { useChartStore } from "@/store/useChartStore";
+
 export default function About() {
+  const { selectedData } = useChartStore();
+  const {
+    imgSrc,
+    isStarred,
+    memberName,
+    role,
+    location,
+    manager,
+    department,
+    email,
+    phoneNumber,
+    isWhatsapp,
+    linkedIn,
+  } = selectedData as PersonNode;
+
   return (
     <div className="mt-5 px-6">
       <div
@@ -11,32 +29,37 @@ export default function About() {
             "linear-gradient(127.79deg, #B1D0A5 1.75%, #95CB80 98.17%)",
         }}
       >
-        <div className="relative w-fit rounded-full border-[3px] border-[#0000001A]">
-          <Image
-            src="/assets/png/member3.png"
-            alt="people-img"
-            width={70}
-            height={70}
-            className="rounded-full"
-          />
-          <div className="absolute -ml-1 -mt-2 flex h-[21px] w-[77px] items-center justify-center gap-1 rounded-[4px] bg-[#007BFF]">
+        {imgSrc ? (
+          <div className="relative w-fit rounded-full border-[3px] border-[#0000001A] bg-[#0000001A]">
             <Image
-              src="/assets/svg/people-details/star.svg"
-              alt="star"
-              width={10}
-              height={10}
+              src={imgSrc || "/assets/svg/my-brands/profile.svg"}
+              alt="people-img"
+              width={70}
+              height={70}
+              className="rounded-full"
             />
-            <span className="font-mulish text-xs font-bold text-white">
-              Frequent
-            </span>
+            {isStarred ? (
+              <div className="absolute -ml-1 -mt-2 flex h-[21px] w-[77px] items-center justify-center gap-1 rounded-[4px] bg-[#007BFF]">
+                <Image
+                  src="/assets/svg/people-details/star.svg"
+                  alt="star"
+                  width={10}
+                  height={10}
+                />
+                <span className="font-mulish text-xs font-bold text-white">
+                  Frequent
+                </span>
+              </div>
+            ) : null}
           </div>
-        </div>
-        <span className="mt-5 font-recoletaAlt">Aravind Anbu</span>
+        ) : null}
+
+        <span className="mt-5 font-recoletaAlt">{memberName}</span>
         <span className="mt-[2px] font-mulish text-sm text-[#00000099]">
-          Business Development - Manager L1
+          {role}
         </span>
         <span className="mt-[2px] font-mulish text-sm text-[#00000099]">
-          Bengaluru
+          {location}
         </span>
         <div className="mx-auto mt-[10px] w-[14px] border border-[#00000033]" />
 
@@ -122,7 +145,7 @@ export default function About() {
             <span>Manager</span>
           </div>
           <div className="font-recoletaAlt text-sm text-white">
-            None (Self-managed)
+            {manager || "-"}
           </div>
         </div>
 
@@ -136,7 +159,9 @@ export default function About() {
             />
             <span>Department</span>
           </div>
-          <div className="font-recoletaAlt text-sm text-[#FFFFFF99]">NA</div>
+          <div className="font-recoletaAlt text-sm text-[#FFFFFF99]">
+            {department || "NA"}
+          </div>
         </div>
       </div>
 
@@ -217,58 +242,68 @@ export default function About() {
 
       {/* Contact Details */}
 
-      <div className="mt-5 font-mulish text-xs text-[#FFFFFF99]">
-        Contact details
-      </div>
-      <div className="mt-2 rounded-[20px] bg-[#1B1E25]">
-        <div className="flex items-center gap-2 px-[14px] py-3 font-mulish text-sm text-[#FFFFFF99]">
-          <Image
-            src="/assets/svg/people-details/mail.svg"
-            alt="mail"
-            width={16}
-            height={16}
-          />
-          <span className="font-mulish text-sm text-white">
-            aravindkrishanan@thecompanyname.com
-          </span>
-        </div>
+      {email || phoneNumber || linkedIn ? (
+        <>
+          <div className="mt-5 font-mulish text-xs text-[#FFFFFF99]">
+            Contact details
+          </div>
+          <div className="mt-2 rounded-[20px] bg-[#1B1E25]">
+            {email ? (
+              <div className="flex items-center gap-2 px-[14px] py-3 font-mulish text-sm text-[#FFFFFF99]">
+                <Image
+                  src="/assets/svg/people-details/mail.svg"
+                  alt="mail"
+                  width={16}
+                  height={16}
+                />
+                <span className="font-mulish text-sm text-white">{email}</span>
+              </div>
+            ) : null}
 
-        <div className="flex items-center gap-2 px-[14px] py-3 font-mulish text-sm text-[#FFFFFF99]">
-          <Image
-            src="/assets/svg/people-details/call.svg"
-            alt="call"
-            width={16}
-            height={16}
-          />
-          <span className="font-mulish text-sm text-white">
-            +91 99999 99999
-          </span>
-        </div>
+            {phoneNumber ? (
+              <div className="flex items-center gap-2 px-[14px] py-3 font-mulish text-sm text-[#FFFFFF99]">
+                <Image
+                  src="/assets/svg/people-details/call.svg"
+                  alt="call"
+                  width={16}
+                  height={16}
+                />
+                <span className="font-mulish text-sm text-white">
+                  {phoneNumber}
+                </span>
+              </div>
+            ) : null}
 
-        <div className="flex items-center gap-2 px-[14px] py-3 font-mulish text-sm text-[#FFFFFF99]">
-          <Image
-            src="/assets/svg/people-details/whatsapp.svg"
-            alt="whatsapp"
-            width={16}
-            height={16}
-          />
-          <span className="font-mulish text-sm text-[#43B0FF] underline">
-            +91 99999 99999
-          </span>
-        </div>
+            {isWhatsapp && phoneNumber ? (
+              <div className="flex items-center gap-2 px-[14px] py-3 font-mulish text-sm text-[#FFFFFF99]">
+                <Image
+                  src="/assets/svg/people-details/whatsapp.svg"
+                  alt="whatsapp"
+                  width={16}
+                  height={16}
+                />
+                <span className="font-mulish text-sm text-[#43B0FF] underline">
+                  {phoneNumber}
+                </span>
+              </div>
+            ) : null}
 
-        <div className="flex items-center gap-2 px-[14px] py-3 font-mulish text-sm text-[#FFFFFF99]">
-          <Image
-            src="/assets/svg/people-details/linkedin.svg"
-            alt="linkedin"
-            width={16}
-            height={16}
-          />
-          <span className="font-mulish text-sm text-white">
-            www.linkedin.com/aravindkrishanan
-          </span>
-        </div>
-      </div>
+            {linkedIn ? (
+              <div className="flex items-center gap-2 px-[14px] py-3 font-mulish text-sm text-[#FFFFFF99]">
+                <Image
+                  src="/assets/svg/people-details/linkedin.svg"
+                  alt="linkedin"
+                  width={16}
+                  height={16}
+                />
+                <span className="font-mulish text-sm text-white">
+                  {linkedIn}
+                </span>
+              </div>
+            ) : null}
+          </div>
+        </>
+      ) : null}
 
       {/* View history */}
 

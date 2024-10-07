@@ -1,12 +1,17 @@
 "use client";
 
+import { usePathname } from "next/navigation";
+
 import { Sidebar } from "../shared/Sidebar";
 import AddDepartment from "./AddDepartment";
 import AddLocation from "./AddLocation";
 import AddPerson from "./AddPerson";
-import PeopleDetails from "./PeopleDetails";
+import Demo from "./Demo";
+import Details from "./Details";
 
 export default function SidebarWindows() {
+  const pathname = usePathname();
+
   return (
     <>
       {/* Add Person */}
@@ -14,7 +19,6 @@ export default function SidebarWindows() {
         name="add-person"
         title="Add New"
         subText="Google Search Private Limited"
-        isFooter
         isBorderedIcon={false}
       >
         <AddPerson />
@@ -25,7 +29,6 @@ export default function SidebarWindows() {
         name="add-department"
         title="Add New"
         subText="Google Search Private Limited"
-        isFooter
         isBorderedIcon={false}
       >
         <AddDepartment />
@@ -36,7 +39,6 @@ export default function SidebarWindows() {
         name="add-location"
         title="Add New"
         subText="Google Search Private Limited"
-        isFooter
         isBorderedIcon={false}
       >
         <AddLocation />
@@ -46,15 +48,39 @@ export default function SidebarWindows() {
       <Sidebar.Window
         name="people-details"
         title="People Details"
-        subText="Aravind Anbu"
-        isFooter={false}
         icon1="/assets/svg/people-details/edit-pencil.svg"
         icon2="/assets/svg/people-details/more-alt.svg"
         isBorderedIcon
         className="w-96"
       >
-        <PeopleDetails />
+        <Details />
       </Sidebar.Window>
+
+      {/* Department details */}
+      <Sidebar.Window
+        name="department-details"
+        title="Department Details"
+        icon1="/assets/svg/people-details/edit-pencil.svg"
+        icon2="/assets/svg/people-details/more-alt.svg"
+        isBorderedIcon
+        className="w-96"
+      >
+        <Details />
+      </Sidebar.Window>
+
+      {/* Location details */}
+      <Sidebar.Window
+        name="location-details"
+        title="Location Details"
+        icon1="/assets/svg/people-details/edit-pencil.svg"
+        icon2="/assets/svg/people-details/more-alt.svg"
+        isBorderedIcon
+        className="w-96"
+      >
+        <Details />
+      </Sidebar.Window>
+
+      {pathname === "/my-brands/google-pvt-ltd" ? <Demo /> : null}
     </>
   );
 }
