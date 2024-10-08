@@ -2,6 +2,7 @@ import type { Node, NodeProps } from "@xyflow/react";
 import { Handle, Position } from "@xyflow/react";
 import { Add } from "iconsax-react";
 import Image from "next/image";
+import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { BiChevronDown, BiChevronUp } from "react-icons/bi";
 import { IoIosMove, IoMdMore } from "react-icons/io";
@@ -42,12 +43,14 @@ export default function CustomChildNode(props: CustomChildNodeProps) {
 
   const { id, onNodeClick } = props;
 
+  const router = useRouter();
+
   const glowColor = color || "#ffffff99";
   const [isExpanded, setIsExpanded] = useState(true);
   const [showIcons, setShowIcons] = useState(false);
   const [timeoutId, setTimeoutId] = useState<NodeJS.Timeout | null>(null);
   const [boxShadow, setBoxShadow] = useState("0px 0px 4px 2px #00000033");
-  const transitionDuration = 100;
+  const transitionDuration = 150;
 
   const { findAndSetNodeById } = useChartStore();
 
@@ -127,14 +130,23 @@ export default function CustomChildNode(props: CustomChildNodeProps) {
       )}
 
       {/* Member note */}
-      <div className="relative left-[10px] top-[10px] flex size-[18px] items-center justify-center rounded bg-[#1b1e25]">
-        <Image
-          src="/assets/svg/my-brands/member-notes.svg"
-          alt="org-note"
-          width={12}
-          height={12}
-        />
-      </div>
+      <Sidebar.Open opens="people-details">
+        <button
+          type="button"
+          onClick={() => {
+            findAndSetNodeById(id);
+            router.push("/my-brands/google-pvt-ltd/org-chart?details=notes");
+          }}
+          className="relative left-[10px] top-[10px] flex size-[18px] items-center justify-center rounded bg-[#1b1e25]"
+        >
+          <Image
+            src="/assets/svg/my-brands/member-notes.svg"
+            alt="org-note"
+            width={12}
+            height={12}
+          />
+        </button>
+      </Sidebar.Open>
 
       {/* Org details */}
       <div className="relative top-4 flex flex-col items-center justify-center">
@@ -171,7 +183,7 @@ export default function CustomChildNode(props: CustomChildNodeProps) {
                   <IoMdMore color={color} size={16} />
                 </button>
               </Menu.Trigger>
-              <Menu.Items position="left" width="230px">
+              <Menu.Items position="auto" width="230px">
                 <Sidebar.Open opens="people-details">
                   <Menu.Item
                     imgSrc="/assets/svg/my-brands/eye.svg"
@@ -179,6 +191,9 @@ export default function CustomChildNode(props: CustomChildNodeProps) {
                     onClick={() => {
                       findAndSetNodeById(id);
                       handleMenuClick();
+                      router.push(
+                        "/my-brands/google-pvt-ltd/org-chart?details=about"
+                      );
                     }}
                   />
                 </Sidebar.Open>
@@ -189,6 +204,9 @@ export default function CustomChildNode(props: CustomChildNodeProps) {
                     onClick={() => {
                       findAndSetNodeById(id);
                       handleMenuClick();
+                      router.push(
+                        "/my-brands/google-pvt-ltd/org-chart?details=about"
+                      );
                     }}
                   />
                 </Sidebar.Open>
@@ -196,7 +214,10 @@ export default function CustomChildNode(props: CustomChildNodeProps) {
                   <Menu.Item
                     imgSrc="/assets/svg/my-brands/note.svg"
                     btnName="Add notes"
-                    onClick={() => handleMenuClick()}
+                    onClick={() => {
+                      handleMenuClick();
+                      findAndSetNodeById(id);
+                    }}
                   />
                 </Modal.Open>
                 <div className="mx-[10px] mb-2 mt-[13px] border-b border-dashed border-[#00000033]" />

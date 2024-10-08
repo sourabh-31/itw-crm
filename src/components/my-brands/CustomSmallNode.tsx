@@ -2,6 +2,7 @@ import type { Node, NodeProps } from "@xyflow/react";
 import { Handle, Position } from "@xyflow/react";
 import { Add } from "iconsax-react";
 import Image from "next/image";
+import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { BiChevronDown, BiChevronUp } from "react-icons/bi";
 import { IoIosMove, IoMdMore } from "react-icons/io";
@@ -36,6 +37,7 @@ export default function CustomSmallNode(props: CustomSmallNodeProps) {
   const [timeoutId, setTimeoutId] = useState<NodeJS.Timeout | null>(null);
   const transitionDuration = 250;
 
+  const router = useRouter();
   const { findAndSetNodeById } = useChartStore();
 
   // Function to show icons and update box shadow on hover
@@ -165,7 +167,7 @@ export default function CustomSmallNode(props: CustomSmallNodeProps) {
                   <IoMdMore color={color} size={16} />
                 </button>
               </Menu.Trigger>
-              <Menu.Items position="left" width="184px">
+              <Menu.Items position="auto" width="184px">
                 <Sidebar.Open
                   opens={
                     type === "department"
@@ -179,6 +181,9 @@ export default function CustomSmallNode(props: CustomSmallNodeProps) {
                     onClick={() => {
                       findAndSetNodeById(id);
                       handleMenuClick();
+                      router.push(
+                        "/my-brands/google-pvt-ltd/org-chart?details=about"
+                      );
                     }}
                   />
                 </Sidebar.Open>

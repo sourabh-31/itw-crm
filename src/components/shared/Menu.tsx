@@ -78,24 +78,58 @@ const MenuTrigger: React.FC<MenuTriggerProps> = ({ children }) => {
   });
 };
 
-const MenuItems: React.FC<MenuItemsProps> = ({ children, position, width }) => {
+const MenuItems: React.FC<MenuItemsProps> = ({
+  children,
+  position = "auto",
+  width,
+}) => {
   const context = React.useContext(MenuContext);
+  const menuRef = useRef<HTMLDivElement>(null);
+  const [menuPosition, setMenuPosition] = useState<string>("right");
+
   if (!context) {
     throw new Error("MenuItems must be used within a Menu component");
   }
   const { isOpen } = context;
 
+  useEffect(() => {
+    if (isOpen && position === "auto" && menuRef.current) {
+      const rect = menuRef.current.getBoundingClientRect();
+      const windowWidth = window.innerWidth;
+      const spaceOnRight = windowWidth - rect.right;
+      const spaceOnLeft = rect.left;
+
+      if (spaceOnRight < 10 && spaceOnLeft > rect.width) {
+        setMenuPosition("left");
+      } else if (spaceOnRight < 10 && spaceOnLeft < rect.width) {
+        setMenuPosition("bottom");
+      } else {
+        setMenuPosition("right");
+      }
+    } else if (position !== "auto") {
+      setMenuPosition(position);
+    }
+  }, [isOpen, position]);
+
   if (!isOpen) return null;
+
+  const getPositionClasses = () => {
+    switch (menuPosition) {
+      case "left":
+        return "-top-10 right-full mr-[5px]";
+      case "right":
+        return "-top-10 left-full ml-[5px]";
+      case "bottom":
+        return "left-1/2 top-full mt-2 -translate-x-1/2";
+      default:
+        return "top-full mt-2 translate-x-[-40%]";
+    }
+  };
 
   return (
     <div
-      className={`absolute rounded-[10px] border border-[#4141414D] bg-[#FFFAEA] px-[6px] py-1 ${
-        position === "left"
-          ? "-top-10 right-full mr-[5px]"
-          : position === "bottom"
-            ? "left-1/2 top-full mt-2 -translate-x-1/2"
-            : "top-full mt-2 translate-x-[-40%]"
-      }`}
+      ref={menuRef}
+      className={`absolute rounded-[10px] border border-[#4141414D] bg-[#FFFAEA] px-[6px] py-1 ${getPositionClasses()}`}
       style={{
         boxShadow: "2px 4px 20px 0px #00000033",
         width,

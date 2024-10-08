@@ -13,6 +13,7 @@ interface TilesPropsType {
   bgColor?: string;
   detailsClassName?: string;
   accentText?: string;
+  linkHref?: string;
 }
 
 export default function Tiles({
@@ -25,6 +26,7 @@ export default function Tiles({
   bgColor = "#ffffff",
   detailsClassName,
   accentText,
+  linkHref = "/",
 }: TilesPropsType) {
   return (
     <div className="flex items-center">
@@ -68,7 +70,7 @@ export default function Tiles({
         </div>
 
         {/* CTA Btn */}
-        <Link href="/">
+        <Link href={linkHref}>
           <Image
             src="/assets/svg/chevron-right-white.svg"
             alt="chevron-right"

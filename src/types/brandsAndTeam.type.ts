@@ -107,3 +107,13 @@ export type BrandsAndTeam = {
     totalMemberCount: number;
   };
 };
+
+export type BrandOverview = {
+  id: string;
+  name: string;
+  subText: string;
+  smallText: string;
+  isSmallText: boolean;
+  isDate: boolean;
+  img: string;
+};

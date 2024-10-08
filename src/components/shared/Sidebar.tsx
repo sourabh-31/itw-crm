@@ -1,5 +1,6 @@
 import { ArrowLeft } from "iconsax-react";
 import Image from "next/image";
+import { useRouter } from "next/navigation";
 import React, {
   cloneElement,
   createContext,
@@ -87,6 +88,7 @@ function Window({
   const { selectedData } = useChartStore();
   const { memberName } = selectedData as PersonNode;
   const { resetSelectedNode } = useChartStore();
+  const router = useRouter();
 
   if (name !== openName) return null;
 
@@ -109,6 +111,7 @@ function Window({
                 onClick={() => {
                   close(openName);
                   resetSelectedNode();
+                  router.push("/my-brands/google-pvt-ltd/org-chart");
                 }}
               >
                 <ArrowLeft size="24" color="#ffffff" />

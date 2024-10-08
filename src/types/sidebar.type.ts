@@ -5,6 +5,7 @@ export type SidebarDataType = {
   img: string;
   imgAlt: string;
   link: string;
+  alt: string;
 };
 
 export type SidebarContextType = {

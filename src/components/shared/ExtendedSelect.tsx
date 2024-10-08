@@ -10,6 +10,7 @@ interface ExtendedOption {
   id: string;
   name: string;
   type: "Organisation" | "Person" | "Department" | "Location";
+  role?: string;
 }
 
 interface ExtendedSelectProps {

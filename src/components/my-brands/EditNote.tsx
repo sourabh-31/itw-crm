@@ -1,6 +1,6 @@
 import { format } from "date-fns";
 import Image from "next/image";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { IoClose } from "react-icons/io5";
 import { toast } from "sonner";
 
@@ -8,41 +8,59 @@ import { useChartStore } from "@/store/useChartStore";
 
 import { useModal } from "../shared/Modal";
 
-interface SelectedData {
+interface SelectedNote {
   id: string;
-  memberName: string;
+  title: string;
+  note: string;
+  nodeId: string;
+  addedBy: string;
+  type: string;
 }
 
-export default function AddNotes() {
+export default function EditNote() {
   const [isChecked, setIsChecked] = useState(false);
   const { close } = useModal();
-  const [title, setTitle] = useState("");
-  const [note, setNote] = useState("");
+  const [updatedTitle, setUpdatedTitle] = useState("");
+  const [changedNote, setChangedNote] = useState("");
 
-  const { addNote, selectedData, resetSelectedNode } = useChartStore();
-  const { memberName, id } = selectedData as SelectedData;
+  const { updateNote, resetSelectedNote, selectedNote } = useChartStore();
+  const { id, title, note, nodeId, addedBy, type } =
+    selectedNote as SelectedNote;
 
   const toggleSwitch = () => setIsChecked(!isChecked);
 
-  function addNewNote() {
+  useEffect(() => {
+    if (selectedNote) {
+      setUpdatedTitle(title);
+      setChangedNote(note);
+
+      if (type === "Public") {
+        setIsChecked(true);
+      } else {
+        setIsChecked(false);
+      }
+    }
+  }, [selectedNote]);
+
+  function editNote() {
     if (title === "" || note === "") {
       toast.error("Please add title and note.");
       return;
     }
 
-    const newNote = {
-      id: Math.floor(100 + Math.random() * 900).toString(),
-      title,
-      note,
+    const updatedNote = {
+      id,
+      title: updatedTitle,
+      note: changedNote,
       type: isChecked ? "Public" : "Private",
-      addedBy: memberName || "",
       dateAdded: format(new Date(), "dd MMM yyyy"),
-      nodeId: id,
+      nodeId,
+      addedBy,
     };
 
-    addNote(newNote);
+    updateNote(updatedNote);
     toast.success("Note added successfully.");
-    resetSelectedNode();
+    resetSelectedNote();
     close();
   }
 
@@ -60,14 +78,20 @@ export default function AddNotes() {
             />
           </div>
           <div className="flex flex-col">
-            <span className="font-recoletaAlt text-xl">Add Notes To</span>
+            <span className="font-recoletaAlt text-xl">Edit Note</span>
             <span className="-mt-1 font-mulish text-sm font-medium text-[#00000099]">
               Google Private Ltd
             </span>
           </div>
         </div>
 
-        <button onClick={close} type="button">
+        <button
+          onClick={() => {
+            close();
+            resetSelectedNote();
+          }}
+          type="button"
+        >
           <IoClose size={24} />
         </button>
       </div>
@@ -78,14 +102,14 @@ export default function AddNotes() {
           <input
             className="mt-3 font-mulish outline-none placeholder:text-[#737373]"
             placeholder="Title"
-            value={title}
-            onChange={(e) => setTitle(e.target.value)}
+            value={updatedTitle}
+            onChange={(e) => setUpdatedTitle(e.target.value)}
           />
           <input
             className="mt-2 w-full font-mulish text-xs outline-none placeholder:text-[#737373]"
             placeholder="Write your notes for this brand to review later..."
-            value={note}
-            onChange={(e) => setNote(e.target.value)}
+            value={changedNote}
+            onChange={(e) => setChangedNote(e.target.value)}
           />
 
           <div className="mt-4 text-xs">
@@ -133,7 +157,7 @@ export default function AddNotes() {
           <button
             type="button"
             className="h-[40px] w-full rounded-full bg-[#0094FF] font-mulish text-sm font-bold text-white"
-            onClick={addNewNote}
+            onClick={editNote}
           >
             {isChecked ? "SAVE PUBLIC NOTE" : "SAVE PRIVATE NOTE"}
           </button>

@@ -45,7 +45,7 @@ export default function Bottombar() {
       onClick={() => setShowMore(false)}
     >
       {pathname === data.link && !showMore && (
-        <span className="font-mulish font-bold">{capitalize(data.name)}</span>
+        <span className="font-mulish font-bold">{capitalize(data.alt)}</span>
       )}
 
       <Image

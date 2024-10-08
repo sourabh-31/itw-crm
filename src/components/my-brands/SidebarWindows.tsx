@@ -53,7 +53,7 @@ export default function SidebarWindows() {
         isBorderedIcon
         className="w-96"
       >
-        <Details />
+        <Details name="people-details" />
       </Sidebar.Window>
 
       {/* Department details */}
@@ -65,7 +65,7 @@ export default function SidebarWindows() {
         isBorderedIcon
         className="w-96"
       >
-        <Details />
+        <Details name="department-details" />
       </Sidebar.Window>
 
       {/* Location details */}
@@ -77,7 +77,7 @@ export default function SidebarWindows() {
         isBorderedIcon
         className="w-96"
       >
-        <Details />
+        <Details name="location-details" />
       </Sidebar.Window>
 
       {pathname === "/my-brands/google-pvt-ltd" ? <Demo /> : null}

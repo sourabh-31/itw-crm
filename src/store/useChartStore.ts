@@ -65,12 +65,26 @@ export type ChartNode =
   | DepartmentNode
   | LocationNode;
 
+interface Note {
+  id: string;
+  title: string;
+  note: string;
+  type: string;
+  addedBy: string;
+  dateAdded: string;
+  nodeId: string | number;
+}
+
 interface ChartStore {
   chartData: ChartNode;
   rerender: number;
   selectedData: ChartNode | {};
+  selectedNote: Note | {};
+  resetSelectedNote: () => void;
+  notes: Note[];
   addNode: (parentId: string, newNode: ChartNode) => void;
   findAndSetNodeById: (id: string) => void;
+  findAndSetNoteById: (id: string) => void;
   resetSelectedNode: () => void;
   deleteNode: (nodeId: string) => void;
   moveNode: (
@@ -79,6 +93,9 @@ interface ChartStore {
     isMoveAll: boolean,
     prevParentId: string
   ) => void;
+  addNote: (newNote: Note) => void;
+  deleteNote: (noteId: string) => void;
+  updateNote: (updatedNote: Note) => void;
 }
 
 const initialChartData: OrganisationNode = {
@@ -180,11 +197,22 @@ const initialChartData: OrganisationNode = {
   ],
 };
 
+const getInitialNotes = (): Note[] => {
+  try {
+    const storedNotes = localStorage.getItem("notes");
+    return storedNotes ? JSON.parse(storedNotes) : [];
+  } catch (error) {
+    return [];
+  }
+};
+
 // Chart store
 export const useChartStore = create<ChartStore>((set) => ({
   chartData: initialChartData,
   rerender: 1,
   selectedData: {},
+  selectedNote: {},
+  notes: getInitialNotes(),
   addNode: (parentId: string, newNode: ChartNode) =>
     set((state) => {
       // Retrieve the latest chartData from localStorage
@@ -205,6 +233,50 @@ export const useChartStore = create<ChartStore>((set) => ({
         chartData: updatedData,
       };
     }),
+  addNote: (newNote: Note) =>
+    set((state) => {
+      const updatedNotes = [...state.notes, newNote];
+
+      localStorage.setItem("notes", JSON.stringify(updatedNotes));
+
+      return {
+        ...state,
+        notes: updatedNotes,
+      };
+    }),
+  deleteNote: (noteId: string) =>
+    set((state) => {
+      const updatedNotes = state.notes.filter((note) => note.id !== noteId);
+
+      localStorage.setItem("notes", JSON.stringify(updatedNotes));
+
+      return {
+        ...state,
+        notes: updatedNotes,
+        selectedNote:
+          state.selectedNote && (state.selectedNote as Note).id === noteId
+            ? {}
+            : state.selectedNote,
+      };
+    }),
+  updateNote: (updatedNote: Note) =>
+    set((state) => {
+      const updatedNotes = state.notes.map((note) =>
+        note.id === updatedNote.id ? updatedNote : note
+      );
+
+      localStorage.setItem("notes", JSON.stringify(updatedNotes));
+
+      return {
+        ...state,
+        notes: updatedNotes,
+        selectedNote:
+          state.selectedNote &&
+          (state.selectedNote as Note).id === updatedNote.id
+            ? updatedNote
+            : state.selectedNote,
+      };
+    }),
   findAndSetNodeById: (id: string) =>
     set((state) => {
       const foundNode = findNodeById(id);
@@ -214,6 +286,20 @@ export const useChartStore = create<ChartStore>((set) => ({
         selectedData: foundNode || {},
       };
     }),
+  findAndSetNoteById: (id: string) =>
+    set((state) => {
+      const foundNote = state.notes.find((note) => note.id === id);
+
+      return {
+        ...state,
+        selectedNote: foundNote || {},
+      };
+    }),
+  resetSelectedNote: () =>
+    set((state) => ({
+      ...state,
+      selectedNote: {},
+    })),
   resetSelectedNode: () =>
     set((state) => ({
       ...state,

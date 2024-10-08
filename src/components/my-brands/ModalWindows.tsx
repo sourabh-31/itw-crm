@@ -3,6 +3,8 @@
 import Modal from "../shared/Modal";
 import AddNotes from "./AddNotes";
 import DeleteNode from "./DeleteNode";
+import DeleteNote from "./DeleteNote";
+import EditNote from "./EditNote";
 import MoveNode from "./MoveNode";
 
 export default function ModalWindows() {
@@ -30,6 +32,16 @@ export default function ModalWindows() {
       {/* Add notes */}
       <Modal.Window name="add-notes">
         <AddNotes />
+      </Modal.Window>
+
+      {/* Edit note */}
+      <Modal.Window name="edit-note">
+        <EditNote />
+      </Modal.Window>
+
+      {/* Delete Note */}
+      <Modal.Window name="delete-note">
+        <DeleteNote />
       </Modal.Window>
     </>
   );

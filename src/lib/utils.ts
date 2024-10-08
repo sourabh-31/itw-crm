@@ -68,6 +68,7 @@ export const convertChartData = (chartData: any) => {
   const nodes: any[] = [];
   const edges: any[] = [];
   const managers: { id: string; name: string; type: string }[] = [];
+  const people: { id: string; name: string; role: string; type: string }[] = [];
 
   const calculateDirectChildCounts = (node: any): [number, number] => {
     let personCount = 0;
@@ -100,14 +101,26 @@ export const convertChartData = (chartData: any) => {
       dimensions = { width: 300, height: 50 };
     }
 
-    // Update color assignment logic
     let color = node.color || "";
     if (node.type === "department" || node.type === "location") {
-      // If current node is a department or location, its color becomes the new ancestorColor
       ancestorColor = color;
     } else if (node.type === "person" && ancestorColor !== "") {
-      // If current node is a person, it inherits the ancestorColor
       color = ancestorColor;
+    }
+
+    // Add to people array if the node is a person
+    if (node.type === "person") {
+      let fullName = node.memberName;
+      if (parentName) {
+        fullName = `${parentName} > ${fullName}`;
+      }
+
+      people.push({
+        id: node.id,
+        name: fullName,
+        role: node.role || "",
+        type: "person",
+      });
     }
 
     const [directPerson, directDeptAndLocation] =
@@ -158,7 +171,6 @@ export const convertChartData = (chartData: any) => {
     }
 
     if (parentId === null) {
-      // Direct children of organization
       if (node.type === "person") {
         managers.push({
           id: node.id,
@@ -218,7 +230,6 @@ export const convertChartData = (chartData: any) => {
       });
     }
 
-    // Process children
     node.children.forEach((child: any) =>
       processNode(
         child,
@@ -231,5 +242,5 @@ export const convertChartData = (chartData: any) => {
 
   processNode(chartData);
 
-  return { nodes, edges, managers };
+  return { nodes, edges, managers, people };
 };

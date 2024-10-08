@@ -9,13 +9,14 @@ export function useOutsideClick(
   listenCapturing: boolean = true
 ) {
   const ref = useRef<HTMLDivElement | null>(null);
-  const { resetSelectedNode } = useChartStore();
+  const { resetSelectedNode, resetSelectedNote } = useChartStore();
 
   useEffect(() => {
     function handleClick(e: MouseEvent) {
       if (ref.current && !ref.current.contains(e.target as Node)) {
         handler();
         resetSelectedNode();
+        resetSelectedNote();
       }
     }
 
@@ -23,7 +24,7 @@ export function useOutsideClick(
 
     return () =>
       document.removeEventListener("click", handleClick, listenCapturing);
-  }, [handler, listenCapturing, resetSelectedNode]);
+  }, [handler, listenCapturing, resetSelectedNode, resetSelectedNote]);
 
   return ref;
 }

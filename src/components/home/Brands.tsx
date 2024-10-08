@@ -33,6 +33,7 @@ export default function Brands() {
                 bgColor={bgColor}
                 accentText="Events"
                 imgSize={64}
+                linkHref="/my-brands/google-pvt-ltd"
               />
             );
           })}
