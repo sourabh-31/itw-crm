@@ -378,8 +378,8 @@ export const useChartStore = create<ChartStore>((set) => ({
       localStorage.setItem("convertedData", JSON.stringify(convertedData));
 
       return {
+        rerender: Math.random(),
         chartData: updatedTreeWithMovedNode,
-        rerender: Math.random() + 1,
       };
     }),
 }));

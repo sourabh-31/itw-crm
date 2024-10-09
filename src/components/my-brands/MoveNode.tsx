@@ -30,6 +30,11 @@ export default function MoveNode({ title }: MoveNodeProps) {
   function handleMove() {
     if (id && selectedManager) {
       moveNode(id, selectedManager?.id, moveSubordinates, parentId);
+
+      setTimeout(() => {
+        moveNode(id, selectedManager?.id, moveSubordinates, parentId);
+      }, 0);
+
       close();
     }
   }
