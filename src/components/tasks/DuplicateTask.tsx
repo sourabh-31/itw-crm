@@ -9,7 +9,6 @@ import {
   useAssigneeData,
   useBrandData,
   useCreateTask,
-  useEditTask,
   useEventData,
   useInventoryData,
   useTaskDetails,
