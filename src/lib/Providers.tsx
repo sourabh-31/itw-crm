@@ -1,12 +1,13 @@
 "use client";
 
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-// import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
+import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 import type { ReactNode } from "react";
 import { Toaster } from "sonner";
 
 import Modal from "@/components/shared/Modal";
 import { Sidebar } from "@/components/shared/Sidebar";
+import { SidebarFilter } from "@/components/tasks/FilterBrands";
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -22,9 +23,11 @@ export default function Providers({ children }: { children: ReactNode }) {
   return (
     <QueryClientProvider client={queryClient}>
       <Sidebar>
-        <Modal>{children}</Modal>
+        <SidebarFilter>
+          <Modal>{children}</Modal>
+        </SidebarFilter>
       </Sidebar>
-      {/* <ReactQueryDevtools initialIsOpen={false} buttonPosition="bottom-left" /> */}
+      <ReactQueryDevtools initialIsOpen={false} buttonPosition="bottom-left" />
       <Toaster
         position="top-left"
         className="font-mulish"

@@ -10,9 +10,11 @@ interface SelectOption {
 }
 
 interface SelectProps {
-  label: string;
+  label?: string;
   options: SelectOption[];
   name: string;
+  selectStyles?: string;
+  chevronStyles?: string;
   className?: string;
   placeholder?: string;
   isInput?: boolean;
@@ -25,6 +27,8 @@ const Select: React.FC<SelectProps> = ({
   label,
   options,
   name,
+  selectStyles,
+  chevronStyles,
   className,
   placeholder = "Select an option",
   isInput = false,
@@ -81,7 +85,7 @@ const Select: React.FC<SelectProps> = ({
   );
 
   return (
-    <div className="mb-6 flex items-center gap-3">
+    <div className="flex items-center gap-3">
       {iconSrc ? (
         <div className="mt-4">
           <Image src={iconSrc} alt="select-icon" width={22} height={22} />
@@ -122,7 +126,12 @@ const Select: React.FC<SelectProps> = ({
               />
             ) : (
               <>
-                <div className="flex-1 font-mulish text-sm font-bold text-[#FFFFFF99]">
+                <div
+                  className={cn(
+                    "flex-1 font-mulish text-sm font-bold text-[#FFFFFF99]",
+                    selectStyles
+                  )}
+                >
                   {selectedOption ? selectedOption.label : placeholder}
                 </div>
                 <input
@@ -134,8 +143,9 @@ const Select: React.FC<SelectProps> = ({
               </>
             )}
 
+            {/* Chevron down icon */}
             <div
-              className="ml-1"
+              className={cn("ml-1", chevronStyles)}
               onClick={(e) => {
                 e.stopPropagation();
                 handleToggleDropdown();

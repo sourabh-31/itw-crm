@@ -4,16 +4,18 @@ import type { MutableRefObject } from "react";
 import { useEffect, useState } from "react";
 
 import type { NewsItem } from "@/types/brandsAndTeam.type";
+import type { TaskType } from "@/types/tasks.type";
 
 type UseFeedsToShowReturn = {
   numOfFeedsToShow: number;
   isMounted: boolean;
 };
 
-const useFeedsToShow = (
+const useCardsToShow = (
   windowWidth: number,
-  newsData: NewsItem[],
-  containerRef: MutableRefObject<HTMLDivElement | null>
+  newsData: NewsItem[] | TaskType[],
+  containerRef: MutableRefObject<HTMLDivElement | null>,
+  cardWidth: number
 ): UseFeedsToShowReturn => {
   const [numOfFeedsToShow, setNumOfFeedsToShow] = useState(1);
   const [isMounted, setIsMounted] = useState(false);
@@ -21,7 +23,7 @@ const useFeedsToShow = (
   const calculateFeedsToShow = () => {
     if (containerRef.current) {
       const containerWidth = containerRef.current.offsetWidth;
-      const feedWidth = 327 + 20; // width of a feed item + gap
+      const feedWidth = cardWidth + 20; // width of a feed item + gap
       return Math.max(1, Math.floor(containerWidth / feedWidth));
     }
     return 1;
@@ -53,4 +55,4 @@ const useFeedsToShow = (
   return { numOfFeedsToShow, isMounted };
 };
 
-export default useFeedsToShow;
+export default useCardsToShow;

@@ -23,6 +23,7 @@ interface MenuItemsProps {
   children: ReactNode;
   width: string;
   position?: string;
+  className?: string;
 }
 
 interface MenuItemProps {
@@ -82,6 +83,7 @@ const MenuItems: React.FC<MenuItemsProps> = ({
   children,
   position = "auto",
   width,
+  className,
 }) => {
   const context = React.useContext(MenuContext);
   const menuRef = useRef<HTMLDivElement>(null);
@@ -129,7 +131,10 @@ const MenuItems: React.FC<MenuItemsProps> = ({
   return (
     <div
       ref={menuRef}
-      className={`absolute rounded-[10px] border border-[#4141414D] bg-[#FFFAEA] px-[6px] py-1 ${getPositionClasses()}`}
+      className={cn(
+        `absolute rounded-[10px] border border-[#4141414D] bg-[#FFFAEA] px-[6px] py-1 ${getPositionClasses()}`,
+        className
+      )}
       style={{
         boxShadow: "2px 4px 20px 0px #00000033",
         width,

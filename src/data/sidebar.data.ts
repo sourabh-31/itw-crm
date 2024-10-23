@@ -16,6 +16,13 @@ export const SidebarData: SidebarDataType[] = [
     alt: "brands",
   },
   {
+    name: "tasks",
+    img: "/assets/svg/sidebar/arrow.svg",
+    imgAlt: "/assets/svg/sidebar/arrow-alt.svg",
+    link: "/tasks",
+    alt: "tasks",
+  },
+  {
     name: "people",
     img: "/assets/svg/sidebar/people.svg",
     imgAlt: "/assets/svg/sidebar/people-alt.svg",
@@ -35,12 +42,5 @@ export const SidebarData: SidebarDataType[] = [
     imgAlt: "/assets/svg/sidebar/message-alt.svg",
     link: "/message",
     alt: "message",
-  },
-  {
-    name: "arrow",
-    img: "/assets/svg/sidebar/arrow.svg",
-    imgAlt: "/assets/svg/sidebar/arrow-alt.svg",
-    link: "/goto",
-    alt: "arrow",
   },
 ];

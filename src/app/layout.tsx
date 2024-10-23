@@ -10,14 +10,18 @@ const recoletaAlt = localFont({
   src: "../../public/assets/fonts/RecoletaAlt-SemiBold.woff",
   variable: "--font-recoletaAlt-semiBold",
   weight: "600",
-  display: "swap",
+});
+
+const recoletaAltReg = localFont({
+  src: "../../public/assets/fonts/RecoletaAlt-Regular.woff",
+  variable: "--font-recoletaAlt-regular",
+  weight: "400",
 });
 
 const mulish = Mulish({
   subsets: ["latin"],
   variable: "--font-mulish",
   weight: ["200", "300", "400", "500", "600", "700", "800", "900", "1000"],
-  display: "swap",
 });
 
 export const metadata: Metadata = {
@@ -33,7 +37,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body
-        className={`${recoletaAlt.variable} ${mulish.variable} antialiased`}
+        className={`${recoletaAlt.variable} ${mulish.variable} ${recoletaAltReg.variable} antialiased`}
       >
         <Providers>{children}</Providers>
       </body>

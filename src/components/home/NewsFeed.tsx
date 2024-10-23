@@ -2,8 +2,8 @@
 
 import { useRef } from "react";
 
+import useCardsToShow from "@/hooks/useCardsToShow";
 import { useBrandsAndTeam } from "@/hooks/useData";
-import useFeedsToShow from "@/hooks/useFeedsToShow";
 import useWindowWidth from "@/hooks/useWindowWidth";
 
 import Container from "../shared/Container";
@@ -15,10 +15,11 @@ export default function NewsFeed() {
   const { data = null, isLoading, isError } = useBrandsAndTeam();
   const newsData = data?.news?.slice(0, 4) ?? [];
   const windowWidth = useWindowWidth();
-  const { numOfFeedsToShow, isMounted } = useFeedsToShow(
+  const { numOfFeedsToShow, isMounted } = useCardsToShow(
     windowWidth,
     newsData,
-    containerRef
+    containerRef,
+    327
   );
 
   if (isError || !newsData.length) return null;

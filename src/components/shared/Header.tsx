@@ -6,7 +6,7 @@ import {
 import Image from "next/image";
 
 import { PROFILE } from "@/constants/queryKeys";
-import { getProfileData } from "@/server/actions";
+import { getProfileData } from "@/server/dashboard.actions";
 
 import Profile from "./Profile";
 

@@ -1,8 +1,8 @@
-import ModalWindows from "@/components/my-brands/ModalWindows";
-import SidebarWindows from "@/components/my-brands/SidebarWindows";
 import Bottombar from "@/components/shared/Bottombar";
 import CurrentSection from "@/components/shared/CurrentSection";
 import Header from "@/components/shared/Header";
+import ModalWindows from "@/components/shared/ModalWindows";
+import SidebarWindows from "@/components/shared/SidebarWindows";
 import SideNav from "@/components/shared/SideNav";
 
 // Blueish ellipse component

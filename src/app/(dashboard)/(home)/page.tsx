@@ -22,7 +22,7 @@ import {
   getAssignedData,
   getBrandsAndTeamData,
   getInventoryData,
-} from "@/server/actions";
+} from "@/server/dashboard.actions";
 
 export default async function Home() {
   // Prefetching brands and team data for SSR

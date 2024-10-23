@@ -156,19 +156,21 @@ export default function AddPerson() {
             />
           </Input.Root>
 
-          <Select
-            label="Designation"
-            name="designation"
-            placeholder="Select or add designation"
-            options={[
-              { value: "Marketing Manager", label: "Marketing Manager" },
-              { value: "Business Developer", label: "Business Developer" },
-              { value: "Software Developer", label: "Software Developer" },
-            ]}
-            iconSrc="/assets/svg/my-brands/poc/card.svg"
-            isRequired
-            isInput
-          />
+          <div className="mb-6">
+            <Select
+              label="Designation"
+              name="designation"
+              placeholder="Select or add designation"
+              options={[
+                { value: "Marketing Manager", label: "Marketing Manager" },
+                { value: "Business Developer", label: "Business Developer" },
+                { value: "Software Developer", label: "Software Developer" },
+              ]}
+              iconSrc="/assets/svg/my-brands/poc/card.svg"
+              isRequired
+              isInput
+            />
+          </div>
 
           <Input.Root name="email">
             <Input.Icon iconSrc="/assets/svg/my-brands/poc/mail.svg" />
@@ -178,18 +180,20 @@ export default function AddPerson() {
             />
           </Input.Root>
 
-          <Select
-            label="Location"
-            name="location"
-            placeholder="Search and select location"
-            options={[
-              { value: "Bengaluru", label: "Bengaluru" },
-              { value: "Hyderabad", label: "Hyderabad" },
-              { value: "Gurugram", label: "Gurugram" },
-            ]}
-            iconSrc="/assets/svg/my-brands/poc/location.svg"
-            isInput
-          />
+          <div className="mb-6">
+            <Select
+              label="Location"
+              name="location"
+              placeholder="Search and select location"
+              options={[
+                { value: "Bengaluru", label: "Bengaluru" },
+                { value: "Hyderabad", label: "Hyderabad" },
+                { value: "Gurugram", label: "Gurugram" },
+              ]}
+              iconSrc="/assets/svg/my-brands/poc/location.svg"
+              isInput
+            />
+          </div>
 
           {!id ? (
             <>

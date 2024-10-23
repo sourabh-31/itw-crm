@@ -11,7 +11,7 @@ import {
   getBrandsAndTeamData,
   getInventoryData,
   getProfileData,
-} from "@/server/actions";
+} from "@/server/dashboard.actions";
 import type { BrandsAndTeam } from "@/types/brandsAndTeam.type";
 import type { InventoryOrAssignedResponse } from "@/types/inventory.type";
 import type { UserProfile } from "@/types/user.type";

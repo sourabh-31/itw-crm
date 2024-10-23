@@ -20,6 +20,7 @@ const config: Config = {
         blue: "var(--blue)",
         "gray-dark": "var(--gray-dark)",
         "gray-light": "var(--gray-light)",
+        "gray-white": "var(--gray-white)",
         yellow: {
           100: "var(--yellow-100)",
           200: "var(--yellow-200)",
@@ -27,6 +28,7 @@ const config: Config = {
       },
       fontFamily: {
         recoletaAlt: ["var(--font-recoletaAlt-semiBold)"],
+        recoletaAltReg: ["var(--font-recoletaAlt-regular)"],
         mulish: ["var(--font-mulish)"],
       },
     },

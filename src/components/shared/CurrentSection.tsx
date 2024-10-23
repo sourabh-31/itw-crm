@@ -5,6 +5,7 @@ import Image from "next/image";
 import { usePathname } from "next/navigation";
 import { CgChevronDown } from "react-icons/cg";
 
+import TaskHeader from "../tasks/TaskHeader";
 import { Menu } from "./Menu";
 import { Sidebar } from "./Sidebar";
 
@@ -23,6 +24,16 @@ export default function CurrentSection() {
     capitalizeWords(route.replace(/-/g, " "))
   );
 
+  // Different current section header for /tasks
+  if (pathname === "/tasks") {
+    return (
+      <header className="noiseBgSec h-28 border-b border-gray-light bg-foreground sm:rounded-t-2xl lg:h-16">
+        <TaskHeader />
+      </header>
+    );
+  }
+
+  // Section header not for /tasks
   return (
     <header className="noiseBgSec flex h-16 items-center justify-between border-b border-gray-light bg-foreground px-4 font-recoletaAlt text-lg text-white sm:h-[4.5rem] sm:rounded-t-2xl sm:px-6 lg:text-xl">
       {/* Full Breadcrumbs on larger screens */}
@@ -82,8 +93,8 @@ export default function CurrentSection() {
               </button>
             </Menu.Trigger>
 
-            <div className="relative top-2">
-              <Menu.Items width="230px">
+            <div className="relative right-12 top-2">
+              <Menu.Items width="230px" position="bottom">
                 <Sidebar.Open opens="add-person">
                   <Menu.Item
                     imgSrc="/assets/svg/my-brands/user.svg"

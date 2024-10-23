@@ -2,12 +2,14 @@
 
 import { usePathname } from "next/navigation";
 
-import { Sidebar } from "../shared/Sidebar";
-import AddDepartment from "./AddDepartment";
-import AddLocation from "./AddLocation";
-import AddPerson from "./AddPerson";
-import Demo from "./Demo";
-import Details from "./Details";
+import AddDepartment from "../my-brands/AddDepartment";
+import AddLocation from "../my-brands/AddLocation";
+import AddPerson from "../my-brands/AddPerson";
+import Demo from "../my-brands/Demo";
+import Details from "../my-brands/Details";
+import Filter from "../tasks/Filter";
+import { SidebarFilter } from "../tasks/FilterBrands";
+import { Sidebar } from "./Sidebar";
 
 export default function SidebarWindows() {
   const pathname = usePathname();
@@ -79,6 +81,17 @@ export default function SidebarWindows() {
       >
         <Details name="location-details" />
       </Sidebar.Window>
+
+      <SidebarFilter.Window
+        name="filter-brands"
+        title="India vs Australia ODI"
+        icon1="/assets/svg/people-details/edit-pencil.svg"
+        icon2="/assets/svg/people-details/more-alt.svg"
+        isBorderedIcon
+        className="w-[360px]"
+      >
+        <Filter />
+      </SidebarFilter.Window>
 
       {pathname === "/my-brands/google-pvt-ltd" ? <Demo /> : null}
     </>
