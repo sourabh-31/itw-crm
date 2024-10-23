@@ -1,9 +1,11 @@
 import Image from "next/image";
 import { useState } from "react";
 import { IoClose } from "react-icons/io5";
+import { toast } from "sonner";
 
 import { useProfile } from "@/hooks/useData";
 import {
+  useAddComment,
   useAssigneeData,
   useCreateTask,
   useEditTask,
@@ -24,6 +26,7 @@ import CommentAndHistory from "./CommentAndHistory";
 export default function TaskDetails() {
   const { close, open } = useModal();
   const [recordBox, setRecordBox] = useState(false);
+  const [comment, setComment] = useState("");
   const { taskId, handleTaskId, handleUserId, handleUserName } = useTaskStore();
   const { data } = useTaskDetails(taskId || 0);
   const { mutate: addTask } = useCreateTask();
@@ -36,6 +39,7 @@ export default function TaskDetails() {
 
   // Call assignee and brand data
   const { data: assigneeData } = useAssigneeData(brandFilter, 0, 0);
+  const { mutate: addComment, isPending } = useAddComment(taskId || 0);
 
   const task = data?.task;
 
@@ -150,6 +154,17 @@ export default function TaskDetails() {
       });
     } else {
       open("reopen-task");
+    }
+  };
+
+  const handleAddComment = () => {
+    if (!comment) {
+      toast.error("Please write comment");
+      return;
+    }
+
+    if (taskId) {
+      addComment(comment);
     }
   };
 
@@ -304,6 +319,7 @@ export default function TaskDetails() {
                 role="textbox"
                 contentEditable
                 aria-label="comment"
+                onInput={(e) => setComment(e.currentTarget.textContent || "")}
               />
 
               <div className="absolute bottom-4 right-5 flex items-center gap-4">
@@ -334,8 +350,9 @@ export default function TaskDetails() {
                 <button
                   type="button"
                   className="flex h-[40px] w-[110px] items-center justify-center rounded-full bg-blue font-mulish text-sm font-bold text-white"
+                  onClick={handleAddComment}
                 >
-                  PUBLISH
+                  {isPending ? "ADDING..." : "PUBLISH"}
                 </button>
               </div>
             </div>

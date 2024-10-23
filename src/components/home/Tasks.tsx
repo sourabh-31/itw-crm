@@ -53,9 +53,14 @@ export default function Tasks() {
                 <input type="checkbox" className="size-4 rounded-full" />
               </div>
               <div>
-                <span className="font-mulish text-sm">
-                  {truncate(task.title, { length: 60 })}
-                </span>
+                <div className="flex flex-col">
+                  <span className="font-mulish text-sm">
+                    {truncate(task.title, { length: 60 })}
+                  </span>
+                  <span className="font-mulish text-xs font-medium tracking-[0.036em] text-[#FFFFFF99]">
+                    {truncate(task.description, { length: 60 })}
+                  </span>
+                </div>
                 <div className="mt-2 flex items-center gap-4 font-mulish text-xs">
                   <div className="flex items-center gap-1">
                     <Image

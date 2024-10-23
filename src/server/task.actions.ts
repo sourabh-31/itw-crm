@@ -216,3 +216,52 @@ export async function getTaskDetails(taskId: number) {
     throw new Error("Failed to fetch task details");
   }
 }
+
+export async function getTaskComments(taskId: number) {
+  try {
+    const response = await axios.post(
+      `https://beta-api.itwcrm.com/tasks/comments?taskId=${taskId}&page=1&size=10&isTimeline=false`,
+      {},
+      {
+        headers: {
+          "X-authorization-token": process.env.NEXT_PUBLIC_AUTHORIZATION_TOKEN,
+        },
+      }
+    );
+
+    return response.data;
+  } catch (error) {
+    throw new Error("Failed to fetch comments");
+  }
+}
+
+export async function deleteComment(commentId: number): Promise<any> {
+  const response = await axios.delete(
+    `https://beta-api.itwcrm.com/tasks/comments?commentId=${commentId}`,
+    {
+      headers: {
+        "X-authorization-token": process.env.NEXT_PUBLIC_AUTHORIZATION_TOKEN,
+      },
+    }
+  );
+  return response.data;
+}
+
+export async function addComment(
+  taskId: number,
+  comment: string
+): Promise<any> {
+  const response = await axios.post(
+    `https://beta-api.itwcrm.com/tasks/new-comment`,
+    {
+      taskId,
+      comment,
+    },
+    {
+      headers: {
+        "X-authorization-token": process.env.NEXT_PUBLIC_AUTHORIZATION_TOKEN,
+      },
+    }
+  );
+  return response.data;
+}

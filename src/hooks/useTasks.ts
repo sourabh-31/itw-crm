@@ -5,25 +5,30 @@ import {
   ALLTASKS,
   ASSIGNEE,
   BRAND,
+  TASKCOMMENT,
   TASKDETAILS,
   TASKEVENT,
   TASKINVENTORY,
   TASKSTATS,
 } from "@/constants/queryKeys";
 import {
+  addComment,
   createTask,
+  deleteComment,
   deleteTask,
   editTask,
   getAssigneeData,
   getBrandData,
   getEventData,
   getInventoryData,
+  getTaskComments,
   getTaskDetails,
   getTasks,
   getTasksStats,
 } from "@/server/task.actions";
 import type { TasksApiResponse } from "@/types/allTasks.type";
 import type { BrandResponse } from "@/types/brand.type";
+import type { CommentResponse } from "@/types/comments.type";
 import type { TaskStatsResponse } from "@/types/stats.type";
 import type {
   AssigneeResponse,
@@ -171,4 +176,43 @@ export function useTaskDetails(taskId: number) {
     queryKey: [TASKDETAILS, taskId],
     queryFn: () => getTaskDetails(taskId),
   });
+}
+
+export function useTaskComments(taskId: number) {
+  return useQuery<CommentResponse>({
+    queryKey: [TASKCOMMENT, taskId],
+    queryFn: () => getTaskComments(taskId),
+  });
+}
+
+export function useDeleteComment() {
+  const queryClient = useQueryClient();
+  const { isPending, mutate } = useMutation({
+    mutationFn: (commentId: number) => deleteComment(commentId),
+    onSuccess: () => {
+      toast.success("Comment deleted successfully");
+      queryClient.invalidateQueries({ queryKey: [TASKCOMMENT] });
+    },
+    onError: () => {
+      toast.error("Failed to delete comment");
+    },
+  });
+
+  return { isPending, mutate };
+}
+
+export function useAddComment(taskId: number) {
+  const queryClient = useQueryClient();
+  const { isPending, mutate } = useMutation({
+    mutationFn: (comment: string) => addComment(taskId, comment),
+    onSuccess: () => {
+      toast.success("Comment added successfully");
+      queryClient.invalidateQueries({ queryKey: [TASKCOMMENT] });
+    },
+    onError: () => {
+      toast.error("Failed to add comment");
+    },
+  });
+
+  return { isPending, mutate };
 }
