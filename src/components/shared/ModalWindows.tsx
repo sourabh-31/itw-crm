@@ -7,6 +7,7 @@ import EditNote from "../my-brands/EditNote";
 import MoveNode from "../my-brands/MoveNode";
 import AddTask from "../tasks/AddTask";
 import DeleteTask from "../tasks/DeleteTask";
+import DuplicateTask from "../tasks/DuplicateTask";
 import EditTask from "../tasks/EditTask";
 import ReAssignTask from "../tasks/ReAssignTask";
 import ReOpenTask from "../tasks/ReOpenTask";
@@ -84,6 +85,11 @@ export default function ModalWindows() {
       {/* Task sort by */}
       <Modal.Window name="taskSortBy">
         <TaskSortBy />
+      </Modal.Window>
+
+      {/* duplicate tasks */}
+      <Modal.Window name="duplicate-task">
+        <DuplicateTask />
       </Modal.Window>
     </>
   );

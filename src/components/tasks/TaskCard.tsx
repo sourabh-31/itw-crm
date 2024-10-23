@@ -167,11 +167,13 @@ export default function TaskCard({
                     onClick={() => handleTaskId(taskId)}
                   />
                 </Modal.Open>
-                <Menu.Item
-                  imgSrc="/assets/svg/tasks/duplicate.svg"
-                  btnName="Duplicate Task"
-                  onClick={handleDuplicateTask}
-                />
+                <Modal.Open opens="duplicate-task">
+                  <Menu.Item
+                    imgSrc="/assets/svg/tasks/duplicate.svg"
+                    btnName="Duplicate Task"
+                    onClick={() => handleTaskId(taskId)}
+                  />
+                </Modal.Open>
                 <div className="mx-[10px] my-2 border-b border-dashed border-[#00000033]" />
                 {!isCompleted ? (
                   <>
