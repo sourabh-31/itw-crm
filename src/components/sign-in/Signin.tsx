@@ -16,7 +16,6 @@ export default function Signin() {
 
   const login = useGoogleLogin({
     onSuccess: (codeResponse) => setAccessToken(codeResponse.access_token),
-    flow: "implicit",
   });
 
   useEffect(() => {
