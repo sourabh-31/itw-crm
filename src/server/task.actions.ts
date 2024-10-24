@@ -5,7 +5,8 @@ import type { TaskData } from "@/types/tasks.type";
 export async function getAssigneeData(
   brandFilter: number[],
   page: number,
-  size: number
+  size: number,
+  search?: string | null
 ) {
   try {
     const response = await axios.post(
@@ -14,6 +15,7 @@ export async function getAssigneeData(
         brandFilter,
         page,
         size,
+        ...(search && { search }),
       },
       {
         headers: {
@@ -31,7 +33,8 @@ export async function getAssigneeData(
 export async function getBrandData(
   userFilter: number[],
   page: number,
-  size: number
+  size: number,
+  search?: string
 ) {
   try {
     const response = await axios.post(
@@ -40,6 +43,7 @@ export async function getBrandData(
         userFilter,
         page,
         size,
+        ...(search && { search }),
       },
       {
         headers: {
@@ -54,13 +58,18 @@ export async function getBrandData(
   }
 }
 
-export async function getInventoryData(page: number, size: number) {
+export async function getInventoryData(
+  page: number,
+  size: number,
+  search?: string
+) {
   try {
     const response = await axios.post(
       `https://beta-api.itwcrm.com/tasks/inventories`,
       {
         page,
         size,
+        ...(search && { search }),
       },
       {
         headers: {
@@ -75,13 +84,20 @@ export async function getInventoryData(page: number, size: number) {
   }
 }
 
-export async function getEventData(page: number, size: number) {
+export async function getEventData(
+  page: number,
+  size: number,
+  archived?: boolean,
+  search?: string
+) {
   try {
     const response = await axios.post(
       `https://beta-api.itwcrm.com/tasks/events`,
       {
         page,
         size,
+        archived,
+        ...(search && { search }),
       },
       {
         headers: {
@@ -105,7 +121,10 @@ export async function getTasks(
   taskType?: string[],
   dueOn?: string,
   sortBy?: string,
-  order?: string
+  order?: string,
+  filteredByBrands?: number[],
+  filteredByInventory?: number[],
+  filteredByAddedBy?: number[]
 ) {
   try {
     const response = await axios.post(
@@ -119,6 +138,24 @@ export async function getTasks(
         dueOn,
         sortBy,
         order,
+        ...(filteredByBrands?.length && {
+          filteredByBrands: {
+            ids: filteredByBrands,
+            selectionType: "EXCLUDE",
+          },
+        }),
+        ...(filteredByInventory?.length && {
+          filteredByInventory: {
+            ids: filteredByInventory,
+            selectionType: "EXCLUDE",
+          },
+        }),
+        ...(filteredByAddedBy?.length && {
+          filteredByAddedBy: {
+            ids: filteredByAddedBy,
+            selectionType: "EXCLUDE",
+          },
+        }),
       },
       {
         headers: {
@@ -217,10 +254,14 @@ export async function getTaskDetails(taskId: number) {
   }
 }
 
-export async function getTaskComments(taskId: number) {
+export async function getTaskComments(
+  taskId: number,
+  page: number,
+  size: number
+) {
   try {
     const response = await axios.post(
-      `https://beta-api.itwcrm.com/tasks/comments?taskId=${taskId}&page=1&size=10&isTimeline=false`,
+      `https://beta-api.itwcrm.com/tasks/comments?taskId=${taskId}&page=${page}&size=${size}&isTimeline=false`,
       {},
       {
         headers: {
@@ -264,4 +305,22 @@ export async function addComment(
     }
   );
   return response.data;
+}
+
+export async function getTeamOwners(page: number, searchFor?: string) {
+  const url = searchFor
+    ? `https://beta-api.itwcrm.com/user/team-owners?pageNo=${page}&searchFor=${searchFor}`
+    : `https://beta-api.itwcrm.com/user/team-owners?pageNo=${page}`;
+
+  try {
+    const response = await axios.get(url, {
+      headers: {
+        "X-authorization-token": process.env.NEXT_PUBLIC_AUTHORIZATION_TOKEN,
+      },
+    });
+
+    return response.data;
+  } catch (error) {
+    throw new Error("Failed to fetch team owners");
+  }
 }

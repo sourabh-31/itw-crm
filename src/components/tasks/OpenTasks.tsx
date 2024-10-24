@@ -8,8 +8,17 @@ import TaskCard from "./TaskCard";
 
 export default function OpenTasks() {
   const containerRef = useRef(null);
-  const { taskCategory, timeFilter, taskType, dueOn, sortBy, order } =
-    useTaskStore();
+  const {
+    taskCategory,
+    timeFilter,
+    taskType,
+    dueOn,
+    sortBy,
+    order,
+    filteredByBrands,
+    filteredByInventory,
+    filteredByAddedBy,
+  } = useTaskStore();
 
   const { isPending, isError, data } = useTasksData(
     taskCategory,
@@ -20,7 +29,10 @@ export default function OpenTasks() {
     taskType === "All" ? [] : [taskType],
     dueOn,
     sortBy,
-    order
+    order,
+    filteredByBrands,
+    filteredByInventory,
+    filteredByAddedBy
   );
 
   // Handle loading state

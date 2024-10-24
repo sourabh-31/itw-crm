@@ -11,6 +11,9 @@ interface TaskStore {
   dueOn: string;
   sortBy: string;
   order: string;
+  filteredByBrands: number[];
+  filteredByInventory: number[];
+  filteredByAddedBy: number[];
   handleTabChange: (tabName: string) => void;
   handleTaskCategory: (type: string) => void;
   handleTimeFilter: (time: string) => void;
@@ -22,6 +25,12 @@ interface TaskStore {
   handleOrder: (order: string) => void;
   handleUserId: (userId: number) => void;
   handleUserName: (name: string) => void;
+  handleFilteredByBrands: (id: number) => void;
+  removeFilteredByBrands: (id: number) => void;
+  handleFilteredByInventory: (id: number) => void;
+  removeFilteredByInventory: (id: number) => void;
+  handleFilteredByAddedBy: (id: number) => void;
+  removeFilteredByAddedBy: (id: number) => void;
 }
 
 export const useTaskStore = create<TaskStore>((set) => ({
@@ -35,6 +44,9 @@ export const useTaskStore = create<TaskStore>((set) => ({
   dueOn: "ALL",
   sortBy: "createdAt",
   order: "ASC",
+  filteredByBrands: [],
+  filteredByInventory: [],
+  filteredByAddedBy: [],
   handleTabChange: (tabName: string) => {
     set(() => ({ activeTab: tabName }));
   },
@@ -67,5 +79,39 @@ export const useTaskStore = create<TaskStore>((set) => ({
   },
   handleUserName: (name: string) => {
     set(() => ({ userName: name }));
+  },
+  handleFilteredByBrands: (id: number) => {
+    set((taskStore) => ({
+      filteredByBrands: [...taskStore.filteredByBrands, id],
+    }));
+  },
+  removeFilteredByBrands: (id: number) => {
+    set((taskStore) => ({
+      filteredByBrands: taskStore.filteredByBrands.filter((val) => val !== id),
+    }));
+  },
+  handleFilteredByInventory: (id: number) => {
+    set((taskStore) => ({
+      filteredByInventory: [...taskStore.filteredByInventory, id],
+    }));
+  },
+  removeFilteredByInventory: (id: number) => {
+    set((taskStore) => ({
+      filteredByInventory: taskStore.filteredByInventory.filter(
+        (val) => val !== id
+      ),
+    }));
+  },
+  handleFilteredByAddedBy: (id: number) => {
+    set((taskStore) => ({
+      filteredByAddedBy: [...taskStore.filteredByAddedBy, id],
+    }));
+  },
+  removeFilteredByAddedBy: (id: number) => {
+    set((taskStore) => ({
+      filteredByAddedBy: taskStore.filteredByAddedBy.filter(
+        (val) => val !== id
+      ),
+    }));
   },
 }));

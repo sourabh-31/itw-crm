@@ -21,7 +21,7 @@ import { useModal } from "../shared/Modal";
 
 export default function DuplicateTask() {
   const { taskId, resetTaskId } = useTaskStore();
-  const { data, isPending: isLoadingDetails } = useTaskDetails(taskId || 0);
+  const { data } = useTaskDetails(taskId || 0);
   const task = data?.task;
 
   const [title, setTitle] = useState(task?.title || "");

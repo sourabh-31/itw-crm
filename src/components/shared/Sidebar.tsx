@@ -24,14 +24,15 @@ const SidebarContext = createContext<SidebarContextType | undefined>(undefined);
 
 // Main Sidebar Component
 function Sidebar({ children }: SidebarProps) {
-  const [openName, setOpenName] = useState<string>("");
+  const [openNames, setOpenNames] = useState<string[]>([]);
 
-  const open = setOpenName;
-  const close = () => setOpenName("");
+  const open = (name: string) => setOpenNames((prev) => [...prev, name]);
+  const close = (name: string) =>
+    setOpenNames((prev) => prev.filter((n) => n !== name));
 
   // Lock the body scroll when the sidebar is opened
   useEffect(() => {
-    if (openName) {
+    if (openNames.length) {
       document.body.classList.add("overflow-hidden");
     } else {
       document.body.classList.remove("overflow-hidden");
@@ -39,10 +40,10 @@ function Sidebar({ children }: SidebarProps) {
     return () => {
       document.body.classList.remove("overflow-hidden");
     };
-  }, [openName]);
+  }, [openNames.length]);
 
   return (
-    <SidebarContext.Provider value={{ openName, open, close }}>
+    <SidebarContext.Provider value={{ openNames, open, close }}>
       {children}
     </SidebarContext.Provider>
   );
@@ -84,17 +85,20 @@ function Window({
   isBorderedIcon,
   className,
 }: WindowProps) {
-  const { openName, close } = useSidebar();
   const { selectedData } = useChartStore();
   const { memberName } = selectedData as PersonNode;
   const { resetSelectedNode } = useChartStore();
   const router = useRouter();
 
-  if (name !== openName) return null;
+  const { openNames, close } = useSidebar();
+
+  if (!openNames.includes(name)) return null;
+
+  const isFirstOpen = openNames[0] === name;
 
   return (
     <aside className="fixed inset-0 z-50 flex justify-end">
-      <div className="grow bg-slate-800/50" />
+      {isFirstOpen && <div className="grow bg-slate-800 opacity-50" />}
       <div
         className={cn(
           "flex h-full flex-col bg-[#292D38]",
@@ -109,7 +113,7 @@ function Window({
               <button
                 type="button"
                 onClick={() => {
-                  close(openName);
+                  close(name);
                   resetSelectedNode();
                   router.push("/my-brands/google-pvt-ltd/org-chart");
                 }}

@@ -1,23 +1,10 @@
-import { CgClose } from "react-icons/cg";
-
 import { useTaskStore } from "@/store/useTaskStore";
 
-import { useModal } from "../shared/Modal";
-
-export default function TaskSortBy() {
-  const { close } = useModal();
+export default function SortBy() {
   const { sortBy, order, handleSortBy, handleOrder } = useTaskStore();
 
   return (
-    <div className="w-80 rounded-lg bg-[#1b1e25] px-3 py-px sm:w-96">
-      <button
-        type="button"
-        className="float-end pb-4 pt-2"
-        onClick={() => close()}
-      >
-        <CgClose color="white" size={20} />
-      </button>
-
+    <div className="rounded-lg bg-[#1b1e25] px-3 py-px">
       {/* Newest created */}
 
       <button
@@ -26,7 +13,7 @@ export default function TaskSortBy() {
           handleSortBy("createdAt");
           handleOrder("ASC");
         }}
-        className={`my-4 flex w-full items-center justify-between rounded-xl p-4 ${sortBy === "createdAt" && order === "ASC" ? "bg-white" : "bg-[#292D38] text-[#ffffffcc]"}`}
+        className={`my-4 flex w-full items-center justify-between rounded-xl p-4 ${sortBy === "createdAt" && order === "ASC" ? "bg-white" : "bg-[#292D38] text-[#ffffff]"}`}
       >
         <div className="flex items-center gap-2">
           <span className="font-mulish text-sm font-medium">
@@ -43,7 +30,7 @@ export default function TaskSortBy() {
           handleSortBy("createdAt");
           handleOrder("DESC");
         }}
-        className={`my-4 flex w-full items-center justify-between rounded-xl p-4 ${sortBy === "createdAt" && order === "DESC" ? "bg-white" : "bg-[#292D38] text-[#ffffffcc]"}`}
+        className={`my-4 flex w-full items-center justify-between rounded-xl p-4 ${sortBy === "createdAt" && order === "DESC" ? "bg-white" : "bg-[#292D38] text-[#ffffff]"}`}
       >
         <div className="flex items-center gap-2">
           <span className="font-mulish text-sm font-medium">
@@ -60,7 +47,7 @@ export default function TaskSortBy() {
           handleSortBy("title");
           handleOrder("ASC");
         }}
-        className={`my-4 flex w-full items-center justify-between rounded-xl p-4 ${sortBy === "title" && order === "ASC" ? "bg-white" : "bg-[#292D38] text-[#ffffffcc]"}`}
+        className={`my-4 flex w-full items-center justify-between rounded-xl p-4 ${sortBy === "title" && order === "ASC" ? "bg-white" : "bg-[#292D38] text-[#ffffff]"}`}
       >
         <div className="flex items-center gap-2">
           <span className="font-mulish text-sm font-medium">
@@ -77,7 +64,7 @@ export default function TaskSortBy() {
           handleSortBy("title");
           handleOrder("DESC");
         }}
-        className={`my-4 flex w-full items-center justify-between rounded-xl p-4 ${sortBy === "title" && order === "DESC" ? "bg-white" : "bg-[#292D38] text-[#ffffffcc]"}`}
+        className={`my-4 flex w-full items-center justify-between rounded-xl p-4 ${sortBy === "title" && order === "DESC" ? "bg-white" : "bg-[#292D38] text-[#ffffff]"}`}
       >
         <div className="flex items-center gap-2">
           <span className="font-mulish text-sm font-medium">
@@ -94,7 +81,7 @@ export default function TaskSortBy() {
           handleSortBy("dueOn");
           handleOrder("ASC");
         }}
-        className={`my-4 flex w-full items-center justify-between rounded-xl p-4 ${sortBy === "dueOn" && order === "ASC" ? "bg-white" : "bg-[#292D38] text-[#ffffffcc]"}`}
+        className={`my-4 flex w-full items-center justify-between rounded-xl p-4 ${sortBy === "dueOn" && order === "ASC" ? "bg-white" : "bg-[#292D38] text-[#ffffff]"}`}
       >
         <div className="flex items-center gap-2">
           <span className="font-mulish text-sm font-medium">
@@ -111,7 +98,7 @@ export default function TaskSortBy() {
           handleSortBy("dueOn");
           handleOrder("DESC");
         }}
-        className={`my-4 flex w-full items-center justify-between rounded-xl p-4 ${sortBy === "dueOn" && order === "DESC" ? "bg-white" : "bg-[#292D38] text-[#ffffffcc]"}`}
+        className={`my-4 flex w-full items-center justify-between rounded-xl p-4 ${sortBy === "dueOn" && order === "DESC" ? "bg-white" : "bg-[#292D38] text-[#ffffff]"}`}
       >
         <div className="flex items-center gap-2">
           <span className="font-mulish text-sm font-medium">

@@ -26,7 +26,7 @@ interface MutateDataType {
 }
 
 export default function AddDepartment() {
-  const { close, openName } = useSidebar();
+  const { close } = useSidebar();
   const { selectedData, resetSelectedNode, addNode } = useChartStore();
   const [pickedColor, setPickedColor] = useState("#ffffff");
   const { id, memberName, type } = selectedData as PersonNode;
@@ -76,7 +76,7 @@ export default function AddDepartment() {
     }
 
     toast.success("Department added successfully");
-    close(openName);
+    close("add-department");
     resetSelectedNode();
   }
 
@@ -113,7 +113,7 @@ export default function AddDepartment() {
         <button
           type="button"
           onClick={() => {
-            close(openName);
+            close("add-department");
             resetSelectedNode();
           }}
           className="w-1/2 rounded-full bg-white py-[10px]"

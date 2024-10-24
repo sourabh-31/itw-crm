@@ -10,6 +10,7 @@ import {
   TASKEVENT,
   TASKINVENTORY,
   TASKSTATS,
+  TEAMOWNERS,
 } from "@/constants/queryKeys";
 import {
   addComment,
@@ -25,6 +26,7 @@ import {
   getTaskDetails,
   getTasks,
   getTasksStats,
+  getTeamOwners,
 } from "@/server/task.actions";
 import type { TasksApiResponse } from "@/types/allTasks.type";
 import type { BrandResponse } from "@/types/brand.type";
@@ -37,36 +39,48 @@ import type {
   TaskData,
   TaskResponse,
 } from "@/types/tasks.type";
+import type { TeamOwnersResponse } from "@/types/teamOwners.type";
 
 export function useAssigneeData(
   brandFilter: number[],
   page: number,
-  size: number
+  size: number,
+  search?: string
 ) {
   return useQuery<AssigneeResponse>({
-    queryKey: [ASSIGNEE, brandFilter, page, size],
-    queryFn: () => getAssigneeData(brandFilter, page, size),
+    queryKey: [ASSIGNEE, brandFilter, page, size, search],
+    queryFn: () => getAssigneeData(brandFilter, page, size, search),
   });
 }
 
-export function useBrandData(userFilter: number[], page: number, size: number) {
+export function useBrandData(
+  userFilter: number[],
+  page: number,
+  size: number,
+  search?: string
+) {
   return useQuery<BrandResponse>({
-    queryKey: [BRAND, userFilter, page, size],
-    queryFn: () => getBrandData(userFilter, page, size),
+    queryKey: [BRAND, userFilter, page, size, search],
+    queryFn: () => getBrandData(userFilter, page, size, search),
   });
 }
 
-export function useInventoryData(page: number, size: number) {
+export function useInventoryData(page: number, size: number, search?: string) {
   return useQuery<InventoryResponse>({
-    queryKey: [TASKINVENTORY, page, size],
-    queryFn: () => getInventoryData(page, size),
+    queryKey: [TASKINVENTORY, page, size, search],
+    queryFn: () => getInventoryData(page, size, search),
   });
 }
 
-export function useEventData(page: number, size: number) {
+export function useEventData(
+  page: number,
+  size: number,
+  archived?: boolean,
+  search?: string
+) {
   return useQuery<EventResponse>({
-    queryKey: [TASKEVENT, page, size],
-    queryFn: () => getEventData(page, size),
+    queryKey: [TASKEVENT, page, size, archived, search],
+    queryFn: () => getEventData(page, size, archived, search),
   });
 }
 
@@ -79,7 +93,10 @@ export function useTasksData(
   taskType?: string[],
   dueOn?: string,
   sortBy?: string,
-  order?: string
+  order?: string,
+  filteredByBrands?: number[],
+  filteredByInventory?: number[],
+  filteredByAddedBy?: number[]
 ) {
   return useQuery<TasksApiResponse>({
     queryKey: [
@@ -93,6 +110,9 @@ export function useTasksData(
       dueOn,
       sortBy,
       order,
+      filteredByBrands,
+      filteredByInventory,
+      filteredByAddedBy,
     ],
     queryFn: () =>
       getTasks(
@@ -104,7 +124,10 @@ export function useTasksData(
         taskType,
         dueOn,
         sortBy,
-        order
+        order,
+        filteredByBrands,
+        filteredByInventory,
+        filteredByAddedBy
       ),
   });
 }
@@ -178,10 +201,10 @@ export function useTaskDetails(taskId: number) {
   });
 }
 
-export function useTaskComments(taskId: number) {
+export function useTaskComments(taskId: number, page: number, size: number) {
   return useQuery<CommentResponse>({
-    queryKey: [TASKCOMMENT, taskId],
-    queryFn: () => getTaskComments(taskId),
+    queryKey: [TASKCOMMENT, taskId, page, size],
+    queryFn: () => getTaskComments(taskId, page, size),
   });
 }
 
@@ -215,4 +238,11 @@ export function useAddComment(taskId: number) {
   });
 
   return { isPending, mutate };
+}
+
+export function useTeamOwners(page: number, searchFor?: string) {
+  return useQuery<TeamOwnersResponse>({
+    queryKey: [TEAMOWNERS, page, searchFor],
+    queryFn: () => getTeamOwners(page, searchFor),
+  });
 }

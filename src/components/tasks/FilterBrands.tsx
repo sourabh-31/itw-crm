@@ -10,25 +10,28 @@ import { IoClose } from "react-icons/io5";
 
 import { cn } from "@/lib/utils";
 import type {
+  FilterWindowProps,
   OpenProps,
-  SidebarContextType,
+  SidebarFilterContextType,
   SidebarProps,
-  WindowProps,
 } from "@/types/sidebar.type";
 
 // Context
-const SidebarContext = createContext<SidebarContextType | undefined>(undefined);
+const SidebarContext = createContext<SidebarFilterContextType | undefined>(
+  undefined
+);
 
 // Main Sidebar Component
 function SidebarFilter({ children }: SidebarProps) {
-  const [openName, setOpenName] = useState<string>("");
+  const [openNames, setOpenNames] = useState<string[]>([]);
 
-  const open = setOpenName;
-  const close = () => setOpenName("");
+  const open = (name: string) => setOpenNames((prev) => [...prev, name]);
+  const close = (name: string) =>
+    setOpenNames((prev) => prev.filter((n) => n !== name));
 
   // Lock the body scroll when the sidebar is opened
   useEffect(() => {
-    if (openName) {
+    if (openNames.length) {
       document.body.classList.add("overflow-hidden");
     } else {
       document.body.classList.remove("overflow-hidden");
@@ -36,17 +39,17 @@ function SidebarFilter({ children }: SidebarProps) {
     return () => {
       document.body.classList.remove("overflow-hidden");
     };
-  }, [openName]);
+  }, [openNames.length]);
 
   return (
-    <SidebarContext.Provider value={{ openName, open, close }}>
+    <SidebarContext.Provider value={{ openNames, setOpenNames, open, close }}>
       {children}
     </SidebarContext.Provider>
   );
 }
 
 // Custom Hook to use context
-function useSidebar() {
+function useSidebarFilter() {
   const context = useContext(SidebarContext);
   if (context === undefined) {
     throw new Error("useSidebar must be used within a SidebarProvider");
@@ -56,7 +59,7 @@ function useSidebar() {
 
 // Sidebar Open Component
 function Open({ children, opens: opensWindowName }: OpenProps) {
-  const { open } = useSidebar();
+  const { open } = useSidebarFilter();
 
   const handleClick = (event: React.MouseEvent<HTMLElement>) => {
     if (children.props.onClick) {
@@ -71,14 +74,24 @@ function Open({ children, opens: opensWindowName }: OpenProps) {
 }
 
 // Sidebar Window Component
-function Window({ children, name, title, className }: WindowProps) {
-  const { openName, close } = useSidebar();
+function Window({
+  children,
+  name,
+  title,
+  className,
+  headerName,
+  startIcon,
+  isSubHeading = false,
+}: FilterWindowProps) {
+  const { openNames, close, setOpenNames } = useSidebarFilter();
 
-  if (name !== openName) return null;
+  if (!openNames.includes(name)) return null;
+
+  const isFirstOpen = openNames[0] === name;
 
   return (
     <aside className="fixed inset-0 z-50 flex justify-end">
-      <div className="grow bg-slate-800/50" />
+      {isFirstOpen && <div className="grow bg-slate-800 opacity-50" />}
       <div
         className={cn(
           "flex h-full flex-col bg-[#1B1E25]",
@@ -90,20 +103,19 @@ function Window({ children, name, title, className }: WindowProps) {
           <div className="flex items-center justify-between">
             {/* Arrow + Org Name */}
             <div className="flex items-center gap-3">
-              <Image
-                src="/assets/svg/tasks/funnel.svg"
-                alt="filter"
-                width={24}
-                height={24}
-              />
+              <button type="button" onClick={() => close(name)}>
+                <Image src={startIcon} alt="filter" width={24} height={24} />
+              </button>
               <div className="flex flex-col gap-[px] text-white">
-                <span className="font-recoletaAlt">Filter Brands</span>
-                <span className="font-mulish text-sm">{title}</span>
+                <span className="font-recoletaAlt">{headerName}</span>
+                {isSubHeading ? (
+                  <span className="font-mulish text-sm">{title}</span>
+                ) : null}
               </div>
             </div>
 
             {/* Close btn */}
-            <button type="button" onClick={() => close(openName)}>
+            <button type="button" onClick={() => setOpenNames([])}>
               <IoClose color="white" size={24} />
             </button>
           </div>
@@ -122,4 +134,4 @@ function Window({ children, name, title, className }: WindowProps) {
 SidebarFilter.Open = Open;
 SidebarFilter.Window = Window;
 
-export { SidebarFilter, useSidebar };
+export { SidebarFilter, useSidebarFilter };

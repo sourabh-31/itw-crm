@@ -1,4 +1,4 @@
-import type { ReactElement, ReactNode } from "react";
+import type { Dispatch, ReactElement, ReactNode, SetStateAction } from "react";
 
 export type SidebarDataType = {
   name: string;
@@ -9,9 +9,16 @@ export type SidebarDataType = {
 };
 
 export type SidebarContextType = {
-  openName: string;
+  openNames: string[];
   close: (name: string) => void;
   open: (name: string) => void;
+};
+
+export type SidebarFilterContextType = {
+  openNames: string[];
+  close: (name: string) => void;
+  open: (name: string) => void;
+  setOpenNames: Dispatch<SetStateAction<string[]>>;
 };
 
 export type SidebarProps = {
@@ -31,5 +38,16 @@ export type WindowProps = {
   isBorderedIcon: boolean;
   icon1?: string;
   icon2?: string;
+  className?: string;
+};
+
+export type FilterWindowProps = {
+  children: ReactElement;
+  name: string;
+  title?: string;
+  headerName: string;
+  startIcon: string;
+  isSubHeading?: boolean;
+  subText?: string;
   className?: string;
 };

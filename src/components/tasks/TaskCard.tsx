@@ -2,7 +2,7 @@ import { capitalize, truncate } from "lodash";
 import Image from "next/image";
 import { GoAlertFill } from "react-icons/go";
 
-import { useCreateTask, useEditTask } from "@/hooks/useTasks";
+import { useEditTask } from "@/hooks/useTasks";
 import {
   calculateTimeLeft,
   calculateTimeOverdue,
@@ -51,7 +51,6 @@ export default function TaskCard({
   eventId,
 }: TaskCardProps) {
   const { handleTaskId } = useTaskStore();
-  const { mutate: addTask } = useCreateTask();
   const { mutate: editTask } = useEditTask(taskId);
 
   const calculateProgress = () => {
@@ -71,19 +70,6 @@ export default function TaskCard({
   const progressWidth = `${calculateProgress()}%`;
 
   const due = calculateTimeOverdue(dueOn) || "Not overdue";
-
-  const handleDuplicateTask = () => {
-    addTask({
-      title: taskTitle,
-      dueOn,
-      relatedUsers: [assigneeId],
-      taskType: serviceType,
-      description: taskDescription,
-      ...(brandId && { relatedBrands: [brandId] }),
-      ...(inventoryId && { relatedInventory: [inventoryId] }),
-      ...(eventId && { relatedEvents: [eventId] }),
-    });
-  };
 
   const handleMarkAsCompleted = () => {
     editTask({
@@ -156,10 +142,14 @@ export default function TaskCard({
                   />
                 </Modal.Open>
 
-                <Menu.Item
-                  imgSrc="/assets/svg/tasks/comment.svg"
-                  btnName="Add Comment"
-                />
+                <Modal.Open opens="view-task-info">
+                  <Menu.Item
+                    imgSrc="/assets/svg/tasks/comment.svg"
+                    btnName="Add Comment"
+                    onClick={() => handleTaskId(taskId)}
+                  />
+                </Modal.Open>
+
                 <Modal.Open opens="edit-task">
                   <Menu.Item
                     imgSrc="/assets/svg/tasks/edit.svg"
@@ -269,7 +259,7 @@ export default function TaskCard({
             ) : null}
 
             {due !== "Not overdue" ? (
-              <div className="font-mulish text-xs font-medium text-[#000000CC]">
+              <div className="font-mulish text-xs font-medium text-[#FC5602]">
                 {due} <span className="font-bold">late</span>
               </div>
             ) : null}

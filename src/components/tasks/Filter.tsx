@@ -2,13 +2,87 @@ import Image from "next/image";
 import { BiChevronRight } from "react-icons/bi";
 import { IoMdInformationCircleOutline } from "react-icons/io";
 
-import { FilterBrandsBoxData } from "@/data/tasks.data";
+import { useProfile } from "@/hooks/useData";
+import { useAssigneeData, useTeamOwners } from "@/hooks/useTasks";
 import { useTaskStore } from "@/store/useTaskStore";
 
-import Modal from "../shared/Modal";
+import { SidebarFilter } from "./FilterBrands";
 
 export default function Filter() {
   const { taskType, handleTaskType, dueOn, handleDueOn } = useTaskStore();
+
+  const { data = null } = useProfile();
+  const userId = data?.id ?? 0;
+  const brandFilter = [userId];
+
+  const { data: assigneeData } = useAssigneeData(brandFilter, 0, 0);
+  const { data: teamOwnersData } = useTeamOwners(1);
+
+  const assigneeProfileImg = assigneeData?.data.users.map(
+    (data) => data.profileImage
+  );
+
+  const teamOwnerImg = teamOwnersData?.data.teamOwners.map(
+    (data) => data.profileImageUrl
+  );
+
+  const FilterBrandsBoxData = [
+    {
+      id: 1,
+      title: "Assigned By",
+      name: "filter-assignedBy",
+      imgSrc: assigneeProfileImg ?? [],
+      count: assigneeProfileImg?.length,
+      isImg: true,
+      isCount: true,
+    },
+    {
+      id: 2,
+      title: "Assigned To",
+      name: "filter-assignedTo",
+      imgSrc: assigneeProfileImg ?? [],
+      count: assigneeProfileImg?.length,
+      isImg: true,
+      isCount: true,
+    },
+    {
+      id: 3,
+      title: "Team Owners",
+      name: "filter-teamOwners",
+      imgSrc: teamOwnerImg ?? [],
+      count: teamOwnerImg?.length,
+      isImg: true,
+      isCount: true,
+    },
+    {
+      id: 4,
+      title: "Brands",
+      name: "filter-brands",
+      isImg: false,
+      isCount: false,
+    },
+    {
+      id: 5,
+      title: "Inventories",
+      name: "filter-inventories",
+      isImg: false,
+      isCount: false,
+    },
+    {
+      id: 6,
+      title: "Current Events",
+      name: "filter-currentEvents",
+      isImg: false,
+      isCount: false,
+    },
+    {
+      id: 7,
+      title: "Archived Events",
+      name: "filter-archivedEvents",
+      isImg: false,
+      isCount: false,
+    },
+  ];
 
   return (
     <div className="px-4">
@@ -68,25 +142,44 @@ export default function Filter() {
       {/* Utils */}
 
       {FilterBrandsBoxData.map((data) => (
-        <div
-          key={data.id}
-          className="my-4 flex items-center justify-between rounded-xl bg-[#292D38] p-4"
-        >
-          <p className="font-mulish text-sm font-medium text-white">
-            {data.title}
-          </p>
-          <div className="flex items-center gap-2">
-            {data.isImg ? (
-              <Image
-                src="/assets/png/member.png"
-                alt="member"
-                width={26}
-                height={26}
-              />
-            ) : null}
-            <BiChevronRight color="white" size={20} />
-          </div>
-        </div>
+        <SidebarFilter.Open key={data.id} opens={data.name}>
+          <button
+            type="button"
+            className="my-4 flex w-full items-center justify-between rounded-xl bg-[#292D38] p-4"
+          >
+            <p className="font-mulish text-sm font-medium text-white">
+              {data.title}
+            </p>
+            <div className="flex items-center gap-2">
+              <div className="flex items-center">
+                {data.isImg
+                  ? data.imgSrc?.slice(0, 3).map((data) => (
+                      <div
+                        className="-mx-1 rounded-full bg-[#ffea8e]"
+                        key={data}
+                      >
+                        <Image
+                          src={data}
+                          alt="member"
+                          width={26}
+                          height={26}
+                          key={data}
+                          className="aspect-square rounded-full object-cover"
+                        />
+                      </div>
+                    ))
+                  : null}
+                {data.isCount &&
+                (assigneeProfileImg?.length || teamOwnerImg?.length) ? (
+                  <div className="ml-2 font-mulish text-sm font-semibold text-[#0094FF]">
+                    +{data.count && data.count - 3}
+                  </div>
+                ) : null}
+              </div>
+              <BiChevronRight color="white" size={20} />
+            </div>
+          </button>
+        </SidebarFilter.Open>
       ))}
 
       {/* Due date */}
@@ -125,7 +218,7 @@ export default function Filter() {
       </div>
 
       {/* Sort by */}
-      <Modal.Open opens="taskSortBy">
+      <SidebarFilter.Open opens="filter-sortBy">
         <button
           type="button"
           className="my-4 flex w-full items-center justify-between rounded-xl bg-[#292D38] p-4"
@@ -138,7 +231,7 @@ export default function Filter() {
             <BiChevronRight color="white" size={20} />
           </div>
         </button>
-      </Modal.Open>
+      </SidebarFilter.Open>
     </div>
   );
 }

@@ -26,7 +26,7 @@ interface MutateDataType {
 }
 
 export default function AddLocation() {
-  const { close, openName } = useSidebar();
+  const { close } = useSidebar();
   const { selectedData, resetSelectedNode, addNode } = useChartStore();
   const [pickedColor, setPickedColor] = useState("#ffffff");
   const { id, memberName, type } = selectedData as PersonNode;
@@ -76,7 +76,7 @@ export default function AddLocation() {
     }
 
     toast.success("Location added successfully");
-    close(openName);
+    close("add-location");
     resetSelectedNode();
   }
 
@@ -113,7 +113,7 @@ export default function AddLocation() {
         <button
           type="button"
           onClick={() => {
-            close(openName);
+            close("add-location");
             resetSelectedNode();
           }}
           className="w-1/2 rounded-full bg-white py-[10px]"

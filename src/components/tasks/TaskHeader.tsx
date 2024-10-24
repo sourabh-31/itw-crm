@@ -100,7 +100,7 @@ export default function TaskHeader() {
 
           {/* Funnel icon */}
 
-          <SidebarFilter.Open opens="filter-brands">
+          <SidebarFilter.Open opens="filter-tasks">
             <button
               type="button"
               className="flex w-[4.2rem] items-center justify-center rounded-full border border-[#50515B] bg-[#23252D] sm:w-12 lg:size-12"

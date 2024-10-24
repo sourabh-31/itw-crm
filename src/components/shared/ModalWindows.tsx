@@ -12,7 +12,6 @@ import EditTask from "../tasks/EditTask";
 import ReAssignTask from "../tasks/ReAssignTask";
 import ReOpenTask from "../tasks/ReOpenTask";
 import TaskDetails from "../tasks/TaskDetails";
-import TaskSortBy from "../tasks/TaskSortBy";
 import Modal from "./Modal";
 
 export default function ModalWindows() {
@@ -80,11 +79,6 @@ export default function ModalWindows() {
       {/* Reopentask */}
       <Modal.Window name="reopen-task">
         <ReOpenTask />
-      </Modal.Window>
-
-      {/* Task sort by */}
-      <Modal.Window name="taskSortBy">
-        <TaskSortBy />
       </Modal.Window>
 
       {/* duplicate tasks */}

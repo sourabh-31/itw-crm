@@ -35,7 +35,6 @@ export default function TaskDetails() {
   const { data: userData = null } = useProfile();
   const userId = userData?.id ?? 0;
   const brandFilter = [userId];
-  const userFilter = [userId];
 
   // Call assignee and brand data
   const { data: assigneeData } = useAssigneeData(brandFilter, 0, 0);
@@ -164,7 +163,17 @@ export default function TaskDetails() {
     }
 
     if (taskId) {
-      addComment(comment);
+      addComment(comment, {
+        onSuccess: () => {
+          // Clear the contentEditable div
+          const commentBox = document.querySelector(".textarea-comment");
+          if (commentBox) {
+            commentBox.textContent = "";
+          }
+          // Reset the comment state
+          setComment("");
+        },
+      });
     }
   };
 
@@ -285,7 +294,7 @@ export default function TaskDetails() {
               <div className="mt-1 shrink-0">
                 <input
                   type="checkbox"
-                  className="size-4 rounded-full"
+                  className="custom-checkbox size-4 rounded-full"
                   onChange={markAsComplete}
                   checked={task.status === "COMPLETED"}
                 />

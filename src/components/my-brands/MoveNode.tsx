@@ -41,7 +41,7 @@ export default function MoveNode({ title }: MoveNodeProps) {
 
   return (
     <div
-      className="mx-auto w-[70%] rounded-xl bg-[#2D3036] p-6 sm:mx-0 sm:w-[520px]"
+      className="mx-auto w-[70%] rounded-xl bg-[#2D3036] p-6 sm:mx-0 sm:w-[524px]"
       style={{ boxShadow: "0px 0px 72px 0px #00000024" }}
     >
       <div className="text-center font-recoletaAlt text-xl text-white">

@@ -37,7 +37,7 @@ export interface SelectedManager {
 }
 
 export default function AddPerson() {
-  const { close, openName } = useSidebar();
+  const { close } = useSidebar();
   const { addNode, selectedData, resetSelectedNode } = useChartStore();
   const { id, memberName, type } = selectedData as PersonNode;
   const [selectedManager, setSelectedManager] =
@@ -101,7 +101,7 @@ export default function AddPerson() {
 
     toast.success("Person added successfully");
     resetSelectedNode();
-    close(openName);
+    close("add-person");
   }
 
   return (
@@ -275,7 +275,7 @@ export default function AddPerson() {
         <button
           type="button"
           onClick={() => {
-            close(openName);
+            close("add-person");
             resetSelectedNode();
           }}
           className="w-1/2 rounded-full bg-white py-[10px]"

@@ -41,7 +41,7 @@ export default function Tiles({
           alt="img"
           width={imgSize}
           height={imgSize}
-          className="aspect-square rounded-full object-contain"
+          className="aspect-square rounded-full object-cover"
         />
       </div>
 
