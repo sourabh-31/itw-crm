@@ -4,6 +4,7 @@ import Image from "next/image";
 import { useTaskStats } from "@/hooks/useTasks";
 import { useTaskStore } from "@/store/useTaskStore";
 
+// Render bar chart and pie chart
 const SimpleBarChartWithoutSSR = dynamic(() => import("./OpenTaskChart"), {
   ssr: false,
 });

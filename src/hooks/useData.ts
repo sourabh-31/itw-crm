@@ -16,6 +16,7 @@ import type { BrandsAndTeam } from "@/types/brandsAndTeam.type";
 import type { InventoryOrAssignedResponse } from "@/types/inventory.type";
 import type { UserProfile } from "@/types/user.type";
 
+// Get profile data
 export function useProfile() {
   return useQuery<UserProfile>({
     queryKey: [PROFILE],
@@ -23,6 +24,7 @@ export function useProfile() {
   });
 }
 
+// Get brand and team data
 export function useBrandsAndTeam() {
   return useQuery<BrandsAndTeam>({
     queryKey: [BRANDSANDTEAM],
@@ -30,6 +32,7 @@ export function useBrandsAndTeam() {
   });
 }
 
+// Get inventory data
 export function useInventory(
   pageNo: number,
   eventStatus: string,
@@ -42,6 +45,7 @@ export function useInventory(
   });
 }
 
+// Get assigned data
 export function useAssigned(
   pageNo: number,
   eventStatus: string,

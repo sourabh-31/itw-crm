@@ -14,6 +14,10 @@ interface TaskStore {
   filteredByBrands: number[];
   filteredByInventory: number[];
   filteredByAddedBy: number[];
+  filteredByAssignedTo: number[];
+  filteredByTeamOwner: number[];
+  filteredByCurrentEvents: number[];
+  filteredByArchivedEvents: number[];
   handleTabChange: (tabName: string) => void;
   handleTaskCategory: (type: string) => void;
   handleTimeFilter: (time: string) => void;
@@ -31,6 +35,14 @@ interface TaskStore {
   removeFilteredByInventory: (id: number) => void;
   handleFilteredByAddedBy: (id: number) => void;
   removeFilteredByAddedBy: (id: number) => void;
+  handleFilteredByAssignedTo: (id: number) => void;
+  removeFilteredByAssignedTo: (id: number) => void;
+  handleFilteredByTeamOwner: (id: number) => void;
+  removeFilteredByTeamOwner: (id: number) => void;
+  handleFilteredByCurrentEvents: (id: number) => void;
+  removeFilteredByCurrentEvents: (id: number) => void;
+  handleFilteredByArchivedEvents: (id: number) => void;
+  removeFilteredByArchivedEvents: (id: number) => void;
 }
 
 export const useTaskStore = create<TaskStore>((set) => ({
@@ -47,6 +59,10 @@ export const useTaskStore = create<TaskStore>((set) => ({
   filteredByBrands: [],
   filteredByInventory: [],
   filteredByAddedBy: [],
+  filteredByAssignedTo: [],
+  filteredByTeamOwner: [],
+  filteredByCurrentEvents: [],
+  filteredByArchivedEvents: [],
   handleTabChange: (tabName: string) => {
     set(() => ({ activeTab: tabName }));
   },
@@ -110,6 +126,54 @@ export const useTaskStore = create<TaskStore>((set) => ({
   removeFilteredByAddedBy: (id: number) => {
     set((taskStore) => ({
       filteredByAddedBy: taskStore.filteredByAddedBy.filter(
+        (val) => val !== id
+      ),
+    }));
+  },
+  handleFilteredByAssignedTo: (id: number) => {
+    set((taskStore) => ({
+      filteredByAssignedTo: [...taskStore.filteredByAssignedTo, id],
+    }));
+  },
+  removeFilteredByAssignedTo: (id: number) => {
+    set((taskStore) => ({
+      filteredByAssignedTo: taskStore.filteredByAssignedTo.filter(
+        (val) => val !== id
+      ),
+    }));
+  },
+  handleFilteredByTeamOwner: (id: number) => {
+    set((taskStore) => ({
+      filteredByTeamOwner: [...taskStore.filteredByTeamOwner, id],
+    }));
+  },
+  removeFilteredByTeamOwner: (id: number) => {
+    set((taskStore) => ({
+      filteredByTeamOwner: taskStore.filteredByTeamOwner.filter(
+        (val) => val !== id
+      ),
+    }));
+  },
+  handleFilteredByCurrentEvents: (id: number) => {
+    set((taskStore) => ({
+      filteredByCurrentEvents: [...taskStore.filteredByCurrentEvents, id],
+    }));
+  },
+  removeFilteredByCurrentEvents: (id: number) => {
+    set((taskStore) => ({
+      filteredByCurrentEvents: taskStore.filteredByCurrentEvents.filter(
+        (val) => val !== id
+      ),
+    }));
+  },
+  handleFilteredByArchivedEvents: (id: number) => {
+    set((taskStore) => ({
+      filteredByArchivedEvents: [...taskStore.filteredByArchivedEvents, id],
+    }));
+  },
+  removeFilteredByArchivedEvents: (id: number) => {
+    set((taskStore) => ({
+      filteredByArchivedEvents: taskStore.filteredByArchivedEvents.filter(
         (val) => val !== id
       ),
     }));

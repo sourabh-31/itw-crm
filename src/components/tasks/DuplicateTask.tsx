@@ -24,6 +24,7 @@ export default function DuplicateTask() {
   const { data } = useTaskDetails(taskId || 0);
   const task = data?.task;
 
+  // Manage fetched data in the form
   const [title, setTitle] = useState(task?.title || "");
   const [description, setDescription] = useState(task?.description || "");
   const [taskType, setTaskType] = useState(task?.taskType || "Task Type");
@@ -57,10 +58,12 @@ export default function DuplicateTask() {
   const { close } = useModal();
   const { isPending, mutate: addTask } = useCreateTask();
 
+  // Get user id
   const userId = task?.addedBy?.id || 0;
   const brandFilter = [userId];
   const userFilter = [userId];
 
+  // Custom query hook for task related data
   const { data: assigneeData } = useAssigneeData(brandFilter, 0, 0);
   const { data: brandData } = useBrandData(userFilter, 0, 0);
   const { data: inventoryData } = useInventoryData(0, 0);

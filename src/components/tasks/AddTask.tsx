@@ -19,6 +19,7 @@ import { Menu } from "../shared/Menu";
 import { useModal } from "../shared/Modal";
 
 export default function AddTask() {
+  // Manage add task options state
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
   const [taskType, setTaskType] = useState("Task Type");
@@ -51,7 +52,7 @@ export default function AddTask() {
   const { data: inventoryData } = useInventoryData(0, 0);
   const { data: eventData } = useEventData(0, 0);
 
-  // functions related to date
+  // functions to format date
   function formatDateForInput(isoString: string) {
     return isoString.split("T")[0];
   }
@@ -67,7 +68,7 @@ export default function AddTask() {
     return formatDateForInput(tomorrow.toISOString());
   }
 
-  // add task api call
+  // Add task api call
   function addTask() {
     if (!title || taskType === "Task Type") {
       toast.error("Some fields are required");

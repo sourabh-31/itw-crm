@@ -26,6 +26,7 @@ export default function Page() {
 
       <Signin />
 
+      {/* Footer text */}
       <div className="absolute bottom-10 flex flex-col items-center gap-[2px] font-mulish text-sm font-bold text-[#ffffffcc]">
         <div>Login with the ITW Account via Google.</div>
         <div>

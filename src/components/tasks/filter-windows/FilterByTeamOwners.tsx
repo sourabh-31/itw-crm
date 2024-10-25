@@ -3,15 +3,30 @@ import { useState } from "react";
 
 import Spinner from "@/components/shared/Spinner";
 import { useTeamOwners } from "@/hooks/useTasks";
+import { useTaskStore } from "@/store/useTaskStore";
 
 export default function FilterByTeamOwners() {
   const [search, setSearch] = useState("");
+
+  const {
+    handleFilteredByTeamOwner,
+    filteredByTeamOwner,
+    removeFilteredByTeamOwner,
+  } = useTaskStore();
 
   const {
     data: teamOwnersData,
     isFetching,
     isError,
   } = useTeamOwners(1, search);
+
+  const handleTeamOwnerCheck = (id: number) => {
+    if (filteredByTeamOwner.includes(id)) {
+      removeFilteredByTeamOwner(id);
+    } else {
+      handleFilteredByTeamOwner(id);
+    }
+  };
 
   return (
     <div className="rounded-lg bg-[#1b1e25] px-3 py-px">
@@ -44,6 +59,8 @@ export default function FilterByTeamOwners() {
                 className="relative size-[14px] shrink-0 cursor-pointer appearance-none rounded-sm border border-white 
              bg-transparent checked:border-white checked:bg-transparent
              checked:before:absolute checked:before:bottom-[2.25px] checked:before:left-[3px] checked:before:h-[10px] checked:before:w-[6px] checked:before:rotate-45 checked:before:border-b-2 checked:before:border-r-2 checked:before:border-white focus:outline-none"
+                onChange={() => handleTeamOwnerCheck(data.id)}
+                checked={filteredByTeamOwner.includes(data.id)}
               />
               <div className="flex items-center gap-2">
                 <Image

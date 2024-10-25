@@ -1,6 +1,7 @@
 import Image from "next/image";
+import { useEffect, useRef } from "react";
 
-import { useDeleteComment, useTaskComments } from "@/hooks/useTasks";
+import { useCommentsQuery, useDeleteComment } from "@/hooks/useTasks";
 import { timeAgo } from "@/lib/time.utils";
 import { useTaskStore } from "@/store/useTaskStore";
 
@@ -9,23 +10,47 @@ import Spinner from "../shared/Spinner";
 
 export default function Comments() {
   const { taskId } = useTaskStore();
-  const page = 1;
   const size = 5;
+  const observerTarget = useRef<HTMLDivElement>(null);
 
   const {
-    data: commentData,
+    data,
+    isFetchingNextPage,
+    fetchNextPage,
     isFetching,
     isError,
-  } = useTaskComments(taskId || 0, page, size);
+    hasNextPage,
+  } = useCommentsQuery(taskId || 0, size);
+
   const { mutate: deleteComment } = useDeleteComment();
 
+  // Manage new comments when reached at the bottom of the section
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      (entries) => {
+        if (entries[0].isIntersecting && hasNextPage && !isFetchingNextPage) {
+          fetchNextPage();
+        }
+      },
+      { threshold: 0.5 }
+    );
+
+    if (observerTarget.current) {
+      observer.observe(observerTarget.current);
+    }
+
+    return () => observer.disconnect();
+  }, [fetchNextPage, hasNextPage, isFetchingNextPage]);
+
+  // Delete comment
   const handleDeleteComment = (commentId: number) => {
     if (commentId) {
       deleteComment(commentId);
     }
   };
 
-  if (isFetching) {
+  // Page during loading state
+  if (isFetching && !isFetchingNextPage) {
     return (
       <div className="mt-12">
         <Spinner />
@@ -33,7 +58,8 @@ export default function Comments() {
     );
   }
 
-  if (isError || !commentData?.comments.length) {
+  // Page during error state
+  if (isError || !data?.pages[0].comments.length) {
     return (
       <div className="mt-8 flex flex-col items-center">
         <Image
@@ -49,69 +75,90 @@ export default function Comments() {
     );
   }
 
+  // Render when data is available
   return (
     <div className="sidebar mt-5 max-h-[21rem] space-y-4 overflow-y-auto">
-      {commentData.comments.map((data) => (
-        <div
-          className="flex items-start justify-between gap-3 border-b border-gray-dark pb-6"
-          key={data.id}
-        >
-          <div className="flex items-start gap-3">
-            <div className="shrink-0">
-              <Image
-                src={data.addedBy.profileImage || "assets/png/member2.png"}
-                alt="profile"
-                width={36}
-                height={36}
-                className="rounded-full"
-              />
-            </div>
-            <div>
-              <div className="flex items-center gap-2">
-                <span className="font-mulish font-extrabold text-[#FFFFFFE5]">
-                  {data.addedBy.firstName} {data.addedBy.lastName}
-                </span>
-                <div className="size-[3px] rounded-full bg-[#94969C]" />
-                <span className="font-mulish text-sm font-medium text-[#FFFFFF80]">
-                  {timeAgo(data.createdAt)}
-                </span>
-              </div>
-              <div className="mt-1 font-mulish text-[#FFFFFFCC]">
-                {data.content}
-              </div>
-            </div>
-          </div>
+      {data.pages.map((page) =>
+        page.comments.map((comment) => (
+          // Comment
 
-          {/* more button */}
-          <Menu>
-            <Menu.Trigger>
-              <button type="button">
+          <div
+            className="flex items-start justify-between gap-3 border-b border-gray-dark pb-6"
+            key={comment.id}
+          >
+            <div className="flex items-start gap-3">
+              {/* Profile img */}
+
+              <div className="shrink-0">
                 <Image
-                  src="/assets/svg/people-details/more-alt.svg"
-                  alt="more"
-                  width={20}
-                  height={20}
+                  src={
+                    comment.addedBy.profileImage || "/assets/png/member2.png"
+                  }
+                  alt="profile"
+                  width={36}
+                  height={36}
+                  className="rounded-full"
                 />
-              </button>
-            </Menu.Trigger>
+              </div>
 
-            <div className="relative top-4">
-              <Menu.Items
-                position="left"
-                width="220px"
-                className="border border-[#E6E6E6] bg-white"
-              >
-                <Menu.Item
-                  imgSrc="/assets/svg/my-brands/trash.svg"
-                  btnName="Delete"
-                  isDanger
-                  onClick={() => handleDeleteComment(data.id)}
-                />
-              </Menu.Items>
+              {/* User name and comment */}
+
+              <div>
+                <div className="flex items-center gap-2">
+                  <span className="font-mulish font-extrabold text-[#FFFFFFE5]">
+                    {comment.addedBy.firstName} {comment.addedBy.lastName}
+                  </span>
+                  <div className="size-[3px] rounded-full bg-[#94969C]" />
+                  <span className="font-mulish text-sm font-medium text-[#FFFFFF80]">
+                    {timeAgo(comment.createdAt)}
+                  </span>
+                </div>
+                <div className="mt-1 font-mulish text-[#FFFFFFCC]">
+                  {comment.content}
+                </div>
+              </div>
             </div>
-          </Menu>
-        </div>
-      ))}
+
+            {/* Comment options */}
+            <Menu>
+              <Menu.Trigger>
+                <button type="button">
+                  <Image
+                    src="/assets/svg/people-details/more-alt.svg"
+                    alt="more"
+                    width={20}
+                    height={20}
+                  />
+                </button>
+              </Menu.Trigger>
+
+              <div className="relative top-4">
+                <Menu.Items
+                  position="left"
+                  width="220px"
+                  className="border border-[#E6E6E6] bg-white"
+                >
+                  <Menu.Item
+                    imgSrc="/assets/svg/my-brands/trash.svg"
+                    btnName="Delete"
+                    isDanger
+                    onClick={() => handleDeleteComment(comment.id)}
+                  />
+                </Menu.Items>
+              </div>
+            </Menu>
+          </div>
+        ))
+      )}
+
+      {/* Loading indicator and observer target */}
+      <div ref={observerTarget} className="py-4">
+        {isFetchingNextPage && (
+          <div className="flex justify-center">
+            <Spinner />
+          </div>
+        )}
+      </div>
     </div>
   );
 }

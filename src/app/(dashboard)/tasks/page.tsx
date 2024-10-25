@@ -11,6 +11,7 @@ import { getTasksStats } from "@/server/task.actions";
 export default async function Page() {
   const queryClient = new QueryClient();
 
+  // Prefetch dashboard count data
   await Promise.all([
     queryClient.prefetchQuery({
       queryKey: [TASKSTATS, "PENDING", "TODAY", 0],

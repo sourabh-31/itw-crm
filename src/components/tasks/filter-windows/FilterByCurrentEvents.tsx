@@ -2,14 +2,30 @@ import { useState } from "react";
 
 import Spinner from "@/components/shared/Spinner";
 import { useEventData } from "@/hooks/useTasks";
+import { useTaskStore } from "@/store/useTaskStore";
 
 export default function FilterByCurrentEvents() {
   const [search, setSearch] = useState("");
+
+  const {
+    handleFilteredByCurrentEvents,
+    filteredByCurrentEvents,
+    removeFilteredByCurrentEvents,
+  } = useTaskStore();
+
   const {
     data: eventData,
     isFetching,
     isError,
   } = useEventData(0, 0, false, search);
+
+  const handleCurrentEventsCheck = (id: number) => {
+    if (filteredByCurrentEvents.includes(id)) {
+      removeFilteredByCurrentEvents(id);
+    } else {
+      handleFilteredByCurrentEvents(id);
+    }
+  };
 
   return (
     <div className="rounded-lg bg-[#1b1e25] px-3 py-px">
@@ -42,6 +58,8 @@ export default function FilterByCurrentEvents() {
                 className="relative size-[14px] shrink-0 cursor-pointer appearance-none rounded-sm border border-white 
              bg-transparent checked:border-white checked:bg-transparent
              checked:before:absolute checked:before:bottom-[2.25px] checked:before:left-[3px] checked:before:h-[10px] checked:before:w-[6px] checked:before:rotate-45 checked:before:border-b-2 checked:before:border-r-2 checked:before:border-white focus:outline-none"
+                onChange={() => handleCurrentEventsCheck(data.id)}
+                checked={filteredByCurrentEvents.includes(data.id)}
               />
               <div className="flex items-center gap-2">
                 <span className="font-mulish text-sm font-medium">

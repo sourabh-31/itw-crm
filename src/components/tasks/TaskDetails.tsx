@@ -44,6 +44,7 @@ export default function TaskDetails() {
 
   if (!task) return null;
 
+  // Fetch task details
   const getTaskDetailsData = () => [
     {
       id: 1,
@@ -63,9 +64,7 @@ export default function TaskDetails() {
     {
       id: 3,
       title: "Related brand",
-      imgSrc:
-        task.taskRelatedBrands[0]?.brand.brandImage ||
-        "/assets/png/google-alt.png",
+      imgSrc: task.taskRelatedBrands[0]?.brand.brandImage,
       name: task.taskRelatedBrands[0]?.brand.name || "N/A",
       isStatus: false,
     },
@@ -106,6 +105,7 @@ export default function TaskDetails() {
     },
   ];
 
+  // Handle duplicate task
   const handleDuplicateTask = () => {
     addTask(
       {
@@ -181,9 +181,12 @@ export default function TaskDetails() {
     <div className="flex h-[794px] w-[958px] flex-col rounded-[20px] bg-[#292D38]">
       <div className="flex items-center justify-between border-b border-gray-light px-5 py-4">
         <div className="flex items-center gap-2">
+          {/* Close btn */}
           <button type="button" onClick={() => close()}>
             <IoClose color="white" size={24} />
           </button>
+
+          {/* Task heading text */}
           <div className="flex flex-col">
             <span className="font-recoletaAlt text-xl text-white">
               Task for
@@ -194,6 +197,7 @@ export default function TaskDetails() {
           </div>
         </div>
 
+        {/* Task utility options */}
         <div className="flex items-center gap-[14px]">
           <Menu>
             <Menu.Trigger>
@@ -287,7 +291,9 @@ export default function TaskDetails() {
         </div>
       </div>
 
+      {/* Task details main */}
       <div className="flex flex-1">
+        {/* Left part (comment and history section) */}
         <div className="flex-1 px-5 py-4">
           <div className="border-b border-gray-light pb-9">
             <div className="flex items-start gap-[14px]">
@@ -321,6 +327,7 @@ export default function TaskDetails() {
             </div>
           </div>
 
+          {/* Audio record box */}
           {!recordBox ? (
             <div className="relative mt-6 w-[630px] rounded-[8px] border border-[#FFFFFF33] bg-[#FFFFFF0F] px-4 pb-12 pt-3">
               <span
@@ -392,11 +399,13 @@ export default function TaskDetails() {
             </div>
           )}
 
+          {/* comments and history section */}
           <div className="mt-6">
             <CommentAndHistory />
           </div>
         </div>
 
+        {/* Right part (Task details) */}
         <div className="w-[280px] rounded-br-[20px] bg-[#1E212A] px-6 py-[14px]">
           {getTaskDetailsData().map((data) => (
             <div
@@ -407,13 +416,16 @@ export default function TaskDetails() {
                 {data.title}
               </p>
               <div className="flex items-center gap-2">
-                <Image
-                  src={data.imgSrc}
-                  alt="icon"
-                  width={20}
-                  height={20}
-                  className="aspect-square rounded-full object-contain"
-                />
+                {data.name !== "N/A" ? (
+                  <Image
+                    src={data.imgSrc}
+                    alt="icon"
+                    width={20}
+                    height={20}
+                    className="aspect-square rounded-full object-contain"
+                  />
+                ) : null}
+
                 <span
                   className="font-mulish text-xs"
                   style={{ color: data.isStatus ? "#FFE58E" : "#ffffff" }}

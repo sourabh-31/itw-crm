@@ -8,9 +8,25 @@ import TaskCard from "./TaskCard";
 
 export default function CompletedTasks() {
   const containerRef = useRef(null);
-  const { taskCategory, timeFilter, taskType, dueOn, sortBy, order } =
-    useTaskStore();
 
+  // Use task store
+  const {
+    taskCategory,
+    timeFilter,
+    taskType,
+    dueOn,
+    sortBy,
+    order,
+    filteredByBrands,
+    filteredByInventory,
+    filteredByAddedBy,
+    filteredByAssignedTo,
+    filteredByTeamOwner,
+    filteredByCurrentEvents,
+    filteredByArchivedEvents,
+  } = useTaskStore();
+
+  // Fetch task data
   const { isPending, isError, data } = useTasksData(
     taskCategory,
     1,
@@ -20,7 +36,14 @@ export default function CompletedTasks() {
     taskType === "All" ? [] : [taskType],
     dueOn,
     sortBy,
-    order
+    order,
+    filteredByBrands,
+    filteredByInventory,
+    filteredByAddedBy,
+    filteredByAssignedTo,
+    filteredByTeamOwner,
+    filteredByCurrentEvents,
+    filteredByArchivedEvents
   );
 
   // Handle loading state

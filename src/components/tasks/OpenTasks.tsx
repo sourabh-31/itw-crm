@@ -8,6 +8,8 @@ import TaskCard from "./TaskCard";
 
 export default function OpenTasks() {
   const containerRef = useRef(null);
+
+  // Use task store hook
   const {
     taskCategory,
     timeFilter,
@@ -18,8 +20,13 @@ export default function OpenTasks() {
     filteredByBrands,
     filteredByInventory,
     filteredByAddedBy,
+    filteredByAssignedTo,
+    filteredByTeamOwner,
+    filteredByCurrentEvents,
+    filteredByArchivedEvents,
   } = useTaskStore();
 
+  // Fetch tasks data
   const { isPending, isError, data } = useTasksData(
     taskCategory,
     1,
@@ -32,7 +39,11 @@ export default function OpenTasks() {
     order,
     filteredByBrands,
     filteredByInventory,
-    filteredByAddedBy
+    filteredByAddedBy,
+    filteredByAssignedTo,
+    filteredByTeamOwner,
+    filteredByCurrentEvents,
+    filteredByArchivedEvents
   );
 
   // Handle loading state

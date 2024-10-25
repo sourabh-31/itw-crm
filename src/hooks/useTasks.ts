@@ -1,4 +1,9 @@
-import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import {
+  useInfiniteQuery,
+  useMutation,
+  useQuery,
+  useQueryClient,
+} from "@tanstack/react-query";
 import { toast } from "sonner";
 
 import {
@@ -41,6 +46,7 @@ import type {
 } from "@/types/tasks.type";
 import type { TeamOwnersResponse } from "@/types/teamOwners.type";
 
+// Get assignee data
 export function useAssigneeData(
   brandFilter: number[],
   page: number,
@@ -53,6 +59,7 @@ export function useAssigneeData(
   });
 }
 
+// Get brand data
 export function useBrandData(
   userFilter: number[],
   page: number,
@@ -65,6 +72,7 @@ export function useBrandData(
   });
 }
 
+// Get inventory data
 export function useInventoryData(page: number, size: number, search?: string) {
   return useQuery<InventoryResponse>({
     queryKey: [TASKINVENTORY, page, size, search],
@@ -72,6 +80,7 @@ export function useInventoryData(page: number, size: number, search?: string) {
   });
 }
 
+// Get event data
 export function useEventData(
   page: number,
   size: number,
@@ -84,6 +93,7 @@ export function useEventData(
   });
 }
 
+// Get tasks data
 export function useTasksData(
   taskCategory: string,
   page: number,
@@ -96,7 +106,11 @@ export function useTasksData(
   order?: string,
   filteredByBrands?: number[],
   filteredByInventory?: number[],
-  filteredByAddedBy?: number[]
+  filteredByAddedBy?: number[],
+  filteredByAssignedTo?: number[],
+  filteredByTeamOwner?: number[],
+  filteredByCurrentEvents?: number[],
+  filteredByArchivedEvents?: number[]
 ) {
   return useQuery<TasksApiResponse>({
     queryKey: [
@@ -113,6 +127,10 @@ export function useTasksData(
       filteredByBrands,
       filteredByInventory,
       filteredByAddedBy,
+      filteredByAssignedTo,
+      filteredByTeamOwner,
+      filteredByCurrentEvents,
+      filteredByArchivedEvents,
     ],
     queryFn: () =>
       getTasks(
@@ -127,11 +145,16 @@ export function useTasksData(
         order,
         filteredByBrands,
         filteredByInventory,
-        filteredByAddedBy
+        filteredByAddedBy,
+        filteredByAssignedTo,
+        filteredByTeamOwner,
+        filteredByCurrentEvents,
+        filteredByArchivedEvents
       ),
   });
 }
 
+// Get task stats data
 export function useTaskStats(
   taskStatus: string,
   filteredByTime: string,
@@ -143,6 +166,7 @@ export function useTaskStats(
   });
 }
 
+// Create task
 export function useCreateTask() {
   const queryClient = useQueryClient();
   const { isPending, mutate } = useMutation({
@@ -160,6 +184,7 @@ export function useCreateTask() {
   return { isPending, mutate };
 }
 
+// Edit task
 export function useEditTask(taskId: number) {
   const queryClient = useQueryClient();
   const { isPending, mutate } = useMutation({
@@ -177,6 +202,7 @@ export function useEditTask(taskId: number) {
   return { isPending, mutate };
 }
 
+// Delete task
 export function useDeleteTask() {
   const queryClient = useQueryClient();
   const { isPending, mutate } = useMutation({
@@ -194,6 +220,7 @@ export function useDeleteTask() {
   return { isPending, mutate };
 }
 
+// Get task details
 export function useTaskDetails(taskId: number) {
   return useQuery<TaskResponse>({
     queryKey: [TASKDETAILS, taskId],
@@ -201,13 +228,23 @@ export function useTaskDetails(taskId: number) {
   });
 }
 
-export function useTaskComments(taskId: number, page: number, size: number) {
-  return useQuery<CommentResponse>({
-    queryKey: [TASKCOMMENT, taskId, page, size],
-    queryFn: () => getTaskComments(taskId, page, size),
+// Get comment data (lazy loading)
+export const useCommentsQuery = (taskId: number, size: number = 5) => {
+  return useInfiniteQuery<CommentResponse>({
+    queryKey: [TASKCOMMENT, taskId, size],
+    queryFn: ({ pageParam = 1 }) =>
+      getTaskComments(taskId || 0, pageParam as number, size),
+    initialPageParam: 1,
+    getNextPageParam: (lastPage, allPages) => {
+      if (lastPage.comments.length === size) {
+        return allPages.length + 1;
+      }
+      return undefined;
+    },
   });
-}
+};
 
+// Delete comment
 export function useDeleteComment() {
   const queryClient = useQueryClient();
   const { isPending, mutate } = useMutation({
@@ -224,6 +261,7 @@ export function useDeleteComment() {
   return { isPending, mutate };
 }
 
+// Add comment
 export function useAddComment(taskId: number) {
   const queryClient = useQueryClient();
   const { isPending, mutate } = useMutation({
@@ -240,6 +278,7 @@ export function useAddComment(taskId: number) {
   return { isPending, mutate };
 }
 
+// Get team owners
 export function useTeamOwners(page: number, searchFor?: string) {
   return useQuery<TeamOwnersResponse>({
     queryKey: [TEAMOWNERS, page, searchFor],

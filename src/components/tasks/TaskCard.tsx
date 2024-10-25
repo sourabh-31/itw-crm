@@ -13,6 +13,7 @@ import { useTaskStore } from "@/store/useTaskStore";
 import { Menu } from "../shared/Menu";
 import Modal from "../shared/Modal";
 
+// Task card props type
 interface TaskCardProps {
   taskId: number;
   createdAt: string;
@@ -194,7 +195,7 @@ export default function TaskCard({
 
       {!isCompleted ? (
         <h5 className="mt-4 font-recoletaAlt">
-          {truncate(taskTitle, { length: 30 })}
+          {capitalize(truncate(taskTitle, { length: 30 }))}
         </h5>
       ) : (
         <div className="mt-4 flex items-center gap-[5px]">
@@ -205,7 +206,7 @@ export default function TaskCard({
             height={20}
           />
           <h5 className="font-recoletaAlt line-through">
-            {truncate(taskTitle, { length: 30 })}
+            {capitalize(truncate(taskTitle, { length: 30 }))}
           </h5>
         </div>
       )}

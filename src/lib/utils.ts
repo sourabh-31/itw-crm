@@ -49,6 +49,7 @@ const generateDeviceId = () => {
   return newId;
 };
 
+// Get unique device id
 export const getDeviceFingerprint = async () => {
   const deviceId = generateDeviceId();
   const { colorDepth } = window.screen;

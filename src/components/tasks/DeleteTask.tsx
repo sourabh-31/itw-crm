@@ -9,6 +9,7 @@ export default function DeleteTask() {
 
   const { isPending, mutate: deleteTask } = useDeleteTask();
 
+  // Delete task
   function handleDeleteTask() {
     if (taskId) {
       deleteTask(taskId, {

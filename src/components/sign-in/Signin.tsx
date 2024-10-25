@@ -18,6 +18,7 @@ export default function Signin() {
     onSuccess: (codeResponse) => setAccessToken(codeResponse.access_token),
   });
 
+  // Sigin as soon as access token is available
   useEffect(() => {
     if (accessToken) {
       signInUser(accessToken, {
@@ -30,6 +31,7 @@ export default function Signin() {
     }
   }, [accessToken, signInUser, router]);
 
+  // Set token in the cookie
   useEffect(() => {
     if (response) {
       Cookies.set("auth-token", response.token, { expires: 7, secure: true });

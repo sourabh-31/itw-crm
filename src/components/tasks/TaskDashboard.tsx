@@ -11,11 +11,13 @@ export default function TaskDashboard() {
   const { activeTab } = useTaskStore();
 
   return activeTab === "open" ? (
+    // Pending tasks
     <div>
       <OpenDashboardCount />
       <OpenTasks />
     </div>
   ) : (
+    // Completed tasks
     <div>
       <CompletedDashboardCount />
       <CompletedTasks />

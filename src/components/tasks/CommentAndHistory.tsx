@@ -12,6 +12,8 @@ export default function CommentAndHistory() {
 
   return (
     <div>
+      {/* Switch buttons */}
+
       <div className="flex h-[34px] w-[217px] items-center rounded-full bg-[#0E0E0E] font-mulish text-white">
         <button
           type="button"
@@ -37,6 +39,8 @@ export default function CommentAndHistory() {
           History
         </button>
       </div>
+
+      {/* Render comment and history page based on state */}
 
       {activeTab === "comments" ? <Comments /> : <History />}
     </div>

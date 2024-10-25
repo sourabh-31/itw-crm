@@ -440,6 +440,7 @@ const deleteNodeFromChart = (
   };
 };
 
+// Remove node from the chart
 const removeNodeFromTree = (
   chartData: ChartNode,
   nodeId: string,
@@ -499,6 +500,7 @@ const removeNodeFromTree = (
   };
 };
 
+// Add children to previous parent
 const addChildrenToPreviousParent = (
   chartData: ChartNode,
   prevParentId: string,

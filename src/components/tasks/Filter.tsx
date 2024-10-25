@@ -18,6 +18,7 @@ export default function Filter() {
   const { data: assigneeData } = useAssigneeData(brandFilter, 0, 0);
   const { data: teamOwnersData } = useTeamOwners(1);
 
+  // Get profile img for the parent sidebar
   const assigneeProfileImg = assigneeData?.data.users.map(
     (data) => data.profileImage
   );
@@ -26,6 +27,7 @@ export default function Filter() {
     (data) => data.profileImageUrl
   );
 
+  // Filter options data
   const FilterBrandsBoxData = [
     {
       id: 1,

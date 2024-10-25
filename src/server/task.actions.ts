@@ -124,7 +124,11 @@ export async function getTasks(
   order?: string,
   filteredByBrands?: number[],
   filteredByInventory?: number[],
-  filteredByAddedBy?: number[]
+  filteredByAddedBy?: number[],
+  filteredByAssignedTo?: number[],
+  filteredByTeamOwner?: number[],
+  filteredByCurrentEvents?: number[],
+  filteredByArchivedEvents?: number[]
 ) {
   try {
     const response = await axios.post(
@@ -153,6 +157,30 @@ export async function getTasks(
         ...(filteredByAddedBy?.length && {
           filteredByAddedBy: {
             ids: filteredByAddedBy,
+            selectionType: "EXCLUDE",
+          },
+        }),
+        ...(filteredByAssignedTo?.length && {
+          filteredByAssignedTo: {
+            ids: filteredByAssignedTo,
+            selectionType: "EXCLUDE",
+          },
+        }),
+        ...(filteredByTeamOwner?.length && {
+          filteredByTeamOwner: {
+            ids: filteredByTeamOwner,
+            selectionType: "EXCLUDE",
+          },
+        }),
+        ...(filteredByCurrentEvents?.length && {
+          filteredByCurrentEvents: {
+            ids: filteredByCurrentEvents,
+            selectionType: "EXCLUDE",
+          },
+        }),
+        ...(filteredByArchivedEvents?.length && {
+          filteredByArchivedEvents: {
+            ids: filteredByArchivedEvents,
             selectionType: "EXCLUDE",
           },
         }),

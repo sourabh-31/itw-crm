@@ -21,9 +21,10 @@ import { useModal } from "../shared/Modal";
 
 export default function EditTask() {
   const { taskId, resetTaskId } = useTaskStore();
-  const { data, isPending: isLoadingDetails } = useTaskDetails(taskId || 0);
+  const { data } = useTaskDetails(taskId || 0);
   const task = data?.task;
 
+  // Manage fetched data in the form
   const [title, setTitle] = useState(task?.title || "");
   const [description, setDescription] = useState(task?.description || "");
   const [taskType, setTaskType] = useState(task?.taskType || "Task Type");
@@ -57,15 +58,18 @@ export default function EditTask() {
   const { close } = useModal();
   const { isPending, mutate: editTask } = useEditTask(taskId || 0);
 
+  // Get user id
   const userId = task?.addedBy?.id || 0;
   const brandFilter = [userId];
   const userFilter = [userId];
 
+  // Custom query hook for task related data
   const { data: assigneeData } = useAssigneeData(brandFilter, 0, 0);
   const { data: brandData } = useBrandData(userFilter, 0, 0);
   const { data: inventoryData } = useInventoryData(0, 0);
   const { data: eventData } = useEventData(0, 0);
 
+  // Fill the fetched data in the form
   useEffect(() => {
     if (task) {
       setTitle(task.title);

@@ -16,6 +16,7 @@ export const formatDateTime = (dateString: string) => {
   return `${formattedDate}, ${formattedTime}`;
 };
 
+// Formate date
 export const formatDate = (dateString: string) => {
   const date = new Date(dateString);
   return date.toLocaleString("en-US", {
@@ -25,6 +26,7 @@ export const formatDate = (dateString: string) => {
   });
 };
 
+// Get time left
 export const calculateTimeLeft = (dueDate: string, isDateString: boolean) => {
   const now = new Date().getTime();
   const due = new Date(dueDate).getTime();
@@ -48,6 +50,7 @@ export const calculateTimeLeft = (dueDate: string, isDateString: boolean) => {
   return isDateString ? `${timeString} (${formatDate(dueDate)})` : timeString;
 };
 
+// Get time passed
 export const calculateTimePassed = (createdDate: string) => {
   const now = new Date().getTime();
   const created = new Date(createdDate).getTime();
@@ -69,6 +72,7 @@ export const calculateTimePassed = (createdDate: string) => {
   return timeString;
 };
 
+// Get time due date
 export const calculateTimeOverdue = (dueDate: string) => {
   const now = new Date().getTime();
   const due = new Date(dueDate).getTime();
@@ -92,6 +96,7 @@ export const calculateTimeOverdue = (dueDate: string) => {
   return timeString;
 };
 
+// Get date posted in form of string
 export function timeAgo(inputTime: string): string {
   const currentTime = new Date().getTime();
   const pastTime = new Date(inputTime).getTime();
@@ -118,3 +123,74 @@ export function timeAgo(inputTime: string): string {
   }
   return seconds === 1 ? "1 second ago" : `${seconds} seconds ago`;
 }
+
+// Get due date from iso string
+export const formatDueDate = (dueDate: string) => {
+  const today = new Date();
+  const tomorrow = new Date();
+  tomorrow.setDate(today.getDate() + 1);
+
+  const dueDateObj = new Date(dueDate);
+
+  // Reset time portion for accurate date comparison
+  const stripTime = (date: Date) =>
+    new Date(date.getFullYear(), date.getMonth(), date.getDate());
+
+  const strippedDueDate = stripTime(dueDateObj);
+  const strippedToday = stripTime(today);
+  const strippedTomorrow = stripTime(tomorrow);
+
+  // Define color schemes
+  const colorSchemes = {
+    today: {
+      text: "#EE7360",
+      icon: "#EE7360",
+    },
+    tomorrow: {
+      text: "#FFE58E",
+      icon: "#FFE58E",
+    },
+    future: {
+      text: "#FFFFFF",
+      icon: "#FFFFFF",
+    },
+  };
+
+  if (strippedDueDate.getTime() === strippedToday.getTime()) {
+    return {
+      text: "Today",
+      colorScheme: colorSchemes.today,
+    };
+  }
+
+  if (strippedDueDate.getTime() === strippedTomorrow.getTime()) {
+    return {
+      text: "Tomorrow",
+      colorScheme: colorSchemes.tomorrow,
+    };
+  }
+
+  // Format future dates
+  const days = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
+  const months = [
+    "Jan",
+    "Feb",
+    "Mar",
+    "Apr",
+    "May",
+    "Jun",
+    "Jul",
+    "Aug",
+    "Sep",
+    "Oct",
+    "Nov",
+    "Dec",
+  ];
+
+  const formattedDate = `${days[dueDateObj.getDay()]}, ${dueDateObj.getDate()} ${months[dueDateObj.getMonth()]}`;
+
+  return {
+    text: formattedDate,
+    colorScheme: colorSchemes.future,
+  };
+};
