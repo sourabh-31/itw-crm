@@ -1,7 +1,10 @@
 import Image from "next/image";
+import Link from "next/link";
 import { useEffect, useRef } from "react";
+import { MdOutlineFileDownload } from "react-icons/md";
 
 import { useCommentsQuery, useDeleteComment } from "@/hooks/useTasks";
+import { convertBytesToMB } from "@/lib/size.utils";
 import { timeAgo } from "@/lib/time.utils";
 import { useTaskStore } from "@/store/useTaskStore";
 
@@ -77,13 +80,13 @@ export default function Comments() {
 
   // Render when data is available
   return (
-    <div className="sidebar mt-5 max-h-[21rem] space-y-4 overflow-y-auto">
+    <div className="sidebar mt-5 max-h-72 space-y-4 overflow-y-auto">
       {data.pages.map((page) =>
         page.comments.map((comment) => (
           // Comment
 
           <div
-            className="flex items-start justify-between gap-3 border-b border-gray-dark pb-6"
+            className="flex items-start justify-between gap-3 border-b border-gray-dark pb-4"
             key={comment.id}
           >
             <div className="flex items-start gap-3">
@@ -101,7 +104,7 @@ export default function Comments() {
                 />
               </div>
 
-              {/* User name and comment */}
+              {/* User name, comment and attachments */}
 
               <div>
                 <div className="flex items-center gap-2">
@@ -116,6 +119,36 @@ export default function Comments() {
                 <div className="mt-1 font-mulish text-[#FFFFFFCC]">
                   {comment.content}
                 </div>
+
+                {/* Attachment */}
+                {comment.taskCommentAttachments.length
+                  ? comment.taskCommentAttachments.map((data) => (
+                      <div
+                        className="mt-[10px] flex w-fit items-center gap-3 rounded-lg bg-[#FFFFFF0D] px-3 py-[10px]"
+                        key={data.id}
+                      >
+                        <Image
+                          src="/assets/svg/tasks/file-icon.svg"
+                          alt="file-icon"
+                          width={24}
+                          height={24}
+                        />
+                        <span className="font-mulish text-sm font-medium text-white underline">
+                          {data.fileName}
+                        </span>
+                        <span className="font-mulish text-sm text-[#FFFFFF80]">
+                          {convertBytesToMB(Number(data.fileSize))}mb
+                        </span>
+                        <Link
+                          href={`${data.attachment_url}/${data.fileName}`}
+                          rel="noopener noreferrer"
+                          target="_blank"
+                        >
+                          <MdOutlineFileDownload size={20} color="white" />
+                        </Link>
+                      </div>
+                    ))
+                  : null}
               </div>
             </div>
 

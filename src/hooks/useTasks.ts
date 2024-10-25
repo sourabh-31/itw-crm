@@ -45,6 +45,7 @@ import type {
   TaskResponse,
 } from "@/types/tasks.type";
 import type { TeamOwnersResponse } from "@/types/teamOwners.type";
+import type { Attachment } from "@/types/uploadRequest.type";
 
 // Get assignee data
 export function useAssigneeData(
@@ -265,7 +266,13 @@ export function useDeleteComment() {
 export function useAddComment(taskId: number) {
   const queryClient = useQueryClient();
   const { isPending, mutate } = useMutation({
-    mutationFn: (comment: string) => addComment(taskId, comment),
+    mutationFn: ({
+      comment,
+      attachments,
+    }: {
+      comment: string;
+      attachments: Attachment[];
+    }) => addComment(taskId, comment, attachments),
     onSuccess: () => {
       toast.success("Comment added successfully");
       queryClient.invalidateQueries({ queryKey: [TASKCOMMENT] });

@@ -11,3 +11,4 @@ export const ALLTASKS = "allTasks";
 export const TASKSTATS = "taskStats";
 export const TASKCOMMENT = "taskComment";
 export const TEAMOWNERS = "teamOwners";
+export const UPLOADREQUEST = "uploadRequest";

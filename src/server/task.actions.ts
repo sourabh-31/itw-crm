@@ -1,6 +1,7 @@
 import axios from "axios";
 
 import type { TaskData } from "@/types/tasks.type";
+import type { Attachment } from "@/types/uploadRequest.type";
 
 export async function getAssigneeData(
   brandFilter: number[],
@@ -318,13 +319,15 @@ export async function deleteComment(commentId: number): Promise<any> {
 
 export async function addComment(
   taskId: number,
-  comment: string
+  comment: string,
+  attachments: Attachment[]
 ): Promise<any> {
   const response = await axios.post(
     `https://beta-api.itwcrm.com/tasks/new-comment`,
     {
       taskId,
       comment,
+      ...(attachments.length && { attachments }),
     },
     {
       headers: {

@@ -1,5 +1,8 @@
+import axios from "axios";
 import Image from "next/image";
+import type { ChangeEvent } from "react";
 import { useState } from "react";
+import { CgClose } from "react-icons/cg";
 import { IoClose } from "react-icons/io5";
 import { toast } from "sonner";
 
@@ -11,13 +14,16 @@ import {
   useEditTask,
   useTaskDetails,
 } from "@/hooks/useTasks";
+import { convertBytesToMB } from "@/lib/size.utils";
 import {
   calculateTimeLeft,
   calculateTimeOverdue,
   calculateTimePassed,
   formatDateTime,
 } from "@/lib/time.utils";
+import { uploadRequest } from "@/server/upload.action";
 import { useTaskStore } from "@/store/useTaskStore";
+import type { Attachment, UploadResponse } from "@/types/uploadRequest.type";
 
 import { Menu } from "../shared/Menu";
 import Modal, { useModal } from "../shared/Modal";
@@ -32,6 +38,8 @@ export default function TaskDetails() {
   const { mutate: addTask } = useCreateTask();
   const { mutate: editTask } = useEditTask(taskId || 0);
 
+  const [attachments, setAttachments] = useState<Attachment[]>([]);
+
   const { data: userData = null } = useProfile();
   const userId = userData?.id ?? 0;
   const brandFilter = [userId];
@@ -40,8 +48,55 @@ export default function TaskDetails() {
   const { data: assigneeData } = useAssigneeData(brandFilter, 0, 0);
   const { mutate: addComment, isPending } = useAddComment(taskId || 0);
 
-  const task = data?.task;
+  const handleFileUpload = async (e: ChangeEvent<HTMLInputElement>) => {
+    if (!e.target.files) return;
 
+    let fileName;
+    let url;
+
+    const file = e.target.files[0];
+    const fileType = file.name.split(".")[1];
+    const fileSize = String(file.size);
+
+    const response: UploadResponse = await uploadRequest(fileType);
+    if (response) {
+      fileName = response.data.fileName;
+      url = response.data.url;
+      uploadFileToS3(file, response);
+    }
+
+    const attachment: Attachment = {
+      url: url || "",
+      fileSize,
+      fileName: fileName || "",
+    };
+    setAttachments((val) => [...val, attachment]);
+  };
+
+  const uploadFileToS3 = async (file: File, uploadData: UploadResponse) => {
+    try {
+      // Create form data for the upload
+      const formData = new FormData();
+      Object.entries(uploadData.data.fields).forEach(([key, value]) => {
+        formData.append(key, value);
+      });
+
+      formData.append("key", uploadData.data.fileName);
+      formData.append("file", file);
+      await axios.post(uploadData.data.url, formData, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      });
+
+      toast.success("File uploaded successfully!");
+    } catch (error) {
+      toast.error("File upload failed");
+      console.error("S3 upload error:", error);
+    }
+  };
+
+  const task = data?.task;
   if (!task) return null;
 
   // Fetch task details
@@ -132,6 +187,7 @@ export default function TaskDetails() {
     );
   };
 
+  // Mark as complete
   const markAsComplete = () => {
     if (task.status === "PENDING") {
       editTask({
@@ -156,6 +212,7 @@ export default function TaskDetails() {
     }
   };
 
+  // Add comment
   const handleAddComment = () => {
     if (!comment) {
       toast.error("Please write comment");
@@ -163,22 +220,32 @@ export default function TaskDetails() {
     }
 
     if (taskId) {
-      addComment(comment, {
-        onSuccess: () => {
-          // Clear the contentEditable div
-          const commentBox = document.querySelector(".textarea-comment");
-          if (commentBox) {
-            commentBox.textContent = "";
-          }
-          // Reset the comment state
-          setComment("");
-        },
-      });
+      addComment(
+        { comment, attachments },
+        {
+          onSuccess: () => {
+            // Clear the contentEditable div
+            const commentBox = document.querySelector(".textarea-comment");
+            if (commentBox) {
+              commentBox.textContent = "";
+            }
+            // Reset the comment state
+            setComment("");
+            setAttachments([]);
+          },
+        }
+      );
     }
   };
 
+  const handleRemoveAttachment = (name: string) => {
+    setAttachments((attachments) =>
+      attachments.filter((data) => data.fileName !== name)
+    );
+  };
+
   return (
-    <div className="flex h-[794px] w-[958px] flex-col rounded-[20px] bg-[#292D38]">
+    <div className="flex h-[794px] w-[958px] flex-col overflow-hidden rounded-[20px] bg-[#292D38]">
       <div className="flex items-center justify-between border-b border-gray-light px-5 py-4">
         <div className="flex items-center gap-2">
           {/* Close btn */}
@@ -338,7 +405,46 @@ export default function TaskDetails() {
                 onInput={(e) => setComment(e.currentTarget.textContent || "")}
               />
 
-              <div className="absolute bottom-4 right-5 flex items-center gap-4">
+              <div className="mb-6 space-y-2">
+                {attachments.map((data) => (
+                  <div
+                    className="flex w-full items-center justify-between rounded-xl bg-[#242632] px-3 py-2"
+                    key={data.url}
+                  >
+                    <div className="flex items-center gap-2">
+                      <Image
+                        src="/assets/svg/tasks/file-icon.svg"
+                        alt="file-icon"
+                        width={24}
+                        height={24}
+                      />
+                      <div className="relative top-[-2px]">
+                        <span className="font-mulish text-sm font-medium text-white">
+                          {data.fileName}
+                        </span>
+                        <div className="flex items-center gap-1 font-mulish text-xs">
+                          <span className="text-[#D1D5DC]">
+                            {convertBytesToMB(Number(data.fileSize))}MB
+                          </span>
+                          {/* <span className="size-[2px] bg-[#D1D5DC] rounded-full" /> */}
+                          {/* <span style={{ color: "#FFE58E" }}>
+                            Uploading... 10%
+                          </span> */}
+                        </div>
+                      </div>
+                    </div>
+
+                    <button
+                      type="button"
+                      onClick={() => handleRemoveAttachment(data.fileName)}
+                    >
+                      <CgClose color="white" size={16} />
+                    </button>
+                  </div>
+                ))}
+              </div>
+
+              <div className="absolute bottom-4 right-5 mt-6 flex items-center gap-4">
                 {/* eslint-disable-next-line jsx-a11y/label-has-associated-control */}
                 <label htmlFor="attachment" className="cursor-pointer">
                   <Image
@@ -353,16 +459,17 @@ export default function TaskDetails() {
                   hidden
                   id="attachment"
                   name="attachment"
-                  accept="image/png, image/jpeg"
+                  accept="*"
+                  onChange={(e) => handleFileUpload(e)}
                 />
-                <button type="button" onClick={() => setRecordBox(true)}>
+                {/* <button type="button" onClick={() => setRecordBox(true)}>
                   <Image
                     src="/assets/svg/tasks/mic.svg"
                     alt="clip"
                     width={23}
                     height={23}
                   />
-                </button>
+                </button> */}
                 <button
                   type="button"
                   className="flex h-[40px] w-[110px] items-center justify-center rounded-full bg-blue font-mulish text-sm font-bold text-white"

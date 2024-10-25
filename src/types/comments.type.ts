@@ -13,7 +13,17 @@ export type Comment = {
   updatedAt: string;
   deletedAt: null | string;
   addedBy: AddedBy;
-  taskCommentAttachments: [];
+  taskCommentAttachments: CommentAttachment[];
+};
+
+export type CommentAttachment = {
+  attachment_type: string;
+  attachment_url: string;
+  createdAt: string;
+  fileName: string;
+  fileSize: string;
+  id: 240;
+  updatedAt: string;
 };
 
 export type AddedBy = {
