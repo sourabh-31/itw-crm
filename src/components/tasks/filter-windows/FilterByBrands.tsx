@@ -50,7 +50,8 @@ export default function FilterByBrands() {
           <button
             key={data.id}
             type="button"
-            className="my-4 flex w-full items-center justify-between rounded-xl bg-[#292D38] p-4 text-left text-[#ffffff]"
+            className={`my-4 flex w-full items-center justify-between rounded-xl bg-[#292D38] p-4 text-left text-[#ffffff] ${filteredByBrands.includes(data.id) ? "ring-1 ring-white" : ""}`}
+            onClick={() => handleBrandCheck(data.id)}
           >
             <div className="flex items-center gap-4">
               <input

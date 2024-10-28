@@ -11,6 +11,7 @@ import DuplicateTask from "../tasks/DuplicateTask";
 import EditTask from "../tasks/EditTask";
 import ReAssignTask from "../tasks/ReAssignTask";
 import ReOpenTask from "../tasks/ReOpenTask";
+import SearchTask from "../tasks/SearchTask";
 import TaskDetails from "../tasks/TaskDetails";
 import Modal from "./Modal";
 
@@ -84,6 +85,11 @@ export default function ModalWindows() {
       {/* duplicate tasks */}
       <Modal.Window name="duplicate-task">
         <DuplicateTask />
+      </Modal.Window>
+
+      {/* search task */}
+      <Modal.Window name="search-task">
+        <SearchTask />
       </Modal.Window>
     </>
   );

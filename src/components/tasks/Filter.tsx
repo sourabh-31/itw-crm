@@ -2,30 +2,25 @@ import Image from "next/image";
 import { BiChevronRight } from "react-icons/bi";
 import { IoMdInformationCircleOutline } from "react-icons/io";
 
-import { useProfile } from "@/hooks/useData";
-import { useAssigneeData, useTeamOwners } from "@/hooks/useTasks";
 import { useTaskStore } from "@/store/useTaskStore";
 
 import { SidebarFilter } from "./FilterBrands";
 
 export default function Filter() {
-  const { taskType, handleTaskType, dueOn, handleDueOn } = useTaskStore();
-
-  const { data = null } = useProfile();
-  const userId = data?.id ?? 0;
-  const brandFilter = [userId];
-
-  const { data: assigneeData } = useAssigneeData(brandFilter, 0, 0);
-  const { data: teamOwnersData } = useTeamOwners(1);
+  const {
+    taskType,
+    handleTaskType,
+    dueOn,
+    handleDueOn,
+    filteredByAddedBy,
+    filteredByAssignedTo,
+    filteredByTeamOwner,
+  } = useTaskStore();
 
   // Get profile img for the parent sidebar
-  const assigneeProfileImg = assigneeData?.data.users.map(
-    (data) => data.profileImage
-  );
-
-  const teamOwnerImg = teamOwnersData?.data.teamOwners.map(
-    (data) => data.profileImageUrl
-  );
+  const assigneeProfileImg = filteredByAddedBy.map((data) => data.img);
+  const assignedToProfileImg = filteredByAssignedTo.map((data) => data.img);
+  const teamOwnerImg = filteredByTeamOwner.map((data) => data.img);
 
   // Filter options data
   const FilterBrandsBoxData = [
@@ -34,7 +29,7 @@ export default function Filter() {
       title: "Assigned By",
       name: "filter-assignedBy",
       imgSrc: assigneeProfileImg ?? [],
-      count: assigneeProfileImg?.length,
+      count: assigneeProfileImg?.length > 3 ? assigneeProfileImg.length : 0,
       isImg: true,
       isCount: true,
     },
@@ -42,8 +37,8 @@ export default function Filter() {
       id: 2,
       title: "Assigned To",
       name: "filter-assignedTo",
-      imgSrc: assigneeProfileImg ?? [],
-      count: assigneeProfileImg?.length,
+      imgSrc: assignedToProfileImg ?? [],
+      count: assignedToProfileImg?.length > 3 ? assignedToProfileImg.length : 0,
       isImg: true,
       isCount: true,
     },
@@ -52,7 +47,7 @@ export default function Filter() {
       title: "Team Owners",
       name: "filter-teamOwners",
       imgSrc: teamOwnerImg ?? [],
-      count: teamOwnerImg?.length,
+      count: teamOwnerImg?.length > 3 ? teamOwnerImg.length : 0,
       isImg: true,
       isCount: true,
     },
@@ -171,8 +166,10 @@ export default function Filter() {
                       </div>
                     ))
                   : null}
-                {data.isCount &&
-                (assigneeProfileImg?.length || teamOwnerImg?.length) ? (
+
+                {/* Profile images count */}
+
+                {data.isCount && data.count !== 0 ? (
                   <div className="ml-2 font-mulish text-sm font-semibold text-[#0094FF]">
                     +{data.count && data.count - 3}
                   </div>

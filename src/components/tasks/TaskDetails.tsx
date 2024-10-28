@@ -92,7 +92,6 @@ export default function TaskDetails() {
       toast.success("File uploaded successfully!");
     } catch (error) {
       toast.error("File upload failed");
-      console.error("S3 upload error:", error);
     }
   };
 

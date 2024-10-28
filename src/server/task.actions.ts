@@ -123,6 +123,7 @@ export async function getTasks(
   dueOn?: string,
   sortBy?: string,
   order?: string,
+  search?: string,
   filteredByBrands?: number[],
   filteredByInventory?: number[],
   filteredByAddedBy?: number[],
@@ -143,6 +144,7 @@ export async function getTasks(
         dueOn,
         sortBy,
         order,
+        ...(search && { search }),
         ...(filteredByBrands?.length && {
           filteredByBrands: {
             ids: filteredByBrands,

@@ -17,14 +17,19 @@ export default function OpenTasks() {
     dueOn,
     sortBy,
     order,
+    search,
     filteredByBrands,
     filteredByInventory,
-    filteredByAddedBy,
-    filteredByAssignedTo,
-    filteredByTeamOwner,
+    filteredByAddedBy: addedBy,
+    filteredByAssignedTo: assignedTo,
+    filteredByTeamOwner: teamOwner,
     filteredByCurrentEvents,
     filteredByArchivedEvents,
   } = useTaskStore();
+
+  const filteredByAddedBy = addedBy.map((data) => data.id);
+  const filteredByAssignedTo = assignedTo.map((data) => data.id);
+  const filteredByTeamOwner = teamOwner.map((data) => data.id);
 
   // Fetch tasks data
   const { isPending, isError, data } = useTasksData(
@@ -37,6 +42,7 @@ export default function OpenTasks() {
     dueOn,
     sortBy,
     order,
+    search,
     filteredByBrands,
     filteredByInventory,
     filteredByAddedBy,

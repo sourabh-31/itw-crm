@@ -17,14 +17,19 @@ export default function CompletedTasks() {
     dueOn,
     sortBy,
     order,
+    search,
     filteredByBrands,
     filteredByInventory,
-    filteredByAddedBy,
-    filteredByAssignedTo,
-    filteredByTeamOwner,
+    filteredByAddedBy: addedBy,
+    filteredByAssignedTo: assignedTo,
+    filteredByTeamOwner: teamOwner,
     filteredByCurrentEvents,
     filteredByArchivedEvents,
   } = useTaskStore();
+
+  const filteredByAddedBy = addedBy.map((data) => data.id);
+  const filteredByAssignedTo = assignedTo.map((data) => data.id);
+  const filteredByTeamOwner = teamOwner.map((data) => data.id);
 
   // Fetch task data
   const { isPending, isError, data } = useTasksData(
@@ -37,6 +42,7 @@ export default function CompletedTasks() {
     dueOn,
     sortBy,
     order,
+    search,
     filteredByBrands,
     filteredByInventory,
     filteredByAddedBy,
@@ -50,7 +56,7 @@ export default function CompletedTasks() {
   if (isPending) {
     return (
       <section className="mt-6" ref={containerRef}>
-        <h3 className="font-recoletaAlt text-xl text-white">COMPLETED Tasks</h3>
+        <h3 className="font-recoletaAlt text-xl text-white">Completed Tasks</h3>
         <div className="mt-24">
           <Spinner />
         </div>
@@ -62,7 +68,7 @@ export default function CompletedTasks() {
   if (isError || !data?.data.tasks?.length) {
     return (
       <section className="mt-6" ref={containerRef}>
-        <h3 className="font-recoletaAlt text-xl text-white">COMPLETED Tasks</h3>
+        <h3 className="font-recoletaAlt text-xl text-white">Completed Tasks</h3>
         <div className="mt-8 font-recoletaAltReg text-xl font-bold tracking-[0.036em] text-[#FFFFFFcc]">
           No tasks found.
         </div>

@@ -20,11 +20,11 @@ export default function FilterByTeamOwners() {
     isError,
   } = useTeamOwners(1, search);
 
-  const handleTeamOwnerCheck = (id: number) => {
-    if (filteredByTeamOwner.includes(id)) {
+  const handleTeamOwnerCheck = (id: number, img: string) => {
+    if (filteredByTeamOwner.some((data) => data.id === id)) {
       removeFilteredByTeamOwner(id);
     } else {
-      handleFilteredByTeamOwner(id);
+      handleFilteredByTeamOwner(id, img);
     }
   };
 
@@ -51,7 +51,8 @@ export default function FilterByTeamOwners() {
           <button
             key={data.id}
             type="button"
-            className="my-4 flex w-full items-center justify-between rounded-xl bg-[#292D38] p-4 text-left text-[#ffffff]"
+            className={`my-4 flex w-full items-center justify-between rounded-xl bg-[#292D38] p-4 text-left text-[#ffffff] ${filteredByTeamOwner.some((val) => val.id === data.id) ? "ring-1 ring-white" : ""}`}
+            onClick={() => handleTeamOwnerCheck(data.id, data.profileImageUrl)}
           >
             <div className="flex items-center gap-4">
               <input
@@ -59,8 +60,10 @@ export default function FilterByTeamOwners() {
                 className="relative size-[14px] shrink-0 cursor-pointer appearance-none rounded-sm border border-white 
              bg-transparent checked:border-white checked:bg-transparent
              checked:before:absolute checked:before:bottom-[2.25px] checked:before:left-[3px] checked:before:h-[10px] checked:before:w-[6px] checked:before:rotate-45 checked:before:border-b-2 checked:before:border-r-2 checked:before:border-white focus:outline-none"
-                onChange={() => handleTeamOwnerCheck(data.id)}
-                checked={filteredByTeamOwner.includes(data.id)}
+                onChange={() =>
+                  handleTeamOwnerCheck(data.id, data.profileImageUrl)
+                }
+                checked={filteredByTeamOwner.some((val) => val.id === data.id)}
               />
               <div className="flex items-center gap-2">
                 <Image

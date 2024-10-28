@@ -1,5 +1,10 @@
 import { create } from "zustand";
 
+interface FilterType {
+  id: number;
+  img: string;
+}
+
 interface TaskStore {
   activeTab: string;
   userId: number | null;
@@ -11,11 +16,12 @@ interface TaskStore {
   dueOn: string;
   sortBy: string;
   order: string;
+  search: string;
   filteredByBrands: number[];
   filteredByInventory: number[];
-  filteredByAddedBy: number[];
-  filteredByAssignedTo: number[];
-  filteredByTeamOwner: number[];
+  filteredByAddedBy: FilterType[];
+  filteredByAssignedTo: FilterType[];
+  filteredByTeamOwner: FilterType[];
   filteredByCurrentEvents: number[];
   filteredByArchivedEvents: number[];
   handleTabChange: (tabName: string) => void;
@@ -27,17 +33,18 @@ interface TaskStore {
   handleDueOn: (due: string) => void;
   handleSortBy: (sortBy: string) => void;
   handleOrder: (order: string) => void;
+  handleSearch: (search: string) => void;
   handleUserId: (userId: number) => void;
   handleUserName: (name: string) => void;
   handleFilteredByBrands: (id: number) => void;
   removeFilteredByBrands: (id: number) => void;
   handleFilteredByInventory: (id: number) => void;
   removeFilteredByInventory: (id: number) => void;
-  handleFilteredByAddedBy: (id: number) => void;
+  handleFilteredByAddedBy: (id: number, img: string) => void;
   removeFilteredByAddedBy: (id: number) => void;
-  handleFilteredByAssignedTo: (id: number) => void;
+  handleFilteredByAssignedTo: (id: number, img: string) => void;
   removeFilteredByAssignedTo: (id: number) => void;
-  handleFilteredByTeamOwner: (id: number) => void;
+  handleFilteredByTeamOwner: (id: number, img: string) => void;
   removeFilteredByTeamOwner: (id: number) => void;
   handleFilteredByCurrentEvents: (id: number) => void;
   removeFilteredByCurrentEvents: (id: number) => void;
@@ -56,6 +63,7 @@ export const useTaskStore = create<TaskStore>((set) => ({
   dueOn: "ALL",
   sortBy: "createdAt",
   order: "ASC",
+  search: "",
   filteredByBrands: [],
   filteredByInventory: [],
   filteredByAddedBy: [],
@@ -90,6 +98,9 @@ export const useTaskStore = create<TaskStore>((set) => ({
   handleOrder: (order: string) => {
     set(() => ({ order }));
   },
+  handleSearch: (search: string) => {
+    set(() => ({ search }));
+  },
   handleUserId: (userId: number) => {
     set(() => ({ userId }));
   },
@@ -118,39 +129,39 @@ export const useTaskStore = create<TaskStore>((set) => ({
       ),
     }));
   },
-  handleFilteredByAddedBy: (id: number) => {
+  handleFilteredByAddedBy: (id: number, img: string) => {
     set((taskStore) => ({
-      filteredByAddedBy: [...taskStore.filteredByAddedBy, id],
+      filteredByAddedBy: [...taskStore.filteredByAddedBy, { id, img }],
     }));
   },
   removeFilteredByAddedBy: (id: number) => {
     set((taskStore) => ({
       filteredByAddedBy: taskStore.filteredByAddedBy.filter(
-        (val) => val !== id
+        (val) => val.id !== id
       ),
     }));
   },
-  handleFilteredByAssignedTo: (id: number) => {
+  handleFilteredByAssignedTo: (id: number, img: string) => {
     set((taskStore) => ({
-      filteredByAssignedTo: [...taskStore.filteredByAssignedTo, id],
+      filteredByAssignedTo: [...taskStore.filteredByAssignedTo, { id, img }],
     }));
   },
   removeFilteredByAssignedTo: (id: number) => {
     set((taskStore) => ({
       filteredByAssignedTo: taskStore.filteredByAssignedTo.filter(
-        (val) => val !== id
+        (val) => val.id !== id
       ),
     }));
   },
-  handleFilteredByTeamOwner: (id: number) => {
+  handleFilteredByTeamOwner: (id: number, img: string) => {
     set((taskStore) => ({
-      filteredByTeamOwner: [...taskStore.filteredByTeamOwner, id],
+      filteredByTeamOwner: [...taskStore.filteredByTeamOwner, { id, img }],
     }));
   },
   removeFilteredByTeamOwner: (id: number) => {
     set((taskStore) => ({
       filteredByTeamOwner: taskStore.filteredByTeamOwner.filter(
-        (val) => val !== id
+        (val) => val.id !== id
       ),
     }));
   },

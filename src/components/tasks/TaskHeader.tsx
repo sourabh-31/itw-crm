@@ -1,5 +1,4 @@
 import Image from "next/image";
-import Link from "next/link";
 
 import { useTaskStore } from "@/store/useTaskStore";
 
@@ -8,8 +7,13 @@ import Select from "../shared/Select";
 import { SidebarFilter } from "./FilterBrands";
 
 export default function TaskHeader() {
-  const { activeTab, handleTabChange, handleTaskCategory, handleTimeFilter } =
-    useTaskStore();
+  const {
+    activeTab,
+    handleTabChange,
+    handleTaskCategory,
+    handleTimeFilter,
+    search,
+  } = useTaskStore();
 
   return (
     <div className="flex h-full flex-col-reverse justify-center gap-[6px] px-2 sm:px-4 lg:flex-row lg:items-center lg:justify-between lg:gap-0">
@@ -86,17 +90,19 @@ export default function TaskHeader() {
         {/* Search icon */}
 
         <div className="flex gap-2 sm:gap-3">
-          <Link
-            href="/tasks"
-            className="flex w-[4.2rem] items-center justify-center rounded-full border border-[#50515B] bg-[#23252D] sm:w-12 lg:size-12"
-          >
-            <Image
-              src="/assets/svg/search.svg"
-              alt="target"
-              width={20}
-              height={20}
-            />
-          </Link>
+          <Modal.Open opens="search-task">
+            <button
+              type="button"
+              className={`flex w-[4.2rem] items-center justify-center rounded-full border border-[#50515B] bg-[#23252D] sm:w-12 lg:size-12 ${search ? "ring-1 ring-white" : ""}`}
+            >
+              <Image
+                src="/assets/svg/search.svg"
+                alt="target"
+                width={20}
+                height={20}
+              />
+            </button>
+          </Modal.Open>
 
           {/* Funnel icon */}
 

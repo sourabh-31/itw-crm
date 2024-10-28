@@ -27,7 +27,7 @@ export default function OpenTaskChart() {
   return (
     <BarChart width={96} height={100} data={data}>
       <XAxis dataKey="name" />
-      <Bar dataKey="uv" fill="fill" radius={2} />
+      <Bar dataKey="uv" fill="fill" radius={2} isAnimationActive={false} />
     </BarChart>
   );
 }

@@ -23,11 +23,11 @@ export default function FilterByAssignedTo() {
     removeFilteredByAssignedTo,
   } = useTaskStore();
 
-  const handleAssignedToCheck = (id: number) => {
-    if (filteredByAssignedTo.includes(id)) {
+  const handleAssignedToCheck = (id: number, img: string) => {
+    if (filteredByAssignedTo.some((data) => data.id === id)) {
       removeFilteredByAssignedTo(id);
     } else {
-      handleFilteredByAssignedTo(id);
+      handleFilteredByAssignedTo(id, img);
     }
   };
 
@@ -54,7 +54,8 @@ export default function FilterByAssignedTo() {
           <button
             key={data.id}
             type="button"
-            className="my-4 flex w-full items-center justify-between rounded-xl bg-[#292D38] p-4 text-left text-[#ffffff]"
+            className={`my-4 flex w-full items-center justify-between rounded-xl bg-[#292D38] p-4 text-left text-[#ffffff] ${filteredByAssignedTo.some((val) => val.id === data.id) ? "ring-1 ring-white" : ""}`}
+            onClick={() => handleAssignedToCheck(data.id, data.profileImage)}
           >
             <div className="flex items-center gap-4">
               <input
@@ -62,8 +63,10 @@ export default function FilterByAssignedTo() {
                 className="relative size-[14px] shrink-0 cursor-pointer appearance-none rounded-sm border border-white 
              bg-transparent checked:border-white checked:bg-transparent
              checked:before:absolute checked:before:bottom-[2.25px] checked:before:left-[3px] checked:before:h-[10px] checked:before:w-[6px] checked:before:rotate-45 checked:before:border-b-2 checked:before:border-r-2 checked:before:border-white focus:outline-none"
-                onChange={() => handleAssignedToCheck(data.id)}
-                checked={filteredByAssignedTo.includes(data.id)}
+                onChange={() =>
+                  handleAssignedToCheck(data.id, data.profileImage)
+                }
+                checked={filteredByAssignedTo.some((val) => val.id === data.id)}
               />
               <div className="flex items-center gap-2">
                 <Image
